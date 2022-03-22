@@ -1,6 +1,7 @@
 package com.example.tingting
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.tingting.databinding.ActivityMainBinding
@@ -10,7 +11,7 @@ import com.example.tingting.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-
+    var button: Button?= null
     lateinit var  adapters: Adapters
     lateinit var viewpager: ViewPager2
     private lateinit var binding: ActivityMainBinding
