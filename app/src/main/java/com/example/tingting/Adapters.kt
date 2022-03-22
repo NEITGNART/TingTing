@@ -2,7 +2,6 @@ package com.example.tingting
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.RoundedCorner
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -19,12 +18,12 @@ class Adapters (val context: Context): RecyclerView.Adapter<Adapters.MyViewHolde
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view){
         var image = itemView.findViewById<RoundedImageView>(R.id.list_item_image)
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Adapters.MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.list_image, parent,false)
         return MyViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: Adapters.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
        holder.image.setImageResource(list[position])
     }
 

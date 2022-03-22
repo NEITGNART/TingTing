@@ -1,11 +1,9 @@
 package com.example.tingting
 
 import android.os.Bundle
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
-import com.squareup.picasso.Picasso
+import com.example.tingting.databinding.ActivityMainBinding
 
 
 //import com.example.tingting.databinding.ActivityMainBinding
@@ -15,6 +13,9 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var  adapters: Adapters
     lateinit var viewpager: ViewPager2
+    private lateinit var binding: ActivityMainBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
