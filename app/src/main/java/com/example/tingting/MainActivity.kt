@@ -11,6 +11,7 @@ import com.example.tingting.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+//  hddjwedhd
     var button: Button?= null
     lateinit var  adapters: Adapters
     lateinit var viewpager: ViewPager2
