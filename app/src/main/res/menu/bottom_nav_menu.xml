@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item android:title="Item" />
-    <item android:title="Item" />
-    <item android:title="Item" />
+    <item android:title="Main"
+        android:id="@+id/firstFragment"
+        android:icon="@drawable/ic_main_icon"
+
+        />
+    <item android:title="Browse"
+        android:id="@+id/secondFragment"
+        android:icon="@drawable/ic_browse"
+        />
+
+    <item android:title="List Match"
+        android:id="@+id/thirdFragment"
+        android:icon="@drawable/ic_list_match"
+        />
+    <item android:title="Chat"
+        android:id="@+id/fourFragment"
+        android:icon="@drawable/ic_love_message"
+        />
 </menu>
