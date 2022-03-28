@@ -3,26 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/firstFragment">
+    app:startDestination="@id/homepage">
 
     <fragment
-        android:id="@+id/firstFragment"
+        android:id="@+id/homepage"
         android:name="com.example.tingting.FirstFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_first" />
+        tools:layout="@layout/fragment_first">
+        <action
+            android:id="@+id/action_firstFragment_to_userInfoFragment"
+            app:destination="@id/userInfoFragment" />
+    </fragment>
     <fragment
-        android:id="@+id/secondFragment"
+        android:id="@+id/wholike"
         android:name="com.example.tingting.SecondFragment"
         android:label="List Match"
         tools:layout="@layout/fragment_second" />
     <fragment
-        android:id="@+id/thirdFragment"
+        android:id="@+id/browser"
         android:name="com.example.tingting.ThridFragment"
         android:label="Chat"
         tools:layout="@layout/fragment_thrid" />
     <fragment
-        android:id="@+id/fourFragment"
+        android:id="@+id/chat"
         android:name="com.example.tingting.FourFragment"
         android:label="fragment_four"
         tools:layout="@layout/fragment_four" />
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="com.example.tingting.UserInfoFragment"
+        android:label="user_info_fragment"
+        tools:layout="@layout/user_info_fragment" />
 </navigation>
