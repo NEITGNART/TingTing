@@ -1,10 +1,12 @@
 package com.example.tingting
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.example.tingting.databinding.ActivityMainBinding
 
@@ -13,7 +15,7 @@ import com.example.tingting.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-//  hddjwedhd
+    //  hddjwedhd
 //    var button: Button?= null
 //    lateinit var  adapters: Adapters
 //    lateinit var viewpager: ViewPager2
@@ -26,24 +28,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Toolbar
+//        val toolbar = binding.toolbar
+//        setSupportActionBar(toolbar)
 
-        val navController = findNavController(R.id.fragment)
+        // Bottom navigation
+        val navController = findNavController(R.id.nav_host_fragment)
 
-
-        
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.firstFragment,
-                R.id.secondFragment,
-                R.id.thirdFragment,
-                R.id.fourFragment
-            )
-        )
-
-        setupActionBarWithNavController(navController, appBarConfiguration)
         binding.bottomNavigationView.setupWithNavController(navController)
-
-
+        binding.bottomNavigationView.getOrCreateBadge(R.id.chat).apply {
+            number = 10
+            isVisible = true
+        }
 
 //        var list = mutableListOf<Int>()
 
@@ -58,4 +54,6 @@ class MainActivity : AppCompatActivity() {
 //        viewpager.adapter = adapters
 
     }
+
+
 }
