@@ -18,4 +18,232 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+
+    <style name="DAAppThemeDark" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/da_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/da_colorPrimaryDark</item>
+        <item name="colorAccent">@color/da_colorAccent</item>
+    </style>
+
+    <style name="DAAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/da_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/da_colorPrimaryDark</item>
+        <item name="colorAccent">@color/da_colorAccent</item>
+        <item name="android:windowContentTransitions">true</item>
+
+    </style>
+
+
+    <style name="DAAppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+    <style name="DAAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="DAAppTheme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+
+    <style name="DAAppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="DAFontMedium">
+        <item name="fontPath">@string/da_font_medium</item>
+    </style>
+
+    <style name="DAFontSemiBold">
+        <item name="fontPath">@string/da_font_semi_bold</item>
+    </style>
+
+    <style name="DAFontBold">
+        <item name="fontPath">@string/da_font_bold</item>
+    </style>
+
+    <style name="DAMaterialButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/da_spacing_middle</item>
+        <item name="android:textSize">@dimen/da_font_size_normal</item>
+        <item name="android:elevation">@dimen/da_spacing_control</item>
+        <item name="fontPath">@string/da_font_medium</item>
+    </style>
+
+    <style name="DAMaterialButtonStyle.Enabled">
+
+        <item name="android:textColor">@color/da_layout_background_white</item>
+        <item name="android:background">@drawable/da_button_shadow</item>
+    </style>
+
+    <style name="DAMaterialButtonStyle.Disabled">
+        <item name="android:textColor">@color/da_textColorSecondary</item>
+        <item name="android:background">@drawable/da_button_disabled</item>
+
+    </style>
+
+    <style name="ProfileText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/da_spacing_large</item>
+        <item name="android:layout_marginEnd">@dimen/da_spacing_large</item>
+        <item name="android:layout_marginTop">@dimen/da_spacing_middle</item>
+        <item name="android:textSize">@dimen/da_font_size_large</item>
+        <item name="android:textColor">@color/da_textColorPrimary</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textAppearance">@style/DAFontMedium</item>
+        <item name="android:drawableTint" tools:targetApi="m">@color/da_textColorSecondary</item>
+        <item name="android:drawablePadding">@dimen/da_spacing_middle</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/da_view_color</item>
+        <item name="android:layout_marginStart">@dimen/da_spacing_large</item>
+        <item name="android:layout_marginEnd">@dimen/da_spacing_large</item>
+        <item name="android:layout_marginTop">@dimen/_12sdp</item>
+    </style>
+
+    <style name="DAHeading">
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">35sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginStart">@dimen/da_spacing_large</item>
+        <item name="android:layout_marginEnd">@dimen/da_spacing_large</item>
+        <item name="android:textColor">@color/da_red</item>
+        <item name="android:textAppearance">@style/DAFontBold</item>
+    </style>
+
+    <style name="DASubHeading">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/da_spacing_large</item>
+        <item name="android:layout_marginEnd">@dimen/da_spacing_large</item>
+        <item name="android:textSize">@dimen/da_font_size_normal</item>
+        <item name="android:textColor">@color/da_textColorPrimary</item>
+    </style>
+
+    <style name="OTPDigit">
+        <item name="android:layout_width">@dimen/da_spacing_xlarge</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:inputType">number</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">@drawable/da_bg_unselected_dot</item>
+        <item name="android:textColor">@color/da_red</item>
+        <item name="android:textSize">@dimen/da_font_size_xlarge</item>
+        <item name="android:importantForAutofill" tools:targetApi="o">no</item>
+        <item name="android:layout_margin">@dimen/da_spacing_standard</item>
+    </style>
+
+    <style name="DaEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/transparent</item>w
+        <item name="android:drawablePadding">@dimen/da_spacing_standard</item>
+        <item name="android:drawableTint" tools:targetApi="m">@color/da_textColorSecondary</item>
+        <item name="android:padding">@dimen/da_spacing_middle</item>
+        <item name="android:textColor">@color/da_textColorPrimary</item>
+        <item name="android:textAppearance">@style/DAFontMedium</item>
+        <item name="android:textSize">@dimen/da_font_size_normal</item>
+        <item name="android:textColorHint">@color/da_textColorThird</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="DAEditTextHint">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/da_spacing_large</item>
+        <item name="android:layout_marginEnd">@dimen/da_spacing_large</item>
+        <item name="android:textSize">@dimen/da_font_size_medium</item>
+        <item name="android:textColor">@color/da_textColorPrimary</item>
+        <item name="android:textAppearance">@style/DAFontMedium</item>
+    </style>
+
+    <style name="DABackIcon">
+        <item name="android:layout_width">@dimen/_30sdp</item>
+        <item name="android:layout_height">@dimen/_30sdp</item>
+        <item name="android:layout_marginStart">@dimen/da_spacing_middle</item>
+        <item name="android:layout_marginTop">@dimen/da_spacing_standard_new</item>
+        <item name="android:padding">@dimen/_6sdp</item>
+        <item name="android:src">@drawable/da_ic_back</item>
+        <item name="android:tint">@color/da_textColorSecondary</item>
+    </style>
+
+    <style name="GenderIcon">
+        <item name="android:layout_width">@dimen/_55sdp</item>
+        <item name="android:layout_height">@dimen/_55sdp</item>
+        <item name="android:padding">@dimen/_14sdp</item>
+        <item name="android:layout_marginStart">@dimen/da_spacing_large</item>
+        <item name="android:layout_marginEnd">@dimen/da_spacing_large</item>
+        <item name="android:background">@drawable/da_bg_gray</item>
+    </style>
+
+    <style name="DARangeBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/da_spacing_large</item>
+        <item name="android:layout_marginEnd">@dimen/da_spacing_large</item>
+        <item name="mrb_barWeight">@dimen/_2sdp</item>
+        <item name="mrb_connectingLineColor">@color/da_red</item>
+        <item name="mrb_connectingLineWeight">@dimen/_2sdp</item>
+        <item name="mrb_leftSelectorColor">@color/da_red</item>
+        <item name="mrb_pinColor">@color/da_red</item>
+        <item name="mrb_pinTextColor">@color/da_textColorPrimary</item>
+        <item name="mrb_rangeBar">true</item>
+        <item name="mrb_rangeBarColor">@color/da_view_color</item>
+        <item name="mrb_rangeBar_rounded">true</item>
+        <item name="mrb_rightSelectorColor">@color/da_red</item>
+        <item name="mrb_selectorBoundaryColor">@color/da_white</item>
+        <item name="mrb_selectorColor">@color/da_colorPrimary</item>
+        <item name="mrb_selectorSize">@dimen/_8sdp</item>
+        <item name="mrb_temporaryPins">true</item>
+        <item name="mrb_tickDefaultColor">@android:color/transparent</item>
+        <item name="mrb_tickLabelColor">@android:color/transparent</item>
+        <item name="mrb_tickLabelSelectedColor">@color/da_textColorPrimary</item>
+        <item name="mrb_tickLabelSize">7sp</item>
+    </style>
+    <style name="ProfileCard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/_80sdp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">@dimen/_7sdp</item>
+        <item name="cardCornerRadius">@dimen/da_spacing_control</item>
+        <item name="cardBackgroundColor">@color/da_light_gray</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+    <style name="ProfileImage">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    <style name="ProfileEdit">
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:background">@drawable/da_ract_8dp</item>
+        <item name="android:src">@drawable/da_ic_add_gradient</item>
+        <item name="android:tint">@color/da_white</item>
+        <item name="android:padding">@dimen/da_spacing_control</item>
+        <item name="android:layout_width">@dimen/_20sdp</item>
+        <item name="android:layout_height">@dimen/_20sdp</item>
+    </style>
+    <style name="DATabText" >
+        <item name="android:textColor">@color/da_colorPrimary</item>
+    </style>
+    <style name="DAInActiveTabText" >
+        <item name="android:textColor">@color/da_textColorThird</item>
+    </style>
+
+    <style name="DACallButton">
+        <item name="android:layout_width">@dimen/_55sdp</item>
+        <item name="android:layout_height">@dimen/_55sdp</item>
+        <item name="android:padding">@dimen/_11sdp</item>
+        <item name="android:layout_margin">@dimen/da_spacing_middle</item>
+    </style>
+
 </resources>

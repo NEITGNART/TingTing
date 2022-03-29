@@ -2,4 +2,109 @@
     <string name="app_name">TingTing</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="da_font_bold">datingappfonts/googlesansbold.ttf</string>
+    <string name="da_font_medium">datingappfonts/googlesansmedium.ttf</string>
+    <string name="da_font_regular">datingappfonts/googlesansregular.ttf</string>
+    <string name="da_font_semi_bold">datingappfonts/googlesansmedium.ttf</string>
+    <string name="da_skip">Skip</string>
+    <string name="da_get_started">Get Started</string>
+    <string name="da_lbl_login_to_your_account">Login to your account</string>
+    <string name="da_hello">Hello</string>
+    <string name="da_hint_mobile">Phone Number</string>
+    <string name="da_next">Next</string>
+    <string name="da_fb_login">Login with Facebook</string>
+    <string name="da_google_login">Login with Google</string>
+    <string name="da_or_connect_with">or connect with</string>
+    <string name="da_datingapp">DatingApp</string>
+    <string name="da_art_director">Art Director</string>
+    <string name="da_william">William</string>
+    <string name="da_filter">Filter</string>
+    <string name="da_support">Support</string>
+    <string name="da_connect_insta">Connect with instagram</string>
+    <string name="da_lan">Language</string>
+    <string name="da_notification">Notification</string>
+    <string name="da_security">Security</string>
+    <string name="da_logout">Logout</string>
+    <string name="da_del_ac">Delete Account</string>
+    <string name="da_veri_code">Verification Code</string>
+    <string name="da_code_note">Check your SMS messages,we have sent you a pin at +1 606 433 5059</string>
+    <string name="da_not_rcv_sms"><u>Didn\'t receive SMS?</u></string>
+    <string name="da_password">Password</string>
+    <string name="da_hint_password">Password</string>
+    <string name="da_hint_re_password">Re-Password</string>
+    <string name="da_gender">Gender</string>
+    <string name="da_about_me">About me</string>
+    <string name="da_username">Username</string>
+    <string name="da_birthday">Birthday</string>
+    <string name="da_500">500</string>
+    <string name="da_forget_password">Forget Password?</string>
+    <string name="da_login">Login</string>
+    <string name="da_lbl_forget_password">Forget\nPassword</string>
+    <string name="da_lbl_fp_note">Enter your phone number to reset your password</string>
+    <string name="da_send">Send</string>
+    <string name="da_new_password">New \nPassword</string>
+    <string name="da_hint_new_password">New Password</string>
+    <string name="da_hint_new_re_password">Re-Newpassword</string>
+    <string name="da_hint_current_password">Current Password</string>
+    <string name="da_email">Email</string>
+    <string name="da_apply">Apply</string>
+    <string name="da_location">Location</string>
+    <string name="da_distance">Distance</string>
+    <string name="da_age">Age</string>
+    <string name="da_language">Language</string>
+    <string name="hindi">Hindi</string>
+    <string name="title_activity_dauser_detail">DAUserDetailActivity</string>
+    <string name="large_text">
+        "The foundational elements of print based design typography, grids, space, scale, color, "
+        "and use of imagery guide visual treatments. These elements do far more than please the "
+        "eye. They create hierarchy, meaning, and focus. Deliberate color choices, edge to edge "
+        "imagery, large scale typography, and intentional white space create a bold and graphic "
+        "interface that immerse the user in the experience.\n"
+        "An emphasis on user actions makes core functionality immediately apparent and provides "
+        "waypoints for the user.\n\n"
+        "Motion provides meaning.\n\n"
+    </string>
+    <string name="action_settings">Settings</string>
+    <string name="da_english_german_french">English,German,French</string>
+    <string name="da_shipley_bradford">Shipley Bradford</string>
+    <string name="da_2_km">2 km</string>
+    <string name="da_melanie_23">Melanie, 23</string>
+    <string name="da_profile">Profile</string>
+    <string name="da_william_26">William ,26</string>
+    <string name="da_save">Save</string>
+    <string name="da_about">Life is not a race ,it is a journey that you can enjoy every step of discovery</string>
+    <string name="da_add_photo">Add Photo</string>
+    <string name="da_camera">Camera</string>
+    <string name="da_camera_roll">Camera roll</string>
+    <string name="da_work">Work</string>
+    <string name="da_profession">UI/UX Design</string>
+    <string name="da_num">(+1) 606 433 5099</string>
+    <string name="da_settings">Settings</string>
+    <string name="da_20_02_1998">20-02-1998</string>
+    <string name="da_tiffany">Tiffany</string>
+    <string name="da_calling">Calling</string>
+    <string name="da_nearly">Nearly</string>
+    <string name="da_list">List</string>
+    <string name="da_all">All</string>
+    <string name="da_matches">Matches</string>
+    <string name="da_messages">Messages</string>
+    <string name="da_note_match">35 People\nexpressed\ninterest in you</string>
+    <string name="da_make_appnt">Make Appointment</string>
+    <string name="da_send_msg">Send Messages</string>
+    <string name="da_note_congatulations">Mutual sympathy,do not waste time messanger her!</string>
+    <string name="da_congratulate">Congratulate!</string>
+    <string name="da_search">Search</string>
+    <string name="da_make_appointment">Make Appointment</string>
+    <string name="da_time">Time</string>
+    <string name="da_date">Date</string>
+    <string name="da_place">Place</string>
+    <string name="da_type_something">Type something</string>
+    <string name="dA_mallanie">Mallanie</string>
+    <string name="share_profile">Share Profile</string>
+    <string name="da_report">Report</string>
+
+
+
+
 </resources>
