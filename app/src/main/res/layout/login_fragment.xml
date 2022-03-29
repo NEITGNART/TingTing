@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginFragment">
+
+    <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/da_white"
+        android:fillViewport="true"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/DAHeading"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:text="@string/da_hello" />
+
+            <TextView
+                style="@style/DASubHeading"
+                android:text="@string/da_lbl_login_to_your_account" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                style="@style/ProfileText"
+                android:paddingTop="@dimen/da_spacing_large"
+                android:drawableStart="@drawable/da_ic_email"
+                android:drawableEnd="@drawable/da_ic_left_arrow"
+                android:hint="@string/da_email"
+                android:inputType="textEmailAddress"
+                 />
+
+            <View style="@style/Divider" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                style="@style/ProfileText"
+                android:paddingTop="@dimen/da_spacing_large"
+                android:drawableStart="@drawable/da_ic_padlock"
+                android:drawableEnd="@drawable/da_ic_left_arrow"
+                android:hint="@string/da_password"
+                android:inputType="textPassword"
+                android:importantForAutofill="no" />
+
+            <View style="@style/Divider" />
+
+            <Button
+                android:id="@+id/btnSignIn"
+                style="@style/DAMaterialButtonStyle.Enabled"
+                android:layout_marginStart="@dimen/da_spacing_large"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/da_spacing_large"
+                android:layout_marginBottom="@dimen/da_spacing_xlarge"
+                android:text="@string/da_next"
+                android:textAllCaps="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/da_spacing_large"
+                android:layout_marginEnd="@dimen/da_spacing_large">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/tvConnectWith"
+                    android:background="@color/da_view_color" />
+
+                <TextView
+                    android:id="@+id/tvConnectWith"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="@dimen/da_spacing_control"
+                    android:layout_marginEnd="@dimen/da_spacing_control"
+                    android:text="@string/da_or_connect_with"
+                    android:textAppearance="@style/DAFontMedium"
+                    android:textColor="@color/da_textColorSecondary"
+                    android:textSize="@dimen/da_font_size_medium" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/tvConnectWith"
+                    android:background="@color/da_view_color" />
+
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnLoginFB"
+                style="@style/DAMaterialButtonStyle.Enabled"
+                android:layout_margin="@dimen/da_spacing_large"
+                android:layout_marginStart="@dimen/da_spacing_large"
+                android:layout_marginEnd="@dimen/da_spacing_large"
+                android:layout_marginBottom="@dimen/da_spacing_large"
+                android:backgroundTint="@color/da_fb_blue"
+                android:drawableStart="@drawable/da_ic_facebook"
+                android:gravity="center"
+                android:paddingStart="@dimen/da_spacing_large"
+                android:paddingEnd="@dimen/da_spacing_large"
+                android:text="@string/da_fb_login"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/btnLoginGoogle"
+                style="@style/DAMaterialButtonStyle.Enabled"
+                android:layout_marginStart="@dimen/da_spacing_large"
+                android:layout_marginEnd="@dimen/da_spacing_large"
+                android:layout_marginBottom="@dimen/da_spacing_xlarge"
+                android:backgroundTint="@color/da_google_red"
+                android:drawableStart="@drawable/da_ic_google_fill"
+                android:gravity="center"
+                android:paddingStart="@dimen/da_spacing_large"
+                android:paddingEnd="@dimen/da_spacing_large"
+                android:text="@string/da_google_login"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

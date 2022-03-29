@@ -10,9 +10,6 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import com.example.tingting.databinding.ActivityMainBinding
 
-
-//import com.example.tingting.databinding.ActivityMainBinding
-
 class MainActivity : AppCompatActivity() {
 
     //  hddjwedhd
@@ -35,11 +32,11 @@ class MainActivity : AppCompatActivity() {
         // Bottom navigation
         val navController = findNavController(R.id.nav_host_fragment)
 
-        binding.bottomNavigationView.setupWithNavController(navController)
-        binding.bottomNavigationView.getOrCreateBadge(R.id.chat).apply {
-            number = 10
-            isVisible = true
-        }
+//        binding.bottomNavigationView.setupWithNavController(navController)
+//        binding.bottomNavigationView.getOrCreateBadge(R.id.chat).apply {
+//            number = 10
+//            isVisible = true
+//        }
 
 //        var list = mutableListOf<Int>()
 
