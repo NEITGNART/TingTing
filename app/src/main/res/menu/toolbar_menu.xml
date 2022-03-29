@@ -7,5 +7,4 @@
         android:icon="@drawable/ic_notify"
         app:showAsAction="always"
         />
-
 </menu>
