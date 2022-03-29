@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.tingting.databinding.FragmentFirstBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,6 +31,13 @@ class FirstFragment : Fragment() {
         binding = FragmentFirstBinding.inflate(layoutInflater)
 
         // Code here !!!
+        binding.btprofile.setOnClickListener{
+            val action = FirstFragmentDirections.actionFirstFragmentToUserInfoFragment()
+//            findNavController().navigate(action)
+            Navigation.findNavController(binding.root).navigate(action)
+//            Navigation.findNavController(binding.root).navigateUp()
+
+        }
 
         return binding.root
     }

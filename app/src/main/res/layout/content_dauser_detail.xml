@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/da_white"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/user_info_fragment"
+    >
+
+    <RelativeLayout
+        android:id="@+id/rlContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/llBottom"
+        android:layout_marginTop="@dimen/da_spacing_middle"
+        android:layout_marginBottom="@dimen/da_spacing_standard_new">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/da_spacing_large"
+            android:text="@string/da_melanie_23"
+            android:textAppearance="@style/DAFontBold"
+            android:textColor="@color/da_red"
+            android:textSize="@dimen/da_font_size_xxlarge"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDisatance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tvName"
+            android:layout_alignBottom="@id/tvName"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/da_spacing_large"
+            android:drawableStart="@drawable/da_ic_paper_plane"
+            android:drawablePadding="@dimen/da_spacing_standard"
+            android:drawableTint="@color/da_textColorSecondary"
+            android:gravity="center"
+            android:text="@string/da_2_km"
+            android:textColor="@color/da_textColorPrimary"
+            android:textSize="@dimen/da_font_size_normal" />
+
+        <TextView
+            android:id="@+id/tvProfession"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvName"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/da_spacing_large"
+            android:layout_marginTop="@dimen/da_spacing_control"
+            android:drawableStart="@drawable/da_ic_business_briefcase"
+            android:drawablePadding="@dimen/da_spacing_standard"
+            android:drawableTint="@color/da_textColorSecondary"
+            android:text="@string/da_art_director"
+            android:textColor="@color/da_textColorPrimary"
+            android:textSize="@dimen/da_font_size_normal" />
+
+        <TextView
+            android:id="@+id/tvDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvProfession"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/da_spacing_large"
+            android:layout_marginTop="@dimen/da_spacing_standard_new"
+            android:drawablePadding="@dimen/da_spacing_standard"
+            android:lineSpacingExtra="@dimen/da_spacing_control_half"
+            android:lines="5"
+            android:text="@string/large_text"
+            android:textColor="@color/da_textColorPrimary"
+            android:textSize="@dimen/da_font_size_normal" />
+
+        <TextView
+            android:id="@+id/txtLanguage"
+            style="@style/DAEditTextHint"
+            android:layout_below="@id/tvDetail"
+            android:layout_marginTop="@dimen/da_spacing_large"
+            android:text="@string/da_language"
+            android:textSize="@dimen/da_font_size_normal" />
+
+        <TextView
+            android:id="@+id/tvLang"
+            style="@style/ProfileText"
+            android:layout_below="@id/txtLanguage"
+            android:layout_marginTop="@dimen/da_spacing_control"
+            android:text="@string/da_english_german_french" />
+
+        <TextView
+            android:id="@+id/txtLocation"
+            style="@style/DAEditTextHint"
+            android:layout_below="@id/tvLang"
+            android:layout_marginTop="@dimen/da_spacing_large"
+            android:text="@string/da_location"
+            android:textSize="@dimen/da_font_size_normal" />
+
+        <TextView
+            android:id="@+id/tvLocation"
+            style="@style/ProfileText"
+            android:layout_below="@id/txtLocation"
+            android:layout_marginTop="@dimen/da_spacing_control"
+            android:text="@string/da_shipley_bradford" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_85sdp"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvShare"
+                style="@style/ProfileText"
+                android:gravity="center_horizontal"
+                android:text="@string/share_profile"
+                android:textColor="@color/da_red" />
+
+            <View style="@style/Divider" />
+
+            <TextView
+                android:id="@+id/tvReport"
+                style="@style/ProfileText"
+                android:gravity="center_horizontal"
+                android:text="@string/da_report"
+                android:textColor="@color/da_red" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

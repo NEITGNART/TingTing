@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.makeramen.roundedimageview.RoundedImageView
 
-class Adapters (val context: Context): RecyclerView.Adapter<Adapters.MyViewHolder>() {
+class Adapters(val context: Context): RecyclerView.Adapter<Adapters.MyViewHolder>() {
     lateinit var list: List<Int>
 
     fun setContentList(list:List<Int>){
