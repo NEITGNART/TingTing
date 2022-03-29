@@ -3,6 +3,7 @@ package com.example.tingting.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.tingting.R
 import com.example.tingting.databinding.ActivityMainBinding
 
@@ -27,12 +28,12 @@ class MainActivity : AppCompatActivity() {
 
         // Bottom navigation
         val navController = findNavController(R.id.nav_host_fragment_login)
-
-//        binding.bottomNavigationView.setupWithNavController(navController)
-//        binding.bottomNavigationView.getOrCreateBadge(R.id.chat).apply {
-//            number = 10
-//            isVisible = true
-//        }
+//
+        binding.bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNavigationView.getOrCreateBadge(R.id.chat).apply {
+            number = 10
+            isVisible = true
+        }
 
 //        var list = mutableListOf<Int>()
 

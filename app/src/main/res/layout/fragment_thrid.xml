@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ThridFragment">
 
-
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"

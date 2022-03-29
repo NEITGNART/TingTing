@@ -2,7 +2,9 @@
     <!-- Base application theme. -->
 
 
-    <style name="Theme.TingTing" parent="Theme.AppCompat.Light.NoActionBar">
+
+
+    <style name="Theme.TingTing" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/da_colorPrimary</item>
         <item name="colorPrimaryDark">@color/da_colorPrimaryDark</item>
@@ -10,6 +12,7 @@
         <item name="android:windowContentTransitions">true</item>
         <!-- Customize your theme here. -->
     </style>
+
 
     <style name="roundedImageViewRounded">
         <item name="cornerFamily">rounded</item>
