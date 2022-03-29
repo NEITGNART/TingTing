@@ -1,13 +1,9 @@
-package com.example.tingting
+package com.example.tingting.activity
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupWithNavController
+import com.example.tingting.R
 import com.example.tingting.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 //        setSupportActionBar(toolbar)
 
         // Bottom navigation
-        val navController = findNavController(R.id.nav_host_fragment)
+        val navController = findNavController(R.id.nav_host_fragment_login)
 
 //        binding.bottomNavigationView.setupWithNavController(navController)
 //        binding.bottomNavigationView.getOrCreateBadge(R.id.chat).apply {

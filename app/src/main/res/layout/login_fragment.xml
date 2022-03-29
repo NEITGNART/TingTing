@@ -29,6 +29,8 @@
                 style="@style/DASubHeading"
                 android:text="@string/da_lbl_login_to_your_account" />
 
+
+            
             <EditText
                 android:id="@+id/etEmail"
                 style="@style/ProfileText"
@@ -49,7 +51,7 @@
                 android:drawableEnd="@drawable/da_ic_left_arrow"
                 android:hint="@string/da_password"
                 android:inputType="textPassword"
-                android:importantForAutofill="no" />
+                />
 
             <View style="@style/Divider" />
 
