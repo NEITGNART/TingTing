@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".congratulationFragment">
+
+    <?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/da_gradient"
+            android:scaleType="centerCrop" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/da_spacing_large">
+            <TextView
+                style="@style/DAHeading"
+                android:textSize="40sp"
+                android:layout_marginTop="@dimen/da_spacing_xlarge"
+                android:textColor="@color/da_white"
+                android:text="@string/da_congratulate" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/da_white"
+                android:layout_marginTop="@dimen/da_spacing_standard"
+                android:textSize="@dimen/da_font_size_medium"
+                android:layout_marginStart="@dimen/da_spacing_xlarge"
+                android:layout_marginEnd="@dimen/da_spacing_xlarge"
+                android:text="@string/da_note_congatulations" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true">
+
+            <View
+                android:id="@+id/cp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerInParent="true" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/cp"
+                android:rotation="-8"
+                app:cardCornerRadius="@dimen/da_spacing_standard">
+
+                <ImageView
+                    android:id="@+id/ivProfile1"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_160sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/da_bg_circle"
+                    android:backgroundTint="@color/da_light_gray"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image2" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/_minus10sdp"
+                android:layout_marginBottom="@dimen/da_spacing_control_half"
+                android:layout_toEndOf="@id/cp"
+                android:rotation="10"
+                app:cardCornerRadius="@dimen/da_spacing_standard">
+
+                <ImageView
+                    android:id="@+id/ivProfile2"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_160sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_horizontal"
+                    android:backgroundTint="@color/da_light_gray"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image3" />
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btnSendMessage"
+            android:gravity="center"
+            android:layout_above="@id/tvSearch"
+            android:layout_marginStart="@dimen/da_spacing_large"
+            android:layout_marginEnd="@dimen/da_spacing_large"
+            android:layout_marginBottom="@dimen/da_spacing_large"
+            android:text="@string/da_send_msg"
+            style="@style/DAMaterialButtonStyle.Disabled" />
+        <TextView
+            android:id="@+id/tvSearch"
+            style="@style/DAHeading"
+            android:textColor="@color/da_white"
+            android:textAllCaps="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/da_spacing_large"
+            android:textSize="@dimen/da_font_size_normal"
+            android:layout_marginEnd="@dimen/da_spacing_large"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/da_spacing_large"
+            android:text="To continue the search" />
+
+    </RelativeLayout>
+
+</FrameLayout>

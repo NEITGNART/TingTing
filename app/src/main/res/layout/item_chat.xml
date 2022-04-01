@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llMain"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/da_spacing_large"
+    android:paddingEnd="@dimen/da_spacing_large"
+    android:layout_marginTop="@dimen/_14sdp"
+    android:layout_marginBottom="@dimen/da_spacing_standard">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.example.tingting.utils.DACircleImageView
+            android:id="@+id/ivUser"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/da_spacing_control"
+            android:src="@drawable/image2" />
+
+        <View
+            android:id="@+id/viewStatus"
+            android:layout_width="@dimen/_14sdp"
+            android:layout_height="@dimen/_14sdp"
+            android:layout_gravity="end"
+            android:background="@drawable/da_bg_circle_dot" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/da_spacing_standard_new"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/da_huy"
+            android:textAppearance="@style/DAFontMedium"
+            android:textColor="@color/da_textColorPrimary"
+            android:textSize="@dimen/da_font_size_normal"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvChatMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvUserName"
+            android:layout_marginTop="@dimen/da_spacing_control"
+            android:textColor="@color/da_textColorSecondary"
+            android:textSize="@dimen/da_font_size_medium"
+            tools:text="Hi ae ,Good morning!" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tvUserName"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/da_spacing_standard_new"
+            android:layout_marginTop="@dimen/da_spacing_control"
+            android:textColor="@color/da_textColorSecondary"
+            android:textSize="@dimen/da_font_size_medium"
+            tools:text="Just now" />
+
+    </RelativeLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+

@@ -93,7 +93,6 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-
     fun firebaseAuthWithGoogle(idToken: String) {
         val authCredential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(authCredential)
@@ -108,7 +107,6 @@ class LoginActivity : AppCompatActivity() {
                         .show()
                 }
             }
-
     }
 
 

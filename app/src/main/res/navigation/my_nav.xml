@@ -28,7 +28,11 @@
         android:id="@+id/chat"
         android:name="com.example.tingting.FourFragment"
         android:label="fragment_four"
-        tools:layout="@layout/fragment_four" />
+        tools:layout="@layout/fragment_four" >
+        <action
+            android:id="@+id/action_chat_to_fragment_matches_message"
+            app:destination="@id/fragment_matches_message" />
+    </fragment>
     <fragment
         android:id="@+id/userInfoFragment"
         android:name="com.example.tingting.UserInfoFragment"
@@ -37,5 +41,18 @@
         <action
             android:id="@+id/action_userInfoFragment_to_homepage"
             app:destination="@id/homepage" />
+        <action
+            android:id="@+id/action_userInfoFragment_to_congratulationFragment"
+            app:destination="@id/congratulationFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/congratulationFragment"
+        android:name="com.example.tingting.congratulationFragment"
+        android:label="congratulation_fragment"
+        tools:layout="@layout/congratulation_fragment" />
+    <fragment
+        android:id="@+id/fragment_matches_message"
+        android:name="com.example.tingting.fragment_matches_message"
+        android:label="fragment_matches_message_fragment"
+        tools:layout="@layout/fragment_matches_message_fragment" />
 </navigation>

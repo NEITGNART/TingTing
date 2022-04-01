@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/da_spacing_standard"
+    android:layout_marginEnd="@dimen/da_spacing_standard"
+    >
+    <View
+        android:id="@+id/viewDummy"
+        android:visibility="gone"
+        android:layout_width="2dp"
+        android:layout_height="@dimen/_30sdp"/>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/llContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <com.example.tingting.utils.DACircleImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/image1"
+            />
+        <ImageView
+            android:id="@+id/ivImg"
+            app:layout_anchor="@id/ivProfile"
+            app:layout_anchorGravity="bottom|center_horizontal"
+            android:layout_above="@id/tvName"
+            android:background="@drawable/da_circle_redprimary"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:src="@drawable/da_ic_chat"
+            android:padding="@dimen/da_spacing_middle"
+            android:scaleType="centerCrop"
+            app:tint="@color/da_white" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/da_spacing_control"
+        android:text="Stella"
+        android:textSize="@dimen/da_font_size_normal"
+        android:textAppearance="@style/DAFontSemiBold"
+        android:textColor="@color/da_textColorPrimary" />
+
+</LinearLayout>
