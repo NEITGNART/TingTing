@@ -105,4 +105,26 @@
     <string name="da_report">Report</string>
 
 
+    <string name="da_tvInfo_1">Chào mừng bạn đến với TingTing.</string>
+    <string name="da_tvInfo_2">Vui lòng tuân thủ chung các Quy tắt này</string>
+    <string name="da_tvInfo_3">Hãy là chính bạn</string>
+    <string name="da_tvInfo_4">Đảm bảo ảnh, độ tuổi, và tiểu sử đều thể hiện đúng con người bạn</string>
+    <string name="da_tvInfo_5">Luôn đảm bảo an toàn</string>
+    <string name="da_tvInfo_6">Đừng vội vàng chia sẻ thông tin cá nhân. Hẹn hò an toàn</string>
+    <string name="da_tvInfo_7">Chơi phải chất</string>
+    <string name="da_tvInfo_8">Tôn trọng người khác và đối sử với họ đúng như cách bạn muốn được mọi người thể hiện với bạn</string>
+    <string name="da_tvInfo_9">Hãy chủ động, đường nhút nhát quá</string>
+    <string name="da_tvInfo_10">Luôn trình báo hành vi xấu</string>
+    <string name="da_tvInfo_btn_access">Report</string>
+
+    <string name="da_tvInUserName_1">Tên của tôi là</string>
+    <string name="da_tvInUserName_2">Đây là cách tên hiển thị trên TingTing (và bạn sẽ không thể đổi tên được)</string>
+    <string name="da_etInUserName">Tên riêng</string>
+    <string name="da_Continue">Tiếp tục</string>
+
+    <string name="da_tvInUserBirthday_1">Sinh nhật của tôi là</string>
+    <string name="da_tvInUserBirthday_2">Tuổi của bạn sẽ được hiển thị công khai</string>
+    <string name="da_etInUserBirthday">DD/MM/YYYY</string>
+
+
 </resources>

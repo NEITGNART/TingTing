@@ -6,13 +6,33 @@
         <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing/app/src/main/res/layout/item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing/app/src/main/res/layout/list_image.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing3/app/src/main/res/layout/activity_dauser_detail.xml" value="0.11302083333333333" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing3/app/src/main/res/layout/activity_main.xml" value="0.11302083333333333" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing3/app/src/main/res/layout/content_dauser_detail.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing3/app/src/main/res/layout/fragment_first.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing3/app/src/main/res/layout/fragment_four.xml" value="0.11302083333333333" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing3/app/src/main/res/layout/login_fragment.xml" value="0.11302083333333333" />
-        <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing3/app/src/main/res/layout/user_info_fragment.xml" value="0.176" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/drawable/da_bg_color_primary.xml" value="0.4205" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/drawable/da_gradation_black.xml" value="0.4205" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/drawable/da_ic_add.xml" value="0.33" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/drawable/da_ic_back.xml" value="0.25" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/drawable/da_ic_white.xml" value="0.25" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/activity_first_login.xml" value="0.25" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/activity_information.xml" value="0.5744791666666667" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/activity_login.xml" value="0.421875" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/content_dauser_detail.xml" value="0.5604166666666667" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/da_activity_editprofile.xml" value="0.421875" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/fragment_app_introduction.xml" value="0.33" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/fragment_first.xml" value="0.421875" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/fragment_four.xml" value="0.421875" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/fragment_input_user_birthday.xml" value="0.327774882751433" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/fragment_input_user_display.xml" value="0.5744791666666667" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/fragment_input_user_gender.xml" value="0.32760416666666664" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/fragment_input_user_name.xml" value="0.25" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/fragment_input_user_preferences.xml" value="0.5744791666666667" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/fragment_second.xml" value="0.421875" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/fragment_thrid.xml" value="0.421875" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/list_image.xml" value="0.421875" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/layout/login_fragment.xml" value="0.3549222797927461" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/menu/bottom_nav_menu.xml" value="0.421875" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/menu/toolbar_menu.xml" value="0.421875" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.4205" />
+        <entry key="..\:/Workspace/TingTing/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.4205" />
       </map>
     </option>
   </component>

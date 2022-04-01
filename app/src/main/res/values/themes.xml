@@ -241,5 +241,9 @@
         <item name="android:padding">@dimen/_11sdp</item>
         <item name="android:layout_margin">@dimen/da_spacing_middle</item>
     </style>
+    <style name="ThemeOverlay.TingTing.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
 
 </resources>

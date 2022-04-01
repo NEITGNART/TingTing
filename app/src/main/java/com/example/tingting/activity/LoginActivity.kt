@@ -1,15 +1,12 @@
 package com.example.tingting.activity
 
-import android.R.attr
 import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tingting.databinding.LoginFragmentBinding
-import com.google.android.gms.auth.api.identity.SignInCredential
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -50,6 +47,10 @@ class LoginActivity : AppCompatActivity() {
             goToHomePage()
         }
 
+        binding.btnLoginFB.setOnClickListener{
+            goToFirstLoginPage()
+        }
+
 
     }
 
@@ -80,6 +81,13 @@ class LoginActivity : AppCompatActivity() {
 
     fun goToHomePage() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.flags =
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // can't go back
+        startActivity(intent)
+    }
+
+    fun goToFirstLoginPage() {
+        val intent = Intent(this, FirstLogin::class.java)
         intent.flags =
             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // can't go back
         startActivity(intent)

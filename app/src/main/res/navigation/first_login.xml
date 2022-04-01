@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/first_login"
+    app:startDestination="@id/appIntroduction">
+
+    <fragment
+        android:id="@+id/appIntroduction"
+        android:name="com.example.tingting.AppIntroduction"
+        android:label="fragment_app_introduction"
+        tools:layout="@layout/fragment_app_introduction" >
+        <action
+            android:id="@+id/action_appIntroduction_to_inputUserName"
+            app:destination="@id/inputUserName" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputUserName"
+        android:name="com.example.tingting.InputUserName"
+        android:label="fragment_input_user_name"
+        tools:layout="@layout/fragment_input_user_name" >
+        <action
+            android:id="@+id/action_inputUserName_to_appIntroduction"
+            app:destination="@id/appIntroduction" />
+        <action
+            android:id="@+id/action_inputUserName_to_inputUserBirthday"
+            app:destination="@id/inputUserBirthday" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputUserBirthday"
+        android:name="com.example.tingting.InputUserBirthday"
+        android:label="fragment_input_user_birthday"
+        tools:layout="@layout/fragment_input_user_birthday" >
+        <action
+            android:id="@+id/action_inputUserBirthday_to_inputUserName"
+            app:destination="@id/inputUserName" />
+        <action
+            android:id="@+id/action_inputUserBirthday_to_inputUserGender"
+            app:destination="@id/inputUserGender" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputUserGender"
+        android:name="com.example.tingting.InputUserGender"
+        android:label="fragment_input_user_gender"
+        tools:layout="@layout/fragment_input_user_gender" >
+        <action
+            android:id="@+id/action_inputUserGender_to_inputUserDisplay"
+            app:destination="@id/inputUserDisplay" />
+        <action
+            android:id="@+id/action_inputUserGender_to_inputUserBirthday"
+            app:destination="@id/inputUserBirthday" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputUserDisplay"
+        android:name="com.example.tingting.InputUserDisplay"
+        android:label="fragment_input_user_display"
+        tools:layout="@layout/fragment_input_user_display" >
+        <action
+            android:id="@+id/action_inputUserDisplay_to_inputUserPreferences"
+            app:destination="@id/inputUserPreferences" />
+        <action
+            android:id="@+id/action_inputUserDisplay_to_inputUserGender"
+            app:destination="@id/inputUserGender" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputUserPreferences"
+        android:name="com.example.tingting.InputUserPreferences"
+        android:label="fragment_input_user_preferences"
+        tools:layout="@layout/fragment_input_user_preferences" />
+</navigation>

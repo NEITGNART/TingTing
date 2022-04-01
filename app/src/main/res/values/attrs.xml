@@ -239,5 +239,9 @@
         <attr name="da_right_swipe_enabled" format="boolean"/>
 
     </declare-styleable>
+    <declare-styleable name="FullscreenAttrs">
+        <attr name="fullscreenBackgroundColor" format="color" />
+        <attr name="fullscreenTextColor" format="color" />
+    </declare-styleable>
 
 </resources>
