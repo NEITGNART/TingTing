@@ -147,6 +147,9 @@ dependencies {
     implementation 'com.tbuonomo:dotsindicator:4.2'
 
 
+    implementation 'com.github.yuyakaido:cardstackview:2.3.4'
+
+
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
 
 }
