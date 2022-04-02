@@ -99,25 +99,26 @@
 
         <Button
             android:id="@+id/btnSendMessage"
-            android:gravity="center"
+            style="@style/DAMaterialButtonStyle.Disabled"
             android:layout_above="@id/tvSearch"
             android:layout_marginStart="@dimen/da_spacing_large"
             android:layout_marginEnd="@dimen/da_spacing_large"
             android:layout_marginBottom="@dimen/da_spacing_large"
-            android:text="@string/da_send_msg"
-            style="@style/DAMaterialButtonStyle.Disabled" />
+            android:gravity="center"
+            android:text="@string/da_send_msg" />
+
         <TextView
             android:id="@+id/tvSearch"
             style="@style/DAHeading"
-            android:textColor="@color/da_white"
-            android:textAllCaps="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/da_spacing_large"
-            android:textSize="@dimen/da_font_size_normal"
-            android:layout_marginEnd="@dimen/da_spacing_large"
             android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/da_spacing_large"
+            android:layout_marginEnd="@dimen/da_spacing_large"
             android:layout_marginBottom="@dimen/da_spacing_large"
-            android:text="To continue the search" />
+            android:text="Tiếp tục tìm kiếm"
+            android:textAllCaps="true"
+            android:textColor="@color/da_white"
+            android:textSize="@dimen/da_font_size_normal" />
 
     </RelativeLayout>
 
