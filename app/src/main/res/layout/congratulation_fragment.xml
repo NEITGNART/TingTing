@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".congratulationFragment">
 
-    <?xml version="1.0" encoding="utf-8"?>
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
