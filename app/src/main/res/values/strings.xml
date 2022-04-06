@@ -127,5 +127,17 @@
     <string name="da_etInUserBirthday">DD/MM/YYYY</string>
     <string name="clientId">425129665645-7f5q321r3jm8a7ep9rf0vgrvjdkpvr1e.apps.googleusercontent.com</string>
 
+    <string name="da_tvInUserGender_1">Tôi là</string>
+    <string name="da_tvInUserGender_2">Hiển thị giới tính trên hồ sơ của tôi</string>
 
+    <string name="da_tvInUserDisplay">Hiển thị tôi</string>
+
+    <string name="da_tvInUserPreferences_1">Sở thích</string>
+    <string name="da_tvInUserPreferences_2">Hãy cho mọi người biết những gì bạn đam mê bằng cách thêm thông tin vào hồ sơ của mình.</string>
+
+    <string name="da_rbMale">NAM</string>
+    <string name="da_rbFemale">NỮ</string>
+    <string name="da_rbOther">KHÁC</string>
+
+    <string name="da_rbAll">TẤT CẢ</string>
 </resources>

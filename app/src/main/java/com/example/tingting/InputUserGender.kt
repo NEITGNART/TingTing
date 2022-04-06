@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import androidx.navigation.Navigation
+import com.example.tingting.databinding.FragmentInputUserGenderBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -13,7 +16,7 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [inputUserGender.newInstance] factory method to
+ * Use the [InputUserGender.newInstance] factory method to
  * create an instance of this fragment.
  */
 class InputUserGender : Fragment() {
@@ -27,14 +30,6 @@ class InputUserGender : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_input_user_gender, container, false)
     }
 
     companion object {
@@ -55,5 +50,54 @@ class InputUserGender : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private lateinit var binding: FragmentInputUserGenderBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentInputUserGenderBinding.inflate(layoutInflater)
+
+        /////////////////////////////////////////////////////////////////////////
+        binding.btnContinue.setOnClickListener{
+            val action = InputUserGenderDirections.actionInputUserGenderToInputUserDisplay()
+            Navigation.findNavController(binding.root).navigate(action)
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        val count = binding.rgInUserGender.childCount
+        val listOfRadioButtons = ArrayList<RadioButton>()
+        for (i in 0 until count) {
+            val o = binding.rgInUserGender.getChildAt(i)
+            if (o is RadioButton) {
+                listOfRadioButtons.add(o)
+            }
+        }
+
+
+        ////////////////////////////////////////////////////////////////////////
+        binding.rgInUserGender.setOnCheckedChangeListener { radioGroup, i ->
+            listOfRadioButtons.forEach {radioButton ->
+                if (radioButton.isChecked){
+                    radioButton.setBackgroundResource(R.drawable.gradient_border)
+                    radioButton.setTextColor(resources.getColor(R.color.da_red1))
+                }
+                else {
+                    radioButton.setBackgroundResource(R.drawable.gray_border)
+                    radioButton.setTextColor(resources.getColor(R.color.black_80))
+                }
+            }
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+        binding.btnBack.setOnClickListener{
+            val action = InputUserGenderDirections.actionInputUserGenderToInputUserBirthday()
+            Navigation.findNavController(binding.root).navigate(action)
+        }
+
+        // Inflate the layout for this fragment
+        return binding.root
     }
 }

@@ -60,10 +60,6 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun LoginActivity.signIn() {
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -84,7 +80,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
 
     fun goToHomePage() {
         val intent = Intent(this, MainActivity::class.java)

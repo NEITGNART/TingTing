@@ -7,22 +7,22 @@
     tools:context=".InputUserBirthday">
 
     <!-- TODO: Update blank fragment layout -->
-    <ImageView
-        android:id="@+id/imageView2"
+    <Button
+        android:id="@+id/btnBack"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/da_ic_white" />
+        android:background="@drawable/da_ic_white" />
 
     <TextView
         android:id="@+id/tvInUserBirthday_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="55dp"
         android:text="@string/da_tvInUserBirthday_1"
         android:textAlignment="center"
         android:textColor="#555555"
@@ -61,7 +61,7 @@
 
 
     <Button
-        android:id="@+id/btnInUserBirthday"
+        android:id="@+id/btnContinue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="55dp"

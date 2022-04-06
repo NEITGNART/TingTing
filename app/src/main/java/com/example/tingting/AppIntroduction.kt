@@ -1,11 +1,14 @@
 package com.example.tingting
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import com.example.tingting.activity.FirstLogin
+import com.example.tingting.activity.LoginActivity
 import com.example.tingting.databinding.FragmentAppIntroductionBinding
 import com.example.tingting.databinding.FragmentFirstBinding
 
@@ -35,7 +38,8 @@ class AppIntroduction : Fragment() {
         }
 
         binding.btnClose.setOnClickListener{
-
+            val intent = Intent(context, LoginActivity::class.java)
+            startActivity(intent)
         }
         return binding.root
     }
