@@ -28,7 +28,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPagerMain"
                 android:layout_width="match_parent"
-                android:layout_height="594dp"
+                android:layout_height="match_parent"
                 android:backgroundTint="@color/black"
                 tools:ignore="MissingConstraints"
 
@@ -54,7 +54,7 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_dauser_detail" />
+    <include layout="@layout/content_dauser_detail" android:id="@+id/abcd" />
     <LinearLayout
         android:id="@+id/llBottom"
         android:layout_alignParentBottom="true"

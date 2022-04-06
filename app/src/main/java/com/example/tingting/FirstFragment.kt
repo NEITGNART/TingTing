@@ -38,6 +38,13 @@ class FirstFragment : Fragment() {
 //            Navigation.findNavController(binding.root).navigateUp()
 
         }
+        binding.viewcardstack.setOnClickListener{
+            val action = FirstFragmentDirections.actionHomepageToTindercardstack()
+//            findNavController().navigate(action)
+            Navigation.findNavController(binding.root).navigate(action)
+//            Navigation.findNavController(binding.root).navigateUp()
+
+        }
 
         return binding.root
     }
