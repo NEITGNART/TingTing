@@ -66,5 +66,9 @@
         android:id="@+id/inputUserPreferences"
         android:name="com.example.tingting.InputUserPreferences"
         android:label="fragment_input_user_preferences"
-        tools:layout="@layout/fragment_input_user_preferences" />
+        tools:layout="@layout/fragment_input_user_preferences" >
+        <action
+            android:id="@+id/action_inputUserPreferences_to_inputUserDisplay"
+            app:destination="@id/inputUserDisplay" />
+    </fragment>
 </navigation>

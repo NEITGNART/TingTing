@@ -68,6 +68,7 @@ class InputUserName : Fragment() {
             val action = InputUserNameDirections.actionInputUserNameToAppIntroduction()
             Navigation.findNavController(binding.root).navigate(action)
         }
+
         return binding.root
     }
 }

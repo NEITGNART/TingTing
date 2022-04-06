@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
@@ -35,11 +35,17 @@
     <color name="da_red_light">#50F87167</color>
     <color name="transparent">#00000000</color>
     <color name="black_50">#66333333</color>
+    <color name="black_80">#8333</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
-
+    <color name="gradient">
+        <gradient
+        android:startColor="@color/da_red1"
+        android:endColor="@color/da_colorPrimary"
+        />
+    </color>
 
 </resources>

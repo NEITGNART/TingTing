@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import androidx.navigation.Navigation
+import com.example.tingting.databinding.FragmentInputUserPreferencesBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,15 +31,6 @@ class InputUserPreferences : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_input_user_preferences, container, false)
-    }
-
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -55,5 +49,26 @@ class InputUserPreferences : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    private lateinit var binding: FragmentInputUserPreferencesBinding
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = FragmentInputUserPreferencesBinding.inflate(layoutInflater)
+
+        ///////////////////////////////////////////////////////////////////////
+        binding.btnContinue.setOnClickListener{
+            val action = InputUserPreferencesDirections.actionInputUserPreferencesToInputUserDisplay()
+            Navigation.findNavController(binding.root).navigate(action)
+        }
+
+        binding.btnBack.setOnClickListener{
+            val action = InputUserPreferencesDirections.actionInputUserPreferencesToInputUserDisplay()
+            Navigation.findNavController(binding.root).navigate(action)
+        }
+        return binding.root
     }
 }

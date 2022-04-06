@@ -4,25 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".InputUserGender">
+    tools:context=".InputUserGender"
+    >
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <Button
+        android:id="@+id/btnBack"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/da_ic_white" />
+        android:background="@drawable/da_ic_white" />
 
     <TextView
-        android:id="@+id/tvInUserName_1"
+        android:id="@+id/tvInUserGender_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="72dp"
-        android:text="@string/da_tvInUserName_1"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="55dp"
+        android:text="@string/da_tvInUserGender_1"
+        android:textAlignment="center"
         android:textColor="#555555"
         android:textSize="60sp"
         android:textStyle="bold"
@@ -30,36 +32,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/etInUserName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="84dp"
-        android:hint="@string/da_etInUserName"
-        android:textSize="30sp"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvInUserName_1" />
 
     <TextView
-        android:id="@+id/tvInUserName_2"
+        android:id="@+id/tvInGender_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="28dp"
-        android:text="@string/da_tvInUserName_2"
+        android:layout_marginHorizontal="30dp"
+        android:text="@string/da_tvInUserGender_2"
         android:textColor="#999999"
-        android:textSize="20sp"
+        android:textSize="19.5sp"
         android:textStyle="normal"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnContinue"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etInUserName" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <Button
-        android:id="@+id/btnInUserName"
+        android:id="@+id/btnContinue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="55dp"
@@ -71,5 +61,59 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/rgInUserGender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tvInGender_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInUserGender_1">
+
+        <RadioButton
+            android:id="@+id/rbMale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:textSize="24sp"
+            android:paddingVertical="20dp"
+            android:textAlignment="center"
+            android:button="@null"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/gray_border"
+            android:textColor="@color/black_80"
+            android:text="@string/da_rbMale"/>
+
+        <RadioButton
+            android:id="@+id/rbFemale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:textAlignment="center"
+            android:button="@null"
+            android:paddingVertical="20dp"
+            android:textColor="@color/black_80"
+            android:text="@string/da_rbFemale"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/gray_border"
+            android:textSize="24sp" />
+
+        <RadioButton
+            android:id="@+id/rbOther"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:paddingVertical="20dp"
+            android:textSize="24sp"
+            android:textAlignment="center"
+            android:textColor="@color/black_80"
+            android:button="@null"
+            android:textStyle="bold"
+            android:background="@drawable/gray_border"
+            android:text="@string/da_rbOther" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

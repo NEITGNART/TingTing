@@ -78,7 +78,6 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-
     fun goToHomePage() {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags =
@@ -108,6 +107,4 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
-
-
 }
