@@ -91,9 +91,9 @@
     <string name="da_messages">Messages</string>
     <string name="da_note_match">35 People\nexpressed\ninterest in you</string>
     <string name="da_make_appnt">Make Appointment</string>
-    <string name="da_send_msg">Send Messages</string>
+    <string name="da_send_msg">Gửi tin nhắn</string>
     <string name="da_note_congatulations">Mutual sympathy,do not waste time messanger her!</string>
-    <string name="da_congratulate">Congratulate!</string>
+    <string name="da_congratulate">Bạn đã tương hợp !</string>
     <string name="da_search">Search</string>
     <string name="da_make_appointment">Make Appointment</string>
     <string name="da_time">Time</string>
@@ -125,6 +125,7 @@
     <string name="da_tvInUserBirthday_1">Sinh nhật của tôi là</string>
     <string name="da_tvInUserBirthday_2">Tuổi của bạn sẽ được hiển thị công khai</string>
     <string name="da_etInUserBirthday">DD/MM/YYYY</string>
+    <string name="clientId">425129665645-7f5q321r3jm8a7ep9rf0vgrvjdkpvr1e.apps.googleusercontent.com</string>
 
     <string name="da_tvInUserGender_1">Tôi là</string>
     <string name="da_tvInUserGender_2">Hiển thị giới tính trên hồ sơ của tôi</string>

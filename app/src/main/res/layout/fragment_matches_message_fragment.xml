@@ -7,9 +7,7 @@
     tools:context=".fragment_matches_message">
 
 
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -61,13 +59,12 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvMatches"
-                android:overScrollMode="never"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/da_spacing_standard_new"
                 android:clipToPadding="false"
-                tools:listitem="@layout/item_match"
-                />
+                android:overScrollMode="never"
+                android:padding="@dimen/da_spacing_standard_new"
+                tools:listitem="@layout/item_match" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
