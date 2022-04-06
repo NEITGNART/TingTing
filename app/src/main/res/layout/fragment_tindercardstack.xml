@@ -48,7 +48,7 @@
                     android:src="@drawable/da_ic_cancel_mark"
                     app:tint="@color/white" />
                 <ImageView
-                    android:id="@+id/ivUndo"
+                    android:id="@+id/ivUndof"
                     android:layout_width="@dimen/_45sdp"
                     android:layout_height="@dimen/_45sdp"
                     android:background="@drawable/da_bg_circle"

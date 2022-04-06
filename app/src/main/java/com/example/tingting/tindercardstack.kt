@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import android.widget.Toast
@@ -38,7 +40,6 @@ class tindercardstack : Fragment() {
 
         manager = CardStackLayoutManager(context, object : CardStackListener{
             override fun onCardDragging(direction: Direction, ratio: Float) {
-//                Log.d("CardStackView", "onCardDragging: d=" + direction.name + " ratio=" + ratio)
             }
 
             override fun onCardSwiped(direction: Direction) {
@@ -82,15 +83,19 @@ class tindercardstack : Fragment() {
                 Log.d("CardStackView", "onCardAppeared: " + position + ", nama: " + tv.text)
             }
         })
+
+
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(3)
         manager.setTranslationInterval(8.0f)
         manager.setScaleInterval(0.95f)
         manager.setSwipeThreshold(0.3f)
         manager.setMaxDegree(20.0f)
-        manager.setDirections(Direction.FREEDOM)
+        manager.setDirections(Direction.HORIZONTAL)
         manager.setCanScrollHorizontal(true)
-        manager.setSwipeableMethod(SwipeableMethod.Manual)
+        manager.cardStackListener
+
+        manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
         adapter = CardStackAdapter(createSpots())
         cardStackView.layoutManager = manager
@@ -98,17 +103,46 @@ class tindercardstack : Fragment() {
         cardStackView.itemAnimator = DefaultItemAnimator()
 
 
+
+
+        binding.ivUndof.setOnClickListener {
+            if (manager.topPosition < adapter.itemCount) {
+                val setting = RewindAnimationSetting.Builder()
+                    .setDirection(Direction.Bottom)
+                    .setDuration(Duration.Normal.duration)
+                    .setInterpolator(DecelerateInterpolator())
+                    .build()
+                manager.setRewindAnimationSetting(setting)
+                cardStackView.rewind()
+            }
+        }
+
+        binding.ivHeart.setOnClickListener {
+            if (manager.topPosition < adapter.itemCount) {
+                val setting = SwipeAnimationSetting.Builder()
+                    .setDirection(Direction.Left)
+                    .setDuration(Duration.Normal.duration)
+                    .setInterpolator(AccelerateInterpolator())
+                    .build()
+                manager.setSwipeAnimationSetting(setting)
+                cardStackView.swipe()
+            }
+        }
+        binding.ivClose.setOnClickListener {
+            if (manager.topPosition < adapter.itemCount) {
+                val setting = SwipeAnimationSetting.Builder()
+                .setDirection(Direction.Right)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(AccelerateInterpolator())
+                .build()
+            manager.setSwipeAnimationSetting(setting)
+            cardStackView.swipe()
+            }
+        }
+
         return binding.root
     }
 
-//    private fun paginate() {
-//        val old: List<Spot> = adapter.getSpots()
-//        val baru: List<Spot> = (createSpots())
-//        val callback = SpotDiffCallback(old, baru as List<Spot>)
-//        val hasil = DiffUtil.calculateDiff(callback)
-//        adapter.setSpots(baru)
-//        hasil.dispatchUpdatesTo(adapter)
-//    }
 
     private fun createSpots(): List<Spot> {
         val spots = ArrayList<Spot>()
@@ -124,6 +158,43 @@ class tindercardstack : Fragment() {
         spots.add(Spot(name = "Great Wall of China", city = "China", url = "https://source.unsplash.com/AWh9C-QjhE4/600x800"))
         return spots
     }
+    private fun setupButton() {
+        binding = FragmentTindercardstackBinding.inflate(layoutInflater)
+
+//        val skip = binding.skip_button
+//        skip.setOnClickListener {
+//            val setting = SwipeAnimationSetting.Builder()
+//                .setDirection(Direction.Left)
+//                .setDuration(Duration.Normal.duration)
+//                .setInterpolator(AccelerateInterpolator())
+//                .build()
+//            manager.setSwipeAnimationSetting(setting)
+//            cardStackView.swipe()
+//        }
+
+        val rewind = binding.ivUndof
+        rewind.setOnClickListener {
+            val setting = RewindAnimationSetting.Builder()
+                .setDirection(Direction.Bottom)
+                .setDuration(Duration.Normal.duration)
+                .setInterpolator(DecelerateInterpolator())
+                .build()
+            manager.setRewindAnimationSetting(setting)
+            cardStackView.rewind()
+        }
+
+//        val like = findViewById<View>(com.yuyakaido.android.cardstackview.R.id.like_button)
+//        like.setOnClickListener {
+//            val setting = SwipeAnimationSetting.Builder()
+//                .setDirection(Direction.Right)
+//                .setDuration(Duration.Normal.duration)
+//                .setInterpolator(AccelerateInterpolator())
+//                .build()
+//            manager.setSwipeAnimationSetting(setting)
+//            cardStackView.swipe()
+//        }
+    }
+
 
 
 }

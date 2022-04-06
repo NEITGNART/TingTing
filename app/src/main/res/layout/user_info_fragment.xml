@@ -25,6 +25,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
+
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPagerMain"
                 android:layout_width="match_parent"
@@ -33,7 +34,6 @@
                 tools:ignore="MissingConstraints"
 
                 />
-
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
