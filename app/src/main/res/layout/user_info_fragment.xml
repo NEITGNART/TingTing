@@ -54,7 +54,6 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_dauser_detail" android:id="@+id/abcd" />
     <LinearLayout
         android:id="@+id/llBottom"
         android:layout_alignParentBottom="true"
@@ -95,7 +94,14 @@
             android:padding="@dimen/_12sdp"
             android:src="@drawable/da_ic_heart"
             app:tint="@color/da_white" />
+
     </LinearLayout>
+
+    <include
+        android:id="@+id/abcd"
+        layout="@layout/content_dauser_detail"
+        app:layout_anchor="@+id/llBottom"
+        app:layout_anchorGravity="center" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

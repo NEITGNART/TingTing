@@ -7,8 +7,9 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tingting.R
-import com.example.tingting.databinding.LoginFragmentBinding
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.example.tingting.SignUpActivity
+import com.example.tingting.databinding.ActivityLoginBinding
+import com.example.tingting.utils.Entity.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -16,19 +17,23 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 
 
 class LoginActivity : AppCompatActivity() {
 
-
-    private lateinit var binding: LoginFragmentBinding
+    private lateinit var binding: ActivityLoginBinding
+//    private lateinit var binding: LoginFragmentBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = LoginFragmentBinding.inflate(layoutInflater)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
@@ -45,19 +50,45 @@ class LoginActivity : AppCompatActivity() {
         // Firebase
         auth = Firebase.auth
 
+
         binding.btnLoginGoogle.setOnClickListener {
             signIn()
         }
 
         binding.btnSignIn.setOnClickListener {
-            goToHomePage()
+            // get email and password
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
+            if (email.isEmpty() && password.isEmpty())
+                goToHomePage()
+            else
+                loginWithEmail(email, password)
         }
 
         binding.btnLoginFB.setOnClickListener {
             goToFirstLoginPage()
         }
 
+//        var database = FirebaseDatabase.getInstance().reference
+//        var user = database.child("Users").child("-LrDEBoLokW-5mhaT3ys")
+//
+//        user.addValueEventListener(object: ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//
+//                val post = dataSnapshot.getValue(User::class.java)
+//                Log.i("LoginActicvity", "$post")
+//            }
+//
+//            override fun onCancelled(databaseError: DatabaseError) {
+//                // Getting Post failed, log a message
+//                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+//            }
+//        })
 
+        binding.tvSignUp.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 
@@ -86,6 +117,7 @@ class LoginActivity : AppCompatActivity() {
         intent.flags =
             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // can't go back
         startActivity(intent)
+        finish()
     }
 
     fun goToFirstLoginPage() {
@@ -116,10 +148,32 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    fun loginWithEmail(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithEmail:success")
+                    val user = auth.currentUser
+                    goToHomePage()
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithEmail:failure", task.exception)
+                    Toast.makeText(
+                        baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                // ...
+            }
+
+    }
+
+
+
     companion object {
         private const val TAG = "GoogleActivity"
         private const val RC_SIGN_IN = 9001
     }
-
-
 }

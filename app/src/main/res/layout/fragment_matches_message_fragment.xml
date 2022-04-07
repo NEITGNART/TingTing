@@ -64,7 +64,8 @@
                 android:clipToPadding="false"
                 android:overScrollMode="never"
                 android:padding="@dimen/da_spacing_standard_new"
-                tools:listitem="@layout/item_match" />
+                tools:listitem="@layout/item_match"
+                />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
