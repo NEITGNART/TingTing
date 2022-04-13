@@ -54,15 +54,14 @@
     <FrameLayout
         android:id="@+id/left_overlay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="178dp"
         android:background="@drawable/overlay_black">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/skip_white_120dp"
-            android:layout_gravity="center"/>
-
+            android:layout_width="215dp"
+            android:layout_height="220dp"
+            android:layout_gravity="right"
+            android:src="@drawable/image_nope" />
     </FrameLayout>
 
     <FrameLayout
@@ -70,13 +69,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/overlay_black">
-
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/like_white_120dp"
-            android:layout_gravity="center"/>
-
+            android:layout_width="193dp"
+            android:layout_height="223dp"
+            android:layout_gravity="left"
+            android:src="@drawable/image_like" />
     </FrameLayout>
 
     <FrameLayout

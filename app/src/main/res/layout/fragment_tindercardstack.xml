@@ -17,8 +17,6 @@
             android:clipChildren="false">
 
 
-
-
             <com.yuyakaido.android.cardstackview.CardStackView
                 android:id="@+id/cardstackview"
                 android:layout_width="match_parent"
@@ -26,6 +24,7 @@
                 android:layout_above="@+id/llBottom"
                 android:layout_marginBottom="-117dp"
                 android:clipToPadding="false"
+                android:background="@drawable/ilove"
                 android:padding="4dp"></com.yuyakaido.android.cardstackview.CardStackView>
             <LinearLayout
                 android:id="@+id/llBottom"
