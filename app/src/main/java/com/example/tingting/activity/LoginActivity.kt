@@ -17,10 +17,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 
 
@@ -29,6 +26,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 //    private lateinit var binding: LoginFragmentBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var auth2: FirebaseAuth
+
     private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,12 +48,13 @@ class LoginActivity : AppCompatActivity() {
 
         // Firebase
         auth = Firebase.auth
-
+        auth2 = FirebaseAuth.getInstance()
 
         binding.btnLoginGoogle.setOnClickListener {
             signIn()
         }
 
+        var mDatabaseReference: DatabaseReference
         binding.btnSignIn.setOnClickListener {
             // get email and password
             val email = binding.etEmail.text.toString()
@@ -65,8 +65,18 @@ class LoginActivity : AppCompatActivity() {
                 loginWithEmail(email, password)
         }
 
+
         binding.btnLoginFB.setOnClickListener {
-            goToFirstLoginPage()
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
+            auth2.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener{task ->
+                    if (task.isSuccessful) {
+                        goToFirstLoginPage()
+                    }
+                    else
+                        Log.i("hihi", "failed")
+                }
         }
 
 //        var database = FirebaseDatabase.getInstance().reference
@@ -177,3 +187,29 @@ class LoginActivity : AppCompatActivity() {
         private const val RC_SIGN_IN = 9001
     }
 }
+//////////SIGN UP/////////////////////////
+//val email = binding.etEmail.text.toString()
+//val password = binding.etPassword.text.toString()
+//auth2.createUserWithEmailAndPassword(email, password)
+//.addOnCompleteListener{task ->
+//    Log.i("hihi", auth2.currentUser?.uid.toString())
+//    if (task.isSuccessful) {
+//        goToFirstLoginPage()
+//        val user = User(
+//            "",
+//            "",
+//            "",
+//            "",
+//            auth2.currentUser?.uid,
+//            emptyList(),
+//            emptyList(),
+//            "",
+//            "",
+//            ""
+//        )
+//        mDatabaseReference = FirebaseDatabase.getInstance().reference
+//        mDatabaseReference.child("Users").child(auth2.currentUser?.uid.toString()).setValue(user)
+//    }
+//    else
+//        Log.i("hihi", "failed")
+//}

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.FragmentInputUserBirthdayBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,8 +62,19 @@ class InputUserBirthday : Fragment() {
         binding = FragmentInputUserBirthdayBinding.inflate(layoutInflater)
 
         binding.btnContinue.setOnClickListener{
-            val action = InputUserBirthdayDirections.actionInputUserBirthdayToInputUserGender()
-            Navigation.findNavController(binding.root).navigate(action)
+            val userBirthday = binding.etInUserBirthday.text.toString()
+            if (userBirthday.isEmpty()) {
+                binding.etInUserBirthday.setBackgroundResource(R.drawable.error_border)
+                binding.etInUserBirthday.hint = "Hãy nhập ngày sinh của bạn"
+            }
+            else {
+                val user = FirebaseAuth.getInstance().currentUser
+                val mDatabaseReference = FirebaseDatabase.getInstance().reference
+                mDatabaseReference.child("Users").child(user?.uid.toString()).child("birthDate")
+                    .setValue(userBirthday)
+                val action = InputUserBirthdayDirections.actionInputUserBirthdayToInputUserGender()
+                Navigation.findNavController(binding.root).navigate(action)
+            }
         }
 
         binding.btnBack.setOnClickListener{

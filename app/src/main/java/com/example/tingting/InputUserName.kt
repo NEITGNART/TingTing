@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import com.example.tingting.databinding.FragmentAppIntroductionBinding
 import com.example.tingting.databinding.FragmentInputUserNameBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,8 +61,18 @@ class InputUserName : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentInputUserNameBinding.inflate(layoutInflater)
         binding.btnContinue.setOnClickListener{
-            val action = InputUserNameDirections.actionInputUserNameToInputUserBirthday()
-            Navigation.findNavController(binding.root).navigate(action)
+            val userName = binding.etInUserName.text.toString()
+            if (userName.isEmpty()) {
+                binding.etInUserName.setBackgroundResource(R.drawable.error_border)
+                binding.etInUserName.hint = "Hãy nhập tên của bạn"
+            }
+            else {
+                val user = FirebaseAuth.getInstance().currentUser
+                val mDatabaseReference = FirebaseDatabase.getInstance().reference
+                mDatabaseReference.child("Users").child(user?.uid.toString()).child("name").setValue(userName)
+                val action = InputUserNameDirections.actionInputUserNameToInputUserBirthday()
+                Navigation.findNavController(binding.root).navigate(action)
+            }
         }
 
         binding.btnBack.setOnClickListener{

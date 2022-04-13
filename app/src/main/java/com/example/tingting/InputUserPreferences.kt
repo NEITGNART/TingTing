@@ -61,7 +61,7 @@ class InputUserPreferences : Fragment() {
 
         ///////////////////////////////////////////////////////////////////////
         binding.btnContinue.setOnClickListener{
-            val action = InputUserPreferencesDirections.actionInputUserPreferencesToInputUserDisplay()
+            val action = InputUserPreferencesDirections.actionInputUserPreferencesToAddImage()
             Navigation.findNavController(binding.root).navigate(action)
         }
 

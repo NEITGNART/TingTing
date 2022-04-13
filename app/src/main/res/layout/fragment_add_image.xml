@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".AddImage">
+
+    <!-- TODO: Update blank fragment layout -->
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/da_ic_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+
+    <TextView
+        android:id="@+id/tvAddImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/da_tvAddImage"
+        android:textAlignment="center"
+        android:textColor="#555555"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.733"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivAddImage_1"
+        android:layout_width="115dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/dashed_border"
+        android:src="@drawable/placeholder_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddImage" />
+
+    <ImageView
+        android:id="@+id/ivAddImage_2"
+        android:layout_width="115dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/dashed_border"
+        android:src="@drawable/placeholder_img"
+        app:layout_constraintEnd_toStartOf="@+id/ivAddImage_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddImage" />
+
+    <ImageView
+        android:id="@+id/ivAddImage_3"
+        android:layout_width="115dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/dashed_border"
+        android:src="@drawable/placeholder_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivAddImage_1"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddImage" />
+
+    <ImageView
+        android:id="@+id/ivAddImage_4"
+        android:layout_width="115dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="260dp"
+        android:background="@drawable/dashed_border"
+        android:src="@drawable/placeholder_img"
+        app:layout_constraintEnd_toStartOf="@+id/ivAddImage_5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddImage" />
+
+    <ImageView
+        android:id="@+id/ivAddImage_5"
+        android:layout_width="115dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="260dp"
+        android:background="@drawable/dashed_border"
+        android:src="@drawable/placeholder_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddImage" />
+
+    <ImageView
+        android:id="@+id/ivAddImage_6"
+        android:layout_width="115dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="260dp"
+        android:background="@drawable/dashed_border"
+        android:src="@drawable/placeholder_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivAddImage_5"
+        app:layout_constraintTop_toBottomOf="@+id/tvAddImage" />
+
+    <Button
+        android:id="@+id/btnComplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="55dp"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/da_shadoe_gradient"
+        android:text="@string/da_Complete"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

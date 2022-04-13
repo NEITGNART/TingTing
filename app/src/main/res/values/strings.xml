@@ -121,6 +121,7 @@
     <string name="da_tvInUserName_2">Đây là cách tên hiển thị trên TingTing (và bạn sẽ không thể đổi tên được)</string>
     <string name="da_etInUserName">Tên riêng</string>
     <string name="da_Continue">Tiếp tục</string>
+    <string name="da_Complete">Hoàn thành</string>
 
     <string name="da_tvInUserBirthday_1">Sinh nhật của tôi là</string>
     <string name="da_tvInUserBirthday_2">Tuổi của bạn sẽ được hiển thị công khai</string>
@@ -140,4 +141,5 @@
     <string name="da_rbOther">KHÁC</string>
 
     <string name="da_rbAll">TẤT CẢ</string>
+    <string name="da_tvAddImage">Thêm ảnh</string>
 </resources>
