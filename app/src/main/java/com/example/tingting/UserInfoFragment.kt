@@ -54,9 +54,18 @@ class UserInfoFragment : Fragment() {
 //
 //        val  action =   TindercardstackDirections.actionTindercardstackToUserInfoFragment()
         //tv.setText(action.toString())
-        val amount: String = UserInfoFragmentArgs.fromBundle(requireArguments()).name
-        binding.abcd.tvName.setText(amount)
+//        val amount: String = UserInfoFragmentArgs.fromBundle(requireArguments()).name
+//        binding.abcd.tvName.setText(amount)
 
+        viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
+
+        //        val amount: String = UserInfoFragmentArgs.fromBundle(requireArguments()).name
+//        binding.abcd.tvName.setText(amount)
+        viewModel.user.observe(viewLifecycleOwner) {
+            binding.item.tvName.text = it.name
+            binding.item.tvLocation.text = it.address
+//            binding.item.
+        }
 
         // Upload image on firebase storage.
 
