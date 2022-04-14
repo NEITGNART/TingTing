@@ -1,6 +1,7 @@
 package com.example.tingting
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -70,6 +71,7 @@ class InputUserName : Fragment() {
                 val user = FirebaseAuth.getInstance().currentUser
                 val mDatabaseReference = FirebaseDatabase.getInstance().reference
                 mDatabaseReference.child("Users").child(user?.uid.toString()).child("name").setValue(userName)
+                mDatabaseReference
                 val action = InputUserNameDirections.actionInputUserNameToInputUserBirthday()
                 Navigation.findNavController(binding.root).navigate(action)
             }

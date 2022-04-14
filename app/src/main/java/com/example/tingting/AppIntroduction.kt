@@ -42,6 +42,7 @@ class AppIntroduction : Fragment() {
             startActivity(intent)
         }
 
+
         return binding.root
     }
 }

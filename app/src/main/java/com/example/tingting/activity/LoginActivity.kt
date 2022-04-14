@@ -56,27 +56,33 @@ class LoginActivity : AppCompatActivity() {
 
         var mDatabaseReference: DatabaseReference
         binding.btnSignIn.setOnClickListener {
-            // get email and password
-            val email = binding.etEmail.text.toString()
-            val password = binding.etPassword.text.toString()
-            if (email.isEmpty() && password.isEmpty())
-                goToHomePage()
-            else
-                loginWithEmail(email, password)
-        }
-
-
-        binding.btnLoginFB.setOnClickListener {
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
             auth2.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener{task ->
                     if (task.isSuccessful) {
-                        goToFirstLoginPage()
+                        mDatabaseReference = FirebaseDatabase.getInstance().reference
+                        mDatabaseReference
+                            .child("Users")
+                            .child(auth2.currentUser?.uid.toString())
+                            .child("isFirstTimeLogin")
+                            .get().addOnSuccessListener{
+                                if (it.value == true)
+                                    goToFirstLoginPage()
+                                else
+                                    goToHomePage()
+                            }
                     }
-                    else
-                        Log.i("hihi", "failed")
+                    else {
+
+                    }
+
                 }
+        }
+
+
+        binding.btnLoginFB.setOnClickListener {
+
         }
 
 //        var database = FirebaseDatabase.getInstance().reference

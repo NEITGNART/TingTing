@@ -1,6 +1,7 @@
 package com.example.tingting
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.FragmentInputUserGenderBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,8 +65,26 @@ class InputUserGender : Fragment() {
 
         /////////////////////////////////////////////////////////////////////////
         binding.btnContinue.setOnClickListener{
-            val action = InputUserGenderDirections.actionInputUserGenderToInputUserDisplay()
-            Navigation.findNavController(binding.root).navigate(action)
+            val userGender = binding.rgInUserGender.checkedRadioButtonId
+            if (userGender == -1) {
+
+            }
+            else {
+                val user = FirebaseAuth.getInstance().currentUser
+                val mDatabaseReference = FirebaseDatabase.getInstance().reference
+                var genderSelection = binding.root.findViewById<RadioButton>(userGender).text.toString()
+
+                genderSelection = when (genderSelection) {
+                    "NAM" -> "Male"
+                    "NỮ" -> "Female"
+                    else -> "Other"
+                }
+
+                mDatabaseReference.child("Users").child(user?.uid.toString()).child("gender")
+                    .setValue(genderSelection)
+                val action = InputUserGenderDirections.actionInputUserGenderToInputUserDisplay()
+                Navigation.findNavController(binding.root).navigate(action)
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////

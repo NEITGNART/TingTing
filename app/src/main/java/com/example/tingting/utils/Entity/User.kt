@@ -8,10 +8,9 @@ data class User(
     var avatar: String? = null,
     var birthDate: String? = null,
     var gender: String? = null,
-    var id: String? = null,
     var listFavorite: List<String>? = null,
     var listPhoto: List<String>? = null,
     var name: String? = null,
-    var password: String? = null,
-    var phone: String? = null
+    var phone: String? = null,
+    var isFirstTimeLogin: Boolean ?= null
 )

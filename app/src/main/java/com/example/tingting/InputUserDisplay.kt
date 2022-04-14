@@ -8,6 +8,8 @@ import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.FragmentInputUserDisplayBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,8 +62,26 @@ class InputUserDisplay : Fragment() {
     ): View? {
         binding = FragmentInputUserDisplayBinding.inflate(layoutInflater)
         binding.btnContinue.setOnClickListener{
-            val action = InputUserDisplayDirections.actionInputUserDisplayToInputUserPreferences()
-            Navigation.findNavController(binding.root).navigate(action)
+            val userDisplay = binding.rgInUserDisplay.checkedRadioButtonId
+            if (userDisplay == -1) {
+
+            }
+            else {
+                val user = FirebaseAuth.getInstance().currentUser
+                val mDatabaseReference = FirebaseDatabase.getInstance().reference
+                var genderSelection = binding.root.findViewById<RadioButton>(userDisplay).text.toString()
+
+                genderSelection = when (genderSelection) {
+                    "NAM" -> "Male"
+                    "NỮ" -> "Female"
+                    else -> "All"
+                }
+
+                mDatabaseReference.child("Users").child(user?.uid.toString()).child("display")
+                    .setValue(genderSelection)
+                val action = InputUserDisplayDirections.actionInputUserDisplayToInputUserPreferences()
+                Navigation.findNavController(binding.root).navigate(action)
+            }
         }
 
         val count = binding.rgInUserDisplay.childCount

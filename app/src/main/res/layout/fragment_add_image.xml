@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/ivAddImage_1"
+        android:id="@+id/ivAddImage_2"
         android:layout_width="115dp"
         android:layout_height="180dp"
         android:layout_marginTop="40dp"
@@ -47,13 +47,13 @@
         app:layout_constraintTop_toBottomOf="@+id/tvAddImage" />
 
     <ImageView
-        android:id="@+id/ivAddImage_2"
+        android:id="@+id/ivAddImage_1"
         android:layout_width="115dp"
         android:layout_height="180dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/dashed_border"
         android:src="@drawable/placeholder_img"
-        app:layout_constraintEnd_toStartOf="@+id/ivAddImage_1"
+        app:layout_constraintEnd_toStartOf="@+id/ivAddImage_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvAddImage" />
 
@@ -65,7 +65,7 @@
         android:background="@drawable/dashed_border"
         android:src="@drawable/placeholder_img"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivAddImage_1"
+        app:layout_constraintStart_toEndOf="@+id/ivAddImage_2"
         app:layout_constraintTop_toBottomOf="@+id/tvAddImage" />
 
     <ImageView

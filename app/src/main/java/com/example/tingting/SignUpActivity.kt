@@ -4,9 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.example.tingting.activity.FirstLogin
 import com.example.tingting.activity.MainActivity
 import com.example.tingting.databinding.ActivitySignUpBinding
+import com.example.tingting.utils.Entity.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -46,14 +49,10 @@ class SignUpActivity : AppCompatActivity() {
                 }
         }
 
-
-
-
         binding.btnRegister.setOnClickListener {
             val email = binding.etEmail.text.toString()
             val password = binding.etMobilePassword.text.toString()
             val passwordConfirm = binding.etMobilePassword.text.toString()
-
             if (password != passwordConfirm) {
                 Toast.makeText(
                     this,
@@ -73,7 +72,6 @@ class SignUpActivity : AppCompatActivity() {
                     binding.etEmail.requestFocus()
                 } else {
                     signUpWithEmail(email, password)
-                    Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show()
                 }
 
             }
@@ -90,8 +88,25 @@ class SignUpActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    val user = auth.currentUser
-                    startActivity(Intent(this, MainActivity::class.java))
+                    val currentUser = auth.currentUser
+
+                    val user = User(
+                        "",
+                        "",
+                        "",
+                        "",
+                        emptyList(),
+                        emptyList(),
+                        "",
+                        "",
+                        true
+                    )
+
+                    Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show()
+
+                    val mDatabaseReference = FirebaseDatabase.getInstance().reference
+                    mDatabaseReference.child("Users").child(currentUser?.uid.toString()).setValue(user)
+                    startActivity(Intent(this, FirstLogin::class.java))
                     finish()
                 } else {
                     // If sign in fails, display a message to the user.
@@ -102,5 +117,19 @@ class SignUpActivity : AppCompatActivity() {
                 }
             }
     }
-
 }
+
+//////////SIGN UP/////////////////////////
+//val email = binding.etEmail.text.toString()
+//val password = binding.etPassword.text.toString()
+//auth2.createUserWithEmailAndPassword(email, password)
+//.addOnCompleteListener{task ->
+//    Log.i("hihi", auth2.currentUser?.uid.toString())
+//    if (task.isSuccessful) {
+//        goToFirstLoginPage()
+//        mDatabaseReference = FirebaseDatabase.getInstance().reference
+//        mDatabaseReference.child("Users").child(auth2.currentUser?.uid.toString()).setValue(user)
+//    }
+//    else
+//        Log.i("hihi", "failed")
+//}

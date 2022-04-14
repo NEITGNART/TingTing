@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.example.tingting.activity.MainActivity
 import com.example.tingting.databinding.FragmentAddImageBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -56,21 +58,31 @@ class AddImage : Fragment() {
     }
 
     private lateinit var binding: FragmentAddImageBinding
-    private var images: Array<Uri?> ?= null
-    private val PICK_IMAGE_CODE = 0
+    private lateinit var auth: FirebaseAuth
+    private var images: ArrayList<Uri?> ?= null
+    private val PICK_IMAGES_CODE = 0
     private var position = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        auth = FirebaseAuth.getInstance()
+
         // Inflate the layout for this fragment
         binding = FragmentAddImageBinding.inflate(layoutInflater)
 
         ///////////////////////////////////////////////////////////////////////
         binding.btnComplete.setOnClickListener{
-
             // tạo thông tin thành công -> Chuyển đến main activity
+            val mDatabaseReference = FirebaseDatabase.getInstance().reference
+            mDatabaseReference
+                .child("Users")
+                .child(auth.currentUser?.uid.toString())
+                .child("isFirstTimeLogin").setValue(false)
+
+
             val intent = Intent(context, MainActivity::class.java)
             startActivity(intent)
         }
@@ -80,42 +92,43 @@ class AddImage : Fragment() {
             Navigation.findNavController(binding.root).navigate(action)
         }
 
-        images = emptyArray()
+        images = ArrayList()
 
         binding.ivAddImage6.setOnClickListener{
             pickImageIntent()
+            binding.ivAddImage6.setBackgroundResource(R.drawable.da_background_tab)
         }
+
+
         return binding.root
     }
 
-
-    private fun pickImageIntent() {
-        val gallery = Intent(Intent.ACTION_PICK)
-        gallery.type = "image/*"
-        gallery.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        gallery.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(gallery, PICK_IMAGE_CODE)
+    private fun pickImageIntent(){
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select Image(s)"), PICK_IMAGES_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_CODE){
-            if (requestCode == Activity.RESULT_OK){
-                if (data!!.clipData != null) {
-                    val count = data.clipData!!.itemCount
-                    for (i in 0 until count){
-                        val imageUri = data.clipData!!.getItemAt(i).uri
-                        images != (imageUri)
-                    }
 
-                    binding.ivAddImage1.setImageURI(images!![0])
+        if (requestCode == PICK_IMAGES_CODE || requestCode == Activity.RESULT_OK) {
+            if (data!!.clipData != null){
+                val count: Int = data.clipData!!.itemCount
+                for (i in 0 until count){
+                    val imageUri = data.clipData!!.getItemAt(i).uri
+                    images!!.add(imageUri)
                 }
-                else {
-                    val imageUri = data.data
-                    binding.ivAddImage2.setImageURI(imageUri)
-                    position
-                }
+
+                binding.ivAddImage1.setImageURI(images!![0])
             }
+            else {
+                val imageUri = data.data
+                binding.ivAddImage1.setImageURI(imageUri)
+            }
+
         }
     }
 }
