@@ -62,11 +62,13 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener{task ->
                     if (task.isSuccessful) {
                         mDatabaseReference = FirebaseDatabase.getInstance().reference
+                        Log.i("hihi", auth2.currentUser?.uid.toString())
                         mDatabaseReference
                             .child("Users")
                             .child(auth2.currentUser?.uid.toString())
-                            .child("isFirstTimeLogin")
+                            .child("firstTimeLogin")
                             .get().addOnSuccessListener{
+                                Log.i("hihi", "${it.value}" )
                                 if (it.value == true)
                                     goToFirstLoginPage()
                                 else

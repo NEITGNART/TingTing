@@ -12,5 +12,5 @@ data class User(
     var listPhoto: List<String>? = null,
     var name: String? = null,
     var phone: String? = null,
-    var isFirstTimeLogin: Boolean ?= null
+    var firstTimeLogin: Boolean ?= null
 )

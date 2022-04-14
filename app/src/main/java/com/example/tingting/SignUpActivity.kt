@@ -95,11 +95,11 @@ class SignUpActivity : AppCompatActivity() {
                         "",
                         "",
                         "",
-                        emptyList(),
-                        emptyList(),
+                        listOf(""),
+                        listOf(""),
                         "",
                         "",
-                        true
+                        firstTimeLogin = true
                     )
 
                     Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show()

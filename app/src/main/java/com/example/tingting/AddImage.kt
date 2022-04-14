@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.navigation.Navigation
 import com.example.tingting.activity.MainActivity
 import com.example.tingting.databinding.FragmentAddImageBinding
@@ -59,7 +61,7 @@ class AddImage : Fragment() {
 
     private lateinit var binding: FragmentAddImageBinding
     private lateinit var auth: FirebaseAuth
-    private var images: ArrayList<Uri?> ?= null
+    private var images: MutableList<Uri?> ?= null
     private val PICK_IMAGES_CODE = 0
     private var position = 0
 
@@ -80,7 +82,7 @@ class AddImage : Fragment() {
             mDatabaseReference
                 .child("Users")
                 .child(auth.currentUser?.uid.toString())
-                .child("isFirstTimeLogin").setValue(false)
+                .child("firstTimeLogin").setValue(false)
 
 
             val intent = Intent(context, MainActivity::class.java)
@@ -92,14 +94,21 @@ class AddImage : Fragment() {
             Navigation.findNavController(binding.root).navigate(action)
         }
 
-        images = ArrayList()
 
-        binding.ivAddImage6.setOnClickListener{
-            pickImageIntent()
-            binding.ivAddImage6.setBackgroundResource(R.drawable.da_background_tab)
+        var listButtonAddImage =
+            arrayListOf(
+                binding.ivAddImage1,
+                binding.ivAddImage2,
+                binding.ivAddImage3,
+                binding.ivAddImage4,
+                binding.ivAddImage5,
+                binding.ivAddImage6)
+
+        listButtonAddImage.forEach { buttonAddImage ->
+            buttonAddImage.setOnClickListener{
+                pickImageIntent()
+            }
         }
-
-
         return binding.root
     }
 
@@ -113,20 +122,37 @@ class AddImage : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == PICK_IMAGES_CODE || requestCode == Activity.RESULT_OK) {
+            images = mutableListOf()
             if (data!!.clipData != null){
                 val count: Int = data.clipData!!.itemCount
                 for (i in 0 until count){
                     val imageUri = data.clipData!!.getItemAt(i).uri
                     images!!.add(imageUri)
+                    Log.i("hihi", images!!.toString())
                 }
-
-                binding.ivAddImage1.setImageURI(images!![0])
             }
             else {
                 val imageUri = data.data
-                binding.ivAddImage1.setImageURI(imageUri)
+                images!!.add(imageUri)
+            }
+
+            var listButtonAddImage =
+                arrayListOf(
+                    binding.ivAddImage1,
+                    binding.ivAddImage2,
+                    binding.ivAddImage3,
+                    binding.ivAddImage4,
+                    binding.ivAddImage5,
+                    binding.ivAddImage6)
+
+            listButtonAddImage.forEach { buttonAddImage ->
+                buttonAddImage.setImageResource(R.drawable.placeholder_img  )
+                buttonAddImage.setBackgroundResource(R.drawable.da_background_tab)
+            }
+            for (i in 0 until images!!.size){
+                listButtonAddImage[i].setImageURI(images!![i])
+                listButtonAddImage[i].setBackgroundResource(R.drawable.da_background_tab)
             }
 
         }
