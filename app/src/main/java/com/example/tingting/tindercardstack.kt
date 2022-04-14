@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.tingting.databinding.FragmentTindercardstackBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import com.yuyakaido.android.cardstackview.*
 
 
@@ -21,6 +23,7 @@ class tindercardstack : Fragment() {
     private val TAG = "MainActivity"
     private lateinit var binding : FragmentTindercardstackBinding
     lateinit var adapter: CardStackAdapter
+    lateinit var database :DatabaseReference
 
     companion object {
         fun newInstance() = tindercardstack()
@@ -35,8 +38,11 @@ class tindercardstack : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentTindercardstackBinding.inflate(layoutInflater)
         cardStackView = binding.cardstackview
+
+
 
         manager = CardStackLayoutManager(context, object : CardStackListener{
             override fun onCardDragging(direction: Direction, ratio: Float) {
@@ -105,6 +111,7 @@ class tindercardstack : Fragment() {
 
 
 
+
         binding.ivUndof.setOnClickListener {
             if (manager.topPosition < adapter.itemCount) {
                 val setting = RewindAnimationSetting.Builder()
@@ -145,7 +152,30 @@ class tindercardstack : Fragment() {
 
 
     private fun createSpots(): List<Spot> {
+        val user = FirebaseAuth.getInstance().currentUser
+        val mDatabaseReference = FirebaseDatabase.getInstance().reference
+        val users = mDatabaseReference.child("Users")
         val spots = ArrayList<Spot>()
+
+        val rootRef = FirebaseDatabase.getInstance().reference
+        val messageRef = rootRef.child("Users")
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children) {
+                    val id = ds.child("name").getValue(String::class.java)
+                    Log.d("TAG1", " name:" + id + " " )
+                    spots.add(Spot(name = id.toString(), city = "Kyoto", url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"))
+
+                }
+                cardStackView.adapter =   CardStackAdapter(spots)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("TAG", databaseError.getMessage()) //Don't ignore errors!
+            }
+        }
+        messageRef.addListenerForSingleValueEvent(valueEventListener)
+
         spots.add(Spot(name = "Yasaka Shrine", city = "Kyoto", url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"))
         spots.add(Spot(name = "Fushimi Inari Shrine", city = "Kyoto", url = "https://source.unsplash.com/NYyCqdBOKwc/600x800"))
         spots.add(Spot(name = "Bamboo Forest", city = "Kyoto", url = "https://source.unsplash.com/buF62ewDLcQ/600x800"))
