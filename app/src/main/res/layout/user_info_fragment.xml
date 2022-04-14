@@ -98,7 +98,7 @@
     </LinearLayout>
 
     <include
-        android:id="@+id/abcd"
+        android:id="@+id/item"
         layout="@layout/content_dauser_detail"
         app:layout_anchor="@+id/llBottom"
         app:layout_anchorGravity="center" />

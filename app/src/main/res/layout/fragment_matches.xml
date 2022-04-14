@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FourFragment">
+    tools:context=".FragmentMatches">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,7 +64,7 @@
                 android:paddingBottom="@dimen/da_spacing_standard"
                 android:text="@string/da_all"
                 android:textAppearance="@style/DAFontBold"
-                android:textColor="@color/da_red"
+                android:textColor="@color/da_textColorSecondary"
                 android:textSize="@dimen/da_font_size_xlarge"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/guideline"
@@ -82,7 +83,7 @@
                 android:paddingBottom="@dimen/da_spacing_standard"
                 android:text="@string/da_matches"
                 android:textAppearance="@style/DAFontBold"
-                android:textColor="@color/da_textColorSecondary"
+                android:textColor="@color/da_red"
                 android:textSize="@dimen/da_font_size_xlarge"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,22 +94,82 @@
                 android:id="@+id/tab"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_3sdp"
+                android:layout_marginTop="1dp"
                 android:layout_marginBottom="-1dp"
                 android:background="@color/da_red"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/tvAll"
-                app:layout_constraintStart_toStartOf="@id/tvAll"
-                app:layout_constraintTop_toBottomOf="@id/tvAll" />
+                app:layout_constraintEnd_toEndOf="@+id/tvMatches"
+                app:layout_constraintStart_toStartOf="@+id/tvMatches"
+                app:layout_constraintTop_toBottomOf="@+id/tvMatches" />
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvChat"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_chat" />
+            android:fillViewport="true"
+            android:overScrollMode="never">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context=".activity.DAWalkThroughActivity">
+
+                <RelativeLayout
+                    android:layout_marginTop="@dimen/da_spacing_middle"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_120sdp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:background="@drawable/da_shadoe_gradient">
+
+                    <View
+                        android:id="@+id/cp"
+                        android:layout_width="1dp"
+                        android:layout_height="1dp"
+                        android:layout_centerInParent="true" />
+
+                    <ImageView
+                        android:id="@+id/ivHeart"
+                        android:layout_centerVertical="true"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="@dimen/_60sdp"
+                        android:src="@drawable/da_splash_icon"
+                        android:layout_marginStart="@dimen/da_spacing_standard"
+                        android:layout_marginEnd="@dimen/da_spacing_large"
+                        app:tint="@color/da_white"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/ivHeart"
+                        android:text="@string/da_note_match"
+                        android:textColor="@color/da_white"
+                        android:textSize="@dimen/da_font_size_xlarge"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMatches"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:padding="@dimen/da_spacing_standard_new"
+                    tools:listitem="@layout/item_match"
+                    />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
+
+
 
 </FrameLayout>

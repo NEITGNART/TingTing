@@ -4,6 +4,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-parcelize'
     id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -104,8 +105,9 @@ dependencies {
 
     implementation "io.coil-kt:coil-compose:2.0.0-rc02"
 
-    // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:29.3.0')
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:29.2.1')
+
 
     // Google Sign In SDK
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
@@ -132,6 +134,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 
 
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+
+
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'com.airbnb.android:lottie:3.0.7'
@@ -149,4 +154,5 @@ dependencies {
 
 
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
+
 }

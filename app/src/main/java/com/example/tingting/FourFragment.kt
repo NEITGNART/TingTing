@@ -26,11 +26,18 @@ class FourFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         binding = FragmentFourBinding.inflate(inflater)
         binding.tvMatches.setOnClickListener {
-            val action = FourFragmentDirections.actionChatToFragmentMatchesMessage()
+            val action = FourFragmentDirections.actionChatToFragmentMatches()
             Navigation.findNavController(binding.root).navigate(action)
         }
+
+        binding.rvChat.setOnClickListener {
+
+        }
+
         return binding.root
     }
 

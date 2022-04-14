@@ -33,8 +33,8 @@
         android:label="fragment_four"
         tools:layout="@layout/fragment_four" >
         <action
-            android:id="@+id/action_chat_to_fragment_matches_message"
-            app:destination="@id/fragment_matches_message" />
+            android:id="@+id/action_chat_to_fragmentMatches"
+            app:destination="@id/fragmentMatches" />
     </fragment>
     <fragment
         android:id="@+id/userInfoFragment"
@@ -55,11 +55,6 @@
         android:label="congratulation_fragment"
         tools:layout="@layout/congratulation_fragment" />
     <fragment
-        android:id="@+id/fragment_matches_message"
-        android:name="com.example.tingting.fragment_matches_message"
-        android:label="fragment_matches_message_fragment"
-        tools:layout="@layout/fragment_matches_message_fragment" />
-    <fragment
         android:id="@+id/tindercardstack"
         android:name="com.example.tingting.tindercardstack"
         android:label="fragment_tindercardstack"
@@ -67,5 +62,14 @@
         <action
             android:id="@+id/action_tindercardstack_to_userInfoFragment"
             app:destination="@id/userInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMatches"
+        android:name="com.example.tingting.FragmentMatches"
+        android:label="fragment_matches"
+        tools:layout="@layout/fragment_matches" >
+        <action
+            android:id="@+id/action_fragmentMatches_to_chat"
+            app:destination="@id/chat" />
     </fragment>
 </navigation>
