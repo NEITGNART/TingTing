@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.tingting.databinding.ItemChatHistoryBinding
 import com.example.tingting.utils.Entity.Chat
 import com.example.tingting.utils.hide
@@ -21,6 +22,7 @@ class ChatMessageAdapter(
     val layoutParams2: FrameLayout.LayoutParams,
     val photoParam: FrameLayout.LayoutParams,
     val photoParam2: FrameLayout.LayoutParams,
+    val imgUrl: String,
     val resources: Resources,
 ) : RecyclerView.Adapter<ChatMessageAdapter.ViewHolder>() {
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -28,10 +30,11 @@ class ChatMessageAdapter(
             val binding = ItemChatHistoryBinding.bind(view)
 
             if (badge.type == "Message") {
-                binding.tvMessage.text = badge.chat
+                binding.tvMessage.text = badge.text
             } else if (badge.type == "Voice Message") {
-                binding.tvVoiceMessage.text = badge.chat
+                binding.tvVoiceMessage.text = badge.text
             }
+
             binding.tvMessage.hide()
             binding.tvVoiceMessage.hide()
             binding.cardPhoto.hide()
@@ -69,11 +72,12 @@ class ChatMessageAdapter(
                     else -> {
                         binding.cardPhoto.show()
                         binding.cardPhoto.layoutParams = photoParam2
-                        binding.ivChatPhoto.setImageResource(badge.img!!)
+                        Glide.with(context).load(imgUrl).into(binding.ivChatPhoto)
                     }
                 }
                 binding.ivChatProfile.visibility = View.INVISIBLE
             } else {
+
                 when {
                     badge.type == "Message" -> {
                         binding.tvMessage.show()
@@ -100,9 +104,10 @@ class ChatMessageAdapter(
                     else -> {
                         binding.cardPhoto.show()
                         binding.cardPhoto.layoutParams = photoParam
-                        binding.ivChatPhoto.setImageResource(badge.img!!)
+                        Glide.with(context).load(imgUrl).into(binding.ivChatPhoto)
                     }
                 }
+                Glide.with(context).load(imgUrl).into(binding.ivChatProfile)
                 if (badge.showProfile) {
                     binding.ivChatProfile.show()
                 } else {

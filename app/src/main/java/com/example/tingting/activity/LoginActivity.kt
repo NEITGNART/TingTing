@@ -62,8 +62,6 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
 
-            // regex email
-
             if (email.isEmpty()) {
                 binding.etEmail.error = "Please enter email"
                 binding.etEmail.requestFocus()

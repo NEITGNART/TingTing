@@ -2,15 +2,24 @@ package com.example.tingting
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.widget.FrameLayout
 import com.example.tingting.databinding.ActivityChatBinding
 import com.example.tingting.utils.Entity.Chat
+import com.example.tingting.utils.Entity.ChatMessage
 import com.example.tingting.utils.Entity.User
 import com.example.tingting.utils.getDisplayWidth
 import com.example.tingting.utils.hide
 import com.example.tingting.utils.onClick
 import com.example.tingting.utils.setVerticalLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+
+private const val TAG = "ChatActivity"
 
 class ChatActivity : AppCompatActivity() {
 
@@ -26,6 +35,9 @@ class ChatActivity : AppCompatActivity() {
 
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        toUser = intent.getParcelableExtra(getString(R.string.toUser))
+
 
         var layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -55,80 +67,157 @@ class ChatActivity : AppCompatActivity() {
 
         val resource = resources
 
-        chats = getUserChats()
+        listenForMessages()
 
         binding.rvChat.apply {
             setVerticalLayout()
             adapter = ChatMessageAdapter(
                 binding.root.context, chats,
                 photoParam = photoParam, layoutParams = layoutParams, layoutParams2 = layoutParams2,
-                resources = resource, photoParam2 = photoParam2
+                resources = resource, photoParam2 = photoParam2,
+                imgUrl = toUser?.avatar!!,
             )
         }
 
-        // receive chat message from intent
-        toUser = intent.getParcelableExtra("toUser")
-
+        binding.tvUserName.text = toUser?.name
 
         binding.item.ivSend.onClick {
-            var badge2 = Chat()
             if (messageType == MESSAGE) {
-                badge2.chat = binding.item.edtSearch.text.toString()
-
+                performSendMessage()
             } else if (messageType == VOICE_MESSAGE) {
-                badge2.chat = "00:12"
             }
-            badge2.type = messageType
-            badge2.isSender = true
-            chats.add(badge2)
-            binding.rvChat.adapter?.notifyDataSetChanged()
-            binding.item.edtSearch.text.clear()
-            binding.rvChat.scrollToPosition(chats.size - 1)
         }
 
     }
 
 
+    private fun performSendMessage() {
+        // how do we actually send a message to firebase...
+        val text = binding.item.edtSearch.text.toString()
 
+        if (text.isEmpty()) {
+            return
+        }
 
-    fun getUserChats(): MutableList<Chat> {
-        var list = mutableListOf<Chat>()
+        val fromId = FirebaseAuth.getInstance().uid
+        val toId = toUser?.id!!
 
-        var badge = Chat()
-        badge.chat = "Hey Malanie"
-        badge.isSender = true
-        badge.type = "Message"
+        if (fromId == null) return
 
-        list.add(badge)
+        val reference =
+            FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+        val toReference =
+            FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
 
-        var badge1 = Chat()
-        badge1.chat = "Hello"
-        badge1.type = "Message"
+        val chatMessage = Chat(
+            id = reference.key!!,
+            text = text,
+            fromId = fromId,
+            toId = toId,
+            isSender = true,
+            time = "${System.currentTimeMillis()}",
+            type = MESSAGE,
+            showProfile = false
+        )
 
-        list.add(badge1)
+        reference.setValue(chatMessage)
+            .addOnSuccessListener {
+                Log.d(TAG, "Saved our chat message: ${reference.key}")
+                binding.item.edtSearch.text.clear()
+                binding.rvChat.adapter?.notifyDataSetChanged()
+                binding.rvChat.scrollToPosition(chats.size - 1)
+            }
 
-        var badge2 = Chat()
-        badge2.chat = "Have i bother you?"
-        badge2.isSender = true
-        badge2.type = "Message"
-
-        list.add(badge2)
-
-        var badge3 = Chat()
-        badge3.chat = "N0"
-        badge3.type = "Message"
-
-        list.add(badge3)
-
-        var badge4 = Chat()
-        badge4.chat = "Just Say it"
-        badge4.type = "Message"
-
-        badge4.showProfile = false
-
-        list.add(badge4)
-        return list
+        toReference.setValue(chatMessage)
     }
+
+
+    private fun listenForMessages() {
+        val fromId = FirebaseAuth.getInstance().uid
+        val toId = toUser?.id
+        val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
+
+        ref.addChildEventListener(object : ChildEventListener {
+
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                val chatMessage = p0.getValue(Chat::class.java)
+                if (chatMessage != null) {
+                    Log.d(TAG, chatMessage.text!!)
+
+                    if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
+                        chatMessage.isSender = true
+                        chats.add(chatMessage)
+                        binding.rvChat.adapter?.notifyDataSetChanged()
+                    } else {
+                        chatMessage.isSender = false
+                        chats.add(chatMessage)
+                        binding.rvChat.adapter?.notifyDataSetChanged()
+                    }
+                } else {
+
+                }
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+
+        })
+
+    }
+
+
+//    fun getUserChats(): MutableList<Chat> {
+//        var list = mutableListOf<Chat>()
+//
+//        var badge = Chat()
+//        badge.text = "Hey Malanie"
+//        badge.isSender = true
+//        badge.type = "Message"
+//
+//        list.add(badge)
+//
+//        var badge1 = Chat()
+//        badge1.text = "Hello"
+//        badge1.type = "Message"
+//
+//        list.add(badge1)
+//
+//        var badge2 = Chat()
+//        badge2.text = "Have i bother you?"
+//        badge2.isSender = true
+//        badge2.type = "Message"
+//
+//        list.add(badge2)
+//
+//        var badge3 = Chat()
+//        badge3.text = "N0"
+//        badge3.type = "Message"
+//
+//        list.add(badge3)
+//
+//        var badge4 = Chat()
+//        badge4.text = "Just Say it"
+//        badge4.type = "Message"
+//
+//        badge4.showProfile = false
+//
+//        list.add(badge4)
+//        return list
+//    }
 
     private fun resetAddLayout() {
         binding.item.rlAdd.hide()
@@ -145,8 +234,6 @@ class ChatActivity : AppCompatActivity() {
         private var MEDIA = "Media"
 
     }
-
-
 
 
 }

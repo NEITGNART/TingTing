@@ -19,17 +19,21 @@
                 android:id="@+id/ivBack"
                 android:layout_centerVertical="true"
                 style="@style/DABackIcon"/>
+
             <TextView
                 android:id="@+id/tvUserName"
                 style="@style/DAHeading"
-                android:layout_margin="0dp"
-                android:layout_toEndOf="@id/ivBack"
-                android:layout_centerHorizontal="true"
                 android:layout_alignTop="@id/ivBack"
                 android:layout_alignBottom="@id/ivBack"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_toEndOf="@id/ivBack"
                 android:gravity="center"
-                android:textSize="@dimen/da_font_size_xlarge"
-                android:text="@string/dA_mallanie" />
+                android:text="@string/dA_mallanie"
+                android:textSize="@dimen/da_font_size_xlarge" />
             <View
                 android:id="@+id/viewStatus"
                 android:layout_width="@dimen/_10sdp"
@@ -39,21 +43,6 @@
                 android:layout_toEndOf="@id/tvUserName"
                 android:layout_gravity="end|bottom"
                 android:background="@drawable/da_bg_circle_dot" />
-            <ImageView
-                android:id="@+id/ivCall"
-                android:layout_centerVertical="true"
-                android:src="@drawable/da_ic_call"
-                android:layout_toStartOf="@id/ivAppointment"
-                style="@style/DABackIcon"
-                app:tint="@color/da_red" />
-            <ImageView
-                android:id="@+id/ivAppointment"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/_14sdp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/da_ic_school_calendar"
-                style="@style/DABackIcon"
-                app:tint="@color/da_red" />
 
         </RelativeLayout>
         <androidx.recyclerview.widget.RecyclerView

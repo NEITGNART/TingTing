@@ -142,4 +142,5 @@
 
     <string name="da_rbAll">TẤT CẢ</string>
     <string name="da_tvAddImage">Thêm ảnh</string>
+    <string name="toUser">toUser</string>
 </resources>
