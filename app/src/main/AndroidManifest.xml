@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TingTing">
         <activity
+            android:name=".SettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".ChatActivity"
             android:exported="false" />
         <activity

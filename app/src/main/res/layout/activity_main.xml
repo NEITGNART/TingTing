@@ -64,10 +64,11 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
+                        android:id="@+id/ivAvatar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitXY"
-                        android:src="@drawable/image2" />
+                        tools:src="@drawable/image2" />
                 </androidx.cardview.widget.CardView>
 
                 <ImageView

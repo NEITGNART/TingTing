@@ -1,11 +1,20 @@
 package com.example.tingting.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.example.tingting.R
+import com.example.tingting.SettingActivity
 import com.example.tingting.databinding.ActivityMainBinding
+import com.example.tingting.utils.Entity.User
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +43,36 @@ class MainActivity : AppCompatActivity() {
             number = 10
             isVisible = true
         }
+
+        binding.ivAvatar.setOnClickListener {
+            // Call intent to setting
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+        }
+
+        val user = FirebaseAuth.getInstance().uid
+        val mRef = FirebaseDatabase.getInstance().getReference("/Users/$user")
+
+        mRef.addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if (p0.exists()) {
+                    val user = p0.getValue(User::class.java)
+                    if (user != null) {
+                        Glide.with(this@MainActivity)
+                            .load(user.avatar)
+                            .into(binding.ivAvatar)
+
+                    }
+                }
+            }
+        })
+
+
 
 //        var list = mutableListOf<Int>()
 

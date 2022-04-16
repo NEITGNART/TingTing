@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:layout_gravity="bottom"
+    >
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_4sdp"
+        android:layout_margin="@dimen/_16sdp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/da_bg_white_rounded" />
+
+
+    <LinearLayout
+        android:id="@+id/llContent"
+        android:layout_below="@id/view"
+        android:background="@drawable/da_bg_card_bottom"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivClose"
+            style="@style/DABackIcon"
+            android:padding="@dimen/da_spacing_standard"
+            android:src="@drawable/da_ic_cancel_mark" />
+
+        <RelativeLayout
+            android:id="@+id/rlLocation"
+            android:paddingStart="@dimen/da_spacing_standard"
+            android:paddingEnd="@dimen/da_spacing_standard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvHeading"
+                style="@style/DAHeading"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="@dimen/da_font_size_xlarge"
+                android:text="@string/da_location" />
+
+            <EditText
+                android:id="@+id/edtUserLocation"
+                android:layout_below="@id/tvHeading"
+                android:hint="@string/da_location"
+                android:editable="false"
+                android:background="@drawable/da_edittext"
+                android:layout_marginTop="@dimen/da_spacing_xlarge"
+                android:layout_marginStart="@dimen/da_spacing_large"
+                android:layout_marginEnd="@dimen/da_spacing_large"
+                android:drawableTint="@color/da_red"
+                android:drawableEnd="@drawable/da_ic_checkmark"
+                android:drawableStart="@drawable/da_ic_location_on_black_24dp"
+                style="@style/DaEditText"
+                android:text="Shipley Bradford" />
+
+            <RelativeLayout
+                android:layout_below="@id/edtUserLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/da_spacing_large"
+                android:layout_marginEnd="@dimen/da_spacing_large"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:layout_marginBottom="@dimen/da_spacing_large"
+                android:background="@drawable/da_button_stroked"
+                style="@style/DaEditText">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawablePadding="@dimen/da_spacing_standard"
+                    android:drawableStart="@drawable/da_ic_add_gradient"
+                    android:textSize="@dimen/da_font_size_normal"
+                    android:textColor="@color/da_textColorPrimary"
+                    android:textAppearance="@style/DAFontMedium"
+                    android:text="Add another location" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlGender"
+            android:visibility="gone"
+            android:paddingStart="@dimen/da_spacing_standard"
+            android:paddingEnd="@dimen/da_spacing_standard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvHeadingGen"
+                style="@style/DAHeading"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="@dimen/da_font_size_xlarge"
+                android:text="@string/da_gender" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_below="@id/tvHeadingGen"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/da_spacing_large"
+                android:layout_marginBottom="@dimen/da_spacing_xlarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivFemale"
+                    android:src="@drawable/da_ic_female"
+                    style="@style/GenderIcon"
+                    android:layout_margin="@dimen/da_spacing_standard_new" />
+
+                <ImageView
+                    android:id="@+id/ivMale"
+                    android:src="@drawable/da_ic_male"
+                    android:layout_margin="@dimen/da_spacing_standard_new"
+                    style="@style/GenderIcon" />
+
+                <ImageView
+                    android:id="@+id/ivOther"
+                    android:src="@drawable/da_ic_gender_equality"
+                    android:layout_margin="@dimen/da_spacing_standard_new"
+                    style="@style/GenderIcon" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

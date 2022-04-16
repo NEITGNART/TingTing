@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingFragment">
+
+
+    <androidx.core.widget.NestedScrollView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".activity.DAWalkThroughActivity">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/da_spacing_middle"
+                android:textSize="@dimen/da_font_size_xlarge"
+                android:textColor="@color/da_red"
+                android:layout_gravity="center_horizontal"
+                android:textAppearance="@style/DAFontBold"
+                android:textStyle="bold"
+                android:text="@string/da_settings" />
+
+            <com.example.tingting.utils.DACircleImageView
+                android:id="@+id/ivProfile"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_centerVertical="true"
+                tools:src="@drawable/da_prfile_3"
+                android:layout_marginTop="@dimen/da_spacing_large"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/da_spacing_middle"
+                android:text="Wiliam"
+                android:textAppearance="@style/DAFontBold"
+                android:textColor="@color/da_red"
+                android:textSize="@dimen/da_font_size_large"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvFilter"
+                style="@style/ProfileText"
+                android:drawableStart="@drawable/da_ic_filter"
+                android:drawableEnd="@drawable/da_ic_left_arrow"
+                android:text="@string/da_filter" />
+
+            <View style="@style/Divider" />
+
+            <TextView
+                android:id="@+id/tvSecurity"
+                style="@style/ProfileText"
+                android:drawableStart="@drawable/da_ic_padlock"
+                android:drawableEnd="@drawable/da_ic_left_arrow"
+                android:text="@string/da_security" />
+
+            <View style="@style/Divider" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvNotification"
+                    style="@style/ProfileText"
+                    android:paddingStart="@dimen/_24sdp"
+                    android:text="@string/da_notification" />
+
+                <Switch
+                    android:id="@+id/switchNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_marginTop="@dimen/da_spacing_middle"
+                    android:layout_marginEnd="@dimen/da_spacing_large"
+                    android:layout_gravity="center_vertical"
+                    android:track="@drawable/da_custom_switch"
+                    android:thumbTint="@color/da_white"
+                    android:layout_alignParentEnd="true"
+                    android:checked="true"
+                    />
+
+            </RelativeLayout>
+
+            <View style="@style/Divider" />
+            <TextView
+                android:id="@+id/tvLanguage"
+                style="@style/ProfileText"
+                android:drawableStart="@drawable/da_ic_translate"
+                android:drawableEnd="@drawable/da_ic_left_arrow"
+                android:text="@string/da_lan" />
+
+            <View style="@style/Divider" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvConnectInsta"
+                    style="@style/ProfileText"
+                    android:drawableStart="@drawable/da_ic_connect"
+                    android:text="@string/da_connect_insta" />
+
+                <Switch
+                    android:id="@+id/connectInstaNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:layout_marginTop="@dimen/da_spacing_middle"
+                    android:layout_marginEnd="@dimen/da_spacing_large"
+                    android:layout_gravity="center_vertical"
+                    android:track="@drawable/da_custom_switch"
+                    android:thumbTint="@color/da_white"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
+
+
+            <View style="@style/Divider" />
+            <TextView
+                android:id="@+id/tvSupport"
+                style="@style/ProfileText"
+                android:drawableStart="@drawable/da_ic_call"
+                android:drawableEnd="@drawable/da_ic_left_arrow"
+                android:text="@string/da_support" />
+
+            <View style="@style/Divider" />
+            <LinearLayout
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/da_spacing_large">
+                <TextView
+                    android:id="@+id/tvLogout"
+                    style="@style/ProfileText"
+                    android:gravity="center_horizontal"
+                    android:text="@string/da_logout" />
+                <View style="@style/Divider" />
+                <TextView
+                    android:id="@+id/tvDeleteAccount"
+                    style="@style/ProfileText"
+                    android:textColor="@color/da_red"
+                    android:gravity="center_horizontal"
+                    android:text="@string/da_del_ac" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</FrameLayout>
