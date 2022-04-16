@@ -14,10 +14,12 @@ import com.example.tingting.databinding.FragmentMatchesBinding
 import com.example.tingting.utils.Entity.Matched
 import com.example.tingting.utils.Entity.User
 import com.example.tingting.utils.getDisplayWidth
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 
 class FragmentMatches : Fragment() {
     private lateinit var viewModel: FragmentMatchesMessageViewModel
@@ -46,9 +48,8 @@ class FragmentMatches : Fragment() {
 //            matches = it
 //        }
 
-
         val database = FirebaseDatabase.getInstance().reference
-        val match = database.child("Match").child("-LrDEBoLokW-5mhaT3ys").child("matched_list")
+        val match = database.child("Match").child( "${FirebaseAuth.getInstance().uid}").child("matched_list")
         val matched = mutableListOf<Matched>()
 
         match.addValueEventListener(
@@ -59,8 +60,8 @@ class FragmentMatches : Fragment() {
                         // get name key
                         val id = data.key.toString()
                         Log.i("Matched", "$id")
-                        val date = data.getValue(String::class.java)
 
+                        val date = data.getValue(String::class.java)
                         matched.add(Matched(id, date))
 
                         id.let {
@@ -71,7 +72,6 @@ class FragmentMatches : Fragment() {
                                     matches.add(user)
                                     binding.rvMatches.adapter = MatchesAdapter(requireContext(), matches, layoutParams, layoutParams2, width)
                                 }
-
                                 override fun onCancelled(databaseError: DatabaseError) {
                                     Log.w("Matched", "loadPost:onCancelled", databaseError.toException())
                                 }

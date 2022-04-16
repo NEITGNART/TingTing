@@ -24,7 +24,8 @@ import com.google.firebase.ktx.Firebase
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-//    private lateinit var binding: LoginFragmentBinding
+
+    //    private lateinit var binding: LoginFragmentBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var auth2: FirebaseAuth
 
@@ -56,36 +57,62 @@ class LoginActivity : AppCompatActivity() {
 
         var mDatabaseReference: DatabaseReference
         binding.btnSignIn.setOnClickListener {
+
+
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
-            auth2.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener{task ->
-                    if (task.isSuccessful) {
-                        mDatabaseReference = FirebaseDatabase.getInstance().reference
-                        Log.i("hihi", auth2.currentUser?.uid.toString())
-                        mDatabaseReference
-                            .child("Users")
-                            .child(auth2.currentUser?.uid.toString())
-                            .child("firstTimeLogin")
-                            .get().addOnSuccessListener{
-                                Log.i("hihi", "${it.value}" )
-                                if (it.value == true)
-                                    goToFirstLoginPage()
-                                else
-                                    goToHomePage()
-                            }
-                    }
-                    else {
+
+            // regex email
+
+            if (email.isEmpty()) {
+                binding.etEmail.error = "Please enter email"
+                binding.etEmail.requestFocus()
+            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                binding.etEmail.error = "Please enter valid email"
+                binding.etEmail.requestFocus()
+            } else if (password.isEmpty()) {
+                binding.etPassword.error = "Please enter password"
+                binding.etPassword.requestFocus()
+            } else if (password.length < 6) {
+                binding.etPassword.error = "Password should be at least 6 characters"
+                binding.etPassword.requestFocus()
+            } else {
+                binding.pbLoading.visibility = android.view.View.VISIBLE
+                auth2.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            mDatabaseReference = FirebaseDatabase.getInstance().reference
+                            mDatabaseReference
+                                .child("Users")
+                                .child(auth2.currentUser?.uid.toString())
+                                .child("firstTimeLogin")
+                                .get().addOnSuccessListener {
+                                    if (it.value == true) {
+                                        goToFirstLoginPage()
+                                    } else
+                                        goToHomePage()
+                                }
+                        } else {
+
+                            Toast.makeText(
+                                this,
+                                "Authentication failed.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            binding.pbLoading.visibility = android.view.View.GONE
+                        }
 
                     }
+            }
 
-                }
+
         }
 
 
         binding.btnLoginFB.setOnClickListener {
 
         }
+
 
 //        var database = FirebaseDatabase.getInstance().reference
 //        var user = database.child("Users").child("-LrDEBoLokW-5mhaT3ys")
@@ -155,7 +182,32 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(authCredential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    goToHomePage()
+                    // check that user id in database
+                    val user = auth.currentUser
+                    val uid = user!!.uid
+                    val database = FirebaseDatabase.getInstance().reference
+                    val userRef = database.child("Users").child(uid)
+
+                    userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                            if (dataSnapshot.exists()) {
+                                goToHomePage()
+                            } else {
+
+                                val user = User(uid)
+                                userRef.setValue(user)
+                                goToFirstLoginPage()
+
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {
+                            // Getting Post failed, log a message
+                            Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+                        }
+                    })
+
                 } else {
                     // If sign in fails, display a message to the user.
                     // ...
@@ -187,7 +239,6 @@ class LoginActivity : AppCompatActivity() {
             }
 
     }
-
 
 
     companion object {

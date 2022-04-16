@@ -16,29 +16,29 @@ class MatchesAdapter(
     val layoutParams: CoordinatorLayout.LayoutParams,
     val layoutParams2: CoordinatorLayout.LayoutParams,
     val width: Int,
-    ) : RecyclerView.Adapter<MatchesAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<MatchesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = View.inflate(context, R.layout.item_match, null)
-        return  ViewHolder(view)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = users[position]
-        holder.bind(user!!, position)
+        user?.let { holder.bind(it, position) }
     }
 
     override fun getItemCount() = users.size
 
-    inner class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val binding = ItemMatchBinding.bind(view)
 
         fun bind(user: User, i: Int) {
             binding.tvName.text = user.name
-            binding.ivProfile.layoutParams=layoutParams
-            binding.ivImg.layoutParams=layoutParams2
-            binding.ivImg.setPadding(width/10,width/10,width/10,width/10)
+            binding.ivProfile.layoutParams = layoutParams
+            binding.ivImg.layoutParams = layoutParams2
+            binding.ivImg.setPadding(width / 10, width / 10, width / 10, width / 10)
             if (i % 3 == 1) {
                 binding.viewDummy.visibility = View.VISIBLE
             } else {

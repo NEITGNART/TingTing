@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+    <RelativeLayout
+        android:id="@+id/rlBottom"
+        android:background="@drawable/da_bg_top_shadow"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/rlAdd"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_14sdp"
+            >
+            <ImageView
+                android:id="@+id/ivGallary"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/ivVoice"
+                android:layout_centerVertical="true"
+                android:src="@drawable/da_ic_gallery"
+                android:padding="@dimen/da_spacing_control_half"
+                android:layout_marginStart="@dimen/da_spacing_control"
+                android:layout_margin="0dp"
+                style="@style/DABackIcon"/>
+            <ImageView
+                android:id="@+id/ivVoice"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:src="@drawable/da_ic_microphone"
+                android:layout_marginEnd="@dimen/_14sdp"
+                android:padding="@dimen/da_spacing_control_half"
+                android:layout_marginStart="@dimen/_14sdp"
+                style="@style/DABackIcon"/>
+            <ImageView
+                android:id="@+id/ivGif"
+                android:layout_toEndOf="@id/ivVoice"
+                android:layout_centerVertical="true"
+                android:src="@drawable/da_ic_gif"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="0dp"
+                android:padding="@dimen/da_spacing_control_half"
+                android:layout_marginStart="@dimen/da_spacing_control"
+                style="@style/DABackIcon"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rlMain"
+            android:layout_below="@id/rlAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/da_spacing_middle"
+            android:paddingBottom="@dimen/da_spacing_middle">
+
+            <ImageView
+                android:id="@+id/ivCamera"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/da_spacing_middle"
+                android:padding="@dimen/_6sdp"
+                android:src="@drawable/da_ic_photo_camera" />
+
+            <ImageView
+                android:id="@+id/ivAdd"
+                android:layout_width="32dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@id/ivCamera"
+                android:padding="@dimen/_6sdp"
+                android:src="@drawable/da_ic_add" />
+            <EditText
+                android:id="@+id/edtSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/ivAdd"
+                android:hint="@string/da_type_something"
+                android:layout_centerVertical="true"
+                android:paddingStart="@dimen/da_spacing_middle"
+                android:paddingEnd="@dimen/da_spacing_middle"
+                android:paddingTop="@dimen/da_spacing_control"
+                android:paddingBottom="@dimen/da_spacing_control"
+                android:background="@drawable/da_rounded_stroked"
+                android:layout_marginStart="@dimen/da_spacing_standard"
+                android:layout_marginEnd="@dimen/da_spacing_standard_new"
+                />
+            <ImageView
+                android:id="@+id/ivSend"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/da_ic_send_button"
+                android:layout_alignParentEnd="true"
+                android:padding="@dimen/_6sdp"
+                android:layout_marginEnd="@dimen/_18sdp"
+                android:layout_marginStart="@dimen/da_spacing_control"
+                />
+
+        </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPhoto"
+            android:layout_below="@id/rlMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/da_spacing_middle"
+            android:clipToPadding="false"
+            android:visibility="gone"
+            android:overScrollMode="never"/>
+        <LinearLayout
+            android:id="@+id/llVoice"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:layout_below="@id/rlMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:background="#9cA1B0"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_170sdp">
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:lottie_autoPlay="true"
+
+                    app:lottie_loop="true" />
+
+                <ImageView
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:padding="@dimen/da_spacing_control"
+                    android:src="@drawable/da_ic_microphone_off"
+                    android:layout_marginBottom="@dimen/da_spacing_standard"
+                    android:layout_marginEnd="@dimen/_18sdp"
+                    android:layout_marginStart="@dimen/da_spacing_control"
+                    app:tint="@color/da_white" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:background="#DEDEE4"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp">
+                <ImageView
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/da_spacing_control"
+                    android:src="@drawable/da_ic_keyboard"
+                    android:layout_marginEnd="@dimen/_18sdp"
+                    android:layout_marginStart="@dimen/da_spacing_control"
+                    app:tint="#9cA1B0" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvGif"
+            android:visibility="gone"
+            android:layout_below="@id/rlMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/da_spacing_middle"
+            android:clipToPadding="false"
+            android:overScrollMode="never"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
