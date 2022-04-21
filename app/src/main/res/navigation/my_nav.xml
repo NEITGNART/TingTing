@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_firstFragment_to_userInfoFragment"
             app:destination="@id/userInfoFragment" />
-        <action
-            android:id="@+id/action_homepage_to_tindercardstack"
-            app:destination="@id/tindercardstack" />
     </fragment>
     <fragment
         android:id="@+id/wholike"
@@ -48,21 +45,15 @@
             android:name="name"
             app:argType="string"
             android:defaultValue='""' />
+        <action
+            android:id="@+id/action_userInfoFragment_to_homepage"
+            app:destination="@id/homepage" />
     </fragment>
     <fragment
         android:id="@+id/congratulationFragment"
         android:name="com.example.tingting.congratulationFragment"
         android:label="congratulation_fragment"
         tools:layout="@layout/congratulation_fragment" />
-    <fragment
-        android:id="@+id/tindercardstack"
-        android:name="com.example.tingting.tindercardstack"
-        android:label="fragment_tindercardstack"
-        tools:layout="@layout/fragment_tindercardstack" >
-        <action
-            android:id="@+id/action_tindercardstack_to_userInfoFragment"
-            app:destination="@id/userInfoFragment" />
-    </fragment>
     <fragment
         android:id="@+id/fragmentMatches"
         android:name="com.example.tingting.FragmentMatches"

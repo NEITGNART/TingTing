@@ -13,7 +13,10 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.example.tingting.databinding.ActivityMainBinding
 import com.example.tingting.databinding.UserInfoFragmentBinding
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -38,12 +41,19 @@ class UserInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+
+
+
         list.add(R.drawable.da_img16)
         list.add(R.drawable.da_img10)
         list.add(R.drawable.da_img12)
 
         //tv.setVisibility(View.INVISIBLE );
         binding = UserInfoFragmentBinding.inflate(layoutInflater)
+
+        val bindingMain = ActivityMainBinding.inflate(layoutInflater)
+        bindingMain.bottomNavigationView.visibility = View.GONE
+
         var adapters = Adapters(binding.root.context)
         adapters.setContentList(list)
         var viewpager = binding.viewPagerMain
@@ -52,6 +62,7 @@ class UserInfoFragment : Fragment() {
 
         binding.ivBack.setOnClickListener {
             Navigation.findNavController(binding.root).navigateUp()
+            bindingMain.bottomNavigationView.visibility = View.VISIBLE
         }
 //        val args: TindercardstackDirections by navArgs()
 

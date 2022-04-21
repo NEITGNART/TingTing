@@ -8,45 +8,77 @@
     tools:context=".FirstFragment">
 
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Frist Fragment"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btprofile"
-        android:layout_width="158dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="146dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="177dp"
-        android:layout_marginBottom="251dp"
-        android:text="profile"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.272" />
 
-    <Button
-        android:id="@+id/viewcardstack"
-        android:layout_width="154dp"
-        android:layout_height="47dp"
-        android:text="Tinder stackview"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.455"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btprofile"
-        app:layout_constraintVertical_bias="0.179" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false">
+
+
+            <com.yuyakaido.android.cardstackview.CardStackView
+                android:id="@+id/cardstackview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/llBottom"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="-117dp"
+                android:background="@drawable/ilove"
+                android:clipToPadding="false"
+                android:padding="4dp" />
+
+            <LinearLayout
+                android:id="@+id/llBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="bottom|center_horizontal"
+                android:gravity="center|bottom"
+                android:paddingStart="@dimen/da_spacing_standard_new"
+                android:paddingTop="@dimen/da_spacing_standard_new"
+                android:paddingEnd="@dimen/da_spacing_standard_new"
+                android:paddingBottom="@dimen/da_spacing_large">
+
+                <ImageView
+                    android:id="@+id/ivClose"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:background="@drawable/da_bg_circle"
+                    android:padding="@dimen/_12sdp"
+                    android:src="@drawable/da_ic_cancel_mark"
+                    app:tint="@color/white" />
+
+                <ImageView
+                    android:id="@+id/ivUndof"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginStart="@dimen/da_spacing_xxlarge"
+                    android:layout_marginEnd="@dimen/da_spacing_xxlarge"
+                    android:background="@drawable/da_bg_circle"
+                    android:backgroundTint="@color/da_light_gray"
+                    android:padding="@dimen/_12sdp"
+                    android:src="@drawable/da_ic_undo_arrow"
+                    app:tint="@color/da_yellow" />
+
+                <ImageView
+                    android:id="@+id/ivHeart"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:background="@drawable/da_bg_circle_grren"
+                    android:padding="@dimen/_12sdp"
+                    android:src="@drawable/da_ic_heart"
+                    app:tint="@color/da_white" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

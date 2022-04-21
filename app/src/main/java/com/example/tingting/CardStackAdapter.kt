@@ -29,7 +29,7 @@ class CardStackAdapter(
                 .into(holder.image)
         holder.itemView.setOnClickListener { v ->
             Toast.makeText(v.context, spot.name, Toast.LENGTH_SHORT).show()
-            val action = tindercardstackDirections.actionTindercardstackToUserInfoFragment(name=spot.id_user)
+            val action = FirstFragmentDirections.actionFirstFragmentToUserInfoFragment(name=spot.id_user)
             Navigation.findNavController(holder.name).navigate(action)
 
         }
