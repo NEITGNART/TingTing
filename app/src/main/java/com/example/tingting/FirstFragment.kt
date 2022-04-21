@@ -17,16 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.yuyakaido.android.cardstackview.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FirstFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FirstFragment : Fragment() {
 
     private val TAG = "MainActivity"
@@ -62,21 +53,28 @@ class FirstFragment : Fragment() {
                     "onCardSwiped: p=" + manager.topPosition + " d=" + direction.name
                 )
                 if (direction == Direction.Right) {
+
                     Toast.makeText(context, "Direction Right", Toast.LENGTH_SHORT).show()
+                    val currentIndex = manager.topPosition-1
+                    addVisited( adapter.getSpots()[currentIndex].id_user )
+
                 }
                 if (direction == Direction.Top) {
                     Toast.makeText(context, "Direction Top", Toast.LENGTH_SHORT).show()
+                    val currentIndex = manager.topPosition-1
+                    addVisited( adapter.getSpots()[currentIndex].id_user )
                 }
                 if (direction == Direction.Left) {
                     Toast.makeText(context, "Direction Left", Toast.LENGTH_SHORT).show()
+                    val currentIndex = manager.topPosition-1
+                    addVisited( adapter.getSpots()[currentIndex].id_user )
                 }
                 if (direction == Direction.Bottom) {
                     Toast.makeText(context, "Direction Bottom", Toast.LENGTH_SHORT).show()
+                    val currentIndex = manager.topPosition-1
+                    addVisited( adapter.getSpots()[currentIndex].id_user )
                 }
 
-//                if (manager.topPosition == adapter.itemCount - 5) {
-//                    paginate()
-//                }
             }
 
             override fun onCardRewound() {
@@ -118,9 +116,6 @@ class FirstFragment : Fragment() {
         cardStackView.itemAnimator = DefaultItemAnimator()
 
 
-
-
-
         binding.ivUndof.setOnClickListener {
             if (manager.topPosition < adapter.itemCount) {
                 val setting = RewindAnimationSetting.Builder()
@@ -130,6 +125,7 @@ class FirstFragment : Fragment() {
                     .build()
                 manager.setRewindAnimationSetting(setting)
                 cardStackView.rewind()
+
             }
         }
 
@@ -142,6 +138,8 @@ class FirstFragment : Fragment() {
                     .build()
                 manager.setSwipeAnimationSetting(setting)
                 cardStackView.swipe()
+                val currentIndex = manager.topPosition-1
+                addVisited( adapter.getSpots()[currentIndex].id_user )
             }
         }
         binding.ivClose.setOnClickListener {
@@ -153,6 +151,8 @@ class FirstFragment : Fragment() {
                     .build()
                 manager.setSwipeAnimationSetting(setting)
                 cardStackView.swipe()
+                val currentIndex = manager.topPosition-1
+                addVisited( adapter.getSpots()[currentIndex].id_user )
             }
         }
 
@@ -160,54 +160,64 @@ class FirstFragment : Fragment() {
     }
 
 
-    private fun createSpots(id_user: String): List<Spot> {
+    private fun createSpots(id_user:String): List<Spot> {
         val spots = ArrayList<Spot>()
+        val check = ArrayList<String>()
         val rootRef = FirebaseDatabase.getInstance().reference
         val messageRef = rootRef.child("Users")
 
-        val valueEventListener = object : ValueEventListener {
-
+        val messageRef1 = rootRef.child("Visited").child(id_user)
+        val valueEventListener1 = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (ds in dataSnapshot.children) {
+                    val id = ds.getValue(String::class.java)
+                    check.add(id.toString())
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("TAG", databaseError.message) //Don't ignore errors!
+            }
+        }
+        messageRef1.addListenerForSingleValueEvent(valueEventListener1)
 
+
+
+        val valueEventListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children) {
                     val id = ds.child("id").getValue(String::class.java)
                     val gender = ds.child("gender").getValue(String::class.java)
-                    var display: String? =
-                        dataSnapshot.child(id_user).child("display").getValue(String::class.java)
-//                    if(id.equals(id_user)) {
-//                        display = ds.child("display").getValue(String::class.java).toString()
-//                    }
-                    Log.i("display1", "${display}")
-                    if (id != id_user && (display == "All" || gender == display)) {
-                        val name = ds.child("name").getValue(String::class.java)
-                        val photo = ds.child("avatar").getValue(String::class.java)
-                        spots.add(
-                            Spot(
-                                name = name.toString(),
-                                city = "Kyoto",
-                                url = photo.toString(),
-                                id_user = id.toString()
+                    var  display: String? =dataSnapshot.child(id_user).child("display").getValue(String::class.java)
+                    var check_id : Boolean = true;
+                    for (i in 0 until check.size){
+                        if(id.toString() == check.get(i))
+                            check_id= false
+                    }
+                    if(check_id){
+                        if ( id != id_user && ( display == "All" || gender == display)) {
+                            val name = ds.child("name").getValue(String::class.java)
+                            val photo = ds.child("avatar").getValue(String::class.java)
+                            spots.add(
+                                Spot(
+                                    name = name.toString(),
+                                    city = "Kyoto",
+                                    url = photo.toString(),
+                                    id_user = id.toString()
+                                )
                             )
-                        )
+                        }
                     }
 
-//                    }
-//                    else if (id != id_user && gender === display){
-//                        val name = ds.child("name").getValue(String::class.java)
-//                        val photo = ds.child("avatar").getValue(String::class.java)
-//                        spots.add(Spot(name = name.toString(), city = "Kyoto", url =photo.toString()))
-//                    }
                 }
-                cardStackView.adapter = CardStackAdapter(spots)
+                cardStackView.adapter =   CardStackAdapter(spots)
             }
 
 
             override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("TAG", databaseError.getMessage()) //Don't ignore errors!
+                Log.d("TAG", databaseError.message)
             }
         }
         messageRef.addListenerForSingleValueEvent(valueEventListener)
-
 
 //        spots.add(Spot(name = "Yasaka Shrine", city = "Kyoto", url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"))
 //        spots.add(Spot(name = "Fushimi Inari Shrine", city = "Kyoto", url = "https://source.unsplash.com/NYyCqdBOKwc/600x800"))
@@ -222,42 +232,11 @@ class FirstFragment : Fragment() {
         return spots
     }
 
-    private fun setupButton() {
-        binding = FragmentFirstBinding.inflate(layoutInflater)
-
-//        val skip = binding.skip_button
-//        skip.setOnClickListener {
-//            val setting = SwipeAnimationSetting.Builder()
-//                .setDirection(Direction.Left)
-//                .setDuration(Duration.Normal.duration)
-//                .setInterpolator(AccelerateInterpolator())
-//                .build()
-//            manager.setSwipeAnimationSetting(setting)
-//            cardStackView.swipe()
-//        }
-
-        val rewind = binding.ivUndof
-        rewind.setOnClickListener {
-            val setting = RewindAnimationSetting.Builder()
-                .setDirection(Direction.Bottom)
-                .setDuration(Duration.Normal.duration)
-                .setInterpolator(DecelerateInterpolator())
-                .build()
-            manager.setRewindAnimationSetting(setting)
-            cardStackView.rewind()
-        }
-
-//        val like = findViewById<View>(com.yuyakaido.android.cardstackview.R.id.like_button)
-//        like.setOnClickListener {
-//            val setting = SwipeAnimationSetting.Builder()
-//                .setDirection(Direction.Right)
-//                .setDuration(Duration.Normal.duration)
-//                .setInterpolator(AccelerateInterpolator())
-//                .build()
-//            manager.setSwipeAnimationSetting(setting)
-//            cardStackView.swipe()
-//        }
+    fun addVisited(targetId :String ){
+       val userId = FirebaseAuth.getInstance().uid!!
+        FirebaseDatabase.getInstance().getReference("/Visited/$userId/$targetId").setValue(targetId)
     }
+
 
 
 }
