@@ -31,22 +31,28 @@ class FirstFragment : Fragment() {
         binding = FragmentFirstBinding.inflate(layoutInflater)
 
         // Code here !!!
-        binding.btprofile.setOnClickListener{
-            val action = FirstFragmentDirections.actionFirstFragmentToUserInfoFragment()
-//            findNavController().navigate(action)
-            Navigation.findNavController(binding.root).navigate(action)
-//            Navigation.findNavController(binding.root).navigateUp()
-
-        }
-        binding.viewcardstack.setOnClickListener{
-            val action = FirstFragmentDirections.actionHomepageToTindercardstack()
-//            findNavController().navigate(action)
-            Navigation.findNavController(binding.root).navigate(action)
-//            Navigation.findNavController(binding.root).navigateUp()
-
-        }
+//        binding.btprofile.setOnClickListener{
+//            val action = FirstFragmentDirections.actionFirstFragmentToUserInfoFragment()
+////            findNavController().navigate(action)
+//            Navigation.findNavController(binding.root).navigate(action)
+////            Navigation.findNavController(binding.root).navigateUp()
+//
+//        }
+//        binding.viewcardstack.setOnClickListener{
+//            val action = FirstFragmentDirections.actionHomepageToTindercardstack()
+////            findNavController().navigate(action)
+//            Navigation.findNavController(binding.root).navigate(action)
+////            Navigation.findNavController(binding.root).navigateUp()
+//
+//        }
 
         return binding.root
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val action = FirstFragmentDirections.actionHomepageToTindercardstack()
+        Navigation.findNavController(binding.root).navigate(action)
+    }
+
 
 }

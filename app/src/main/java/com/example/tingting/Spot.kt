@@ -13,5 +13,6 @@ package com.example.tingting
 data class Spot(
     val name: String,
     val city: String,
-    val url: String
+    val url: String,
+    val id_user : String
 )

@@ -90,6 +90,7 @@ class tindercardstack : Fragment() {
             }
         })
 
+        val mDatabaseReference = FirebaseDatabase.getInstance().reference
 
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(3)
@@ -103,7 +104,7 @@ class tindercardstack : Fragment() {
 
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
-        adapter = CardStackAdapter(createSpots())
+        adapter = CardStackAdapter(createSpots(FirebaseAuth.getInstance().uid!!))
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator = DefaultItemAnimator()
@@ -151,24 +152,46 @@ class tindercardstack : Fragment() {
     }
 
 
-    private fun createSpots(): List<Spot> {
-        val user = FirebaseAuth.getInstance().currentUser
-        val mDatabaseReference = FirebaseDatabase.getInstance().reference
-        val users = mDatabaseReference.child("Users")
+    private fun createSpots(id_user:String): List<Spot> {
         val spots = ArrayList<Spot>()
-
         val rootRef = FirebaseDatabase.getInstance().reference
         val messageRef = rootRef.child("Users")
+
         val valueEventListener = object : ValueEventListener {
+
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (ds in dataSnapshot.children) {
-                    val id = ds.child("name").getValue(String::class.java)
-                    Log.d("TAG1", " name:" + id + " " )
-                    spots.add(Spot(name = id.toString(), city = "Kyoto", url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"))
 
+                    val id = ds.child("id").getValue(String::class.java)
+                    val gender = ds.child("gender").getValue(String::class.java)
+                    var  display: String? =dataSnapshot.child(id_user).child("display").getValue(String::class.java)
+//                    if(id.equals(id_user)) {
+//                        display = ds.child("display").getValue(String::class.java).toString()
+//                    }
+                    Log.i("display1", "${display}")
+                        if (id != id_user && ( display == "All" || gender == display)) {
+                            val name = ds.child("name").getValue(String::class.java)
+                            val photo = ds.child("avatar").getValue(String::class.java)
+                            spots.add(
+                                Spot(
+                                    name = name.toString(),
+                                    city = "Kyoto",
+                                    url = photo.toString(),
+                                    id_user = id.toString()
+                                )
+                            )
+                        }
+
+//                    }
+//                    else if (id != id_user && gender === display){
+//                        val name = ds.child("name").getValue(String::class.java)
+//                        val photo = ds.child("avatar").getValue(String::class.java)
+//                        spots.add(Spot(name = name.toString(), city = "Kyoto", url =photo.toString()))
+//                    }
                 }
                 cardStackView.adapter =   CardStackAdapter(spots)
             }
+
 
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.d("TAG", databaseError.getMessage()) //Don't ignore errors!
@@ -176,17 +199,17 @@ class tindercardstack : Fragment() {
         }
         messageRef.addListenerForSingleValueEvent(valueEventListener)
 
-        spots.add(Spot(name = "Yasaka Shrine", city = "Kyoto", url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"))
-        spots.add(Spot(name = "Fushimi Inari Shrine", city = "Kyoto", url = "https://source.unsplash.com/NYyCqdBOKwc/600x800"))
-        spots.add(Spot(name = "Bamboo Forest", city = "Kyoto", url = "https://source.unsplash.com/buF62ewDLcQ/600x800"))
-        spots.add(Spot(name = "Brooklyn Bridge", city = "New York", url = "https://source.unsplash.com/THozNzxEP3g/600x800"))
-        spots.add(Spot(name = "Empire State Building", city = "New York", url = "https://source.unsplash.com/USrZRcRS2Lw/600x800"))
-        spots.add(Spot(name = "The statue of Liberty", city = "New York", url = "https://source.unsplash.com/PeFk7fzxTdk/600x800"))
-        spots.add(Spot(name = "Louvre Museum", city = "Paris", url = "https://source.unsplash.com/LrMWHKqilUw/600x800"))
-        spots.add(Spot(name = "Eiffel Tower", city = "Paris", url = "https://source.unsplash.com/HN-5Z6AmxrM/600x800"))
-        spots.add(Spot(name = "Big Ben", city = "London", url = "https://source.unsplash.com/CdVAUADdqEc/600x800"))
-        spots.add(Spot(name = "Great Wall of China", city = "China", url = "https://source.unsplash.com/AWh9C-QjhE4/600x800"))
-        return spots
+//        spots.add(Spot(name = "Yasaka Shrine", city = "Kyoto", url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"))
+//        spots.add(Spot(name = "Fushimi Inari Shrine", city = "Kyoto", url = "https://source.unsplash.com/NYyCqdBOKwc/600x800"))
+//        spots.add(Spot(name = "Bamboo Forest", city = "Kyoto", url = "https://source.unsplash.com/buF62ewDLcQ/600x800"))
+//        spots.add(Spot(name = "Brooklyn Bridge", city = "New York", url = "https://source.unsplash.com/THozNzxEP3g/600x800"))
+//        spots.add(Spot(name = "Empire State Building", city = "New York", url = "https://source.unsplash.com/USrZRcRS2Lw/600x800"))
+//        spots.add(Spot(name = "The statue of Liberty", city = "New York", url = "https://source.unsplash.com/PeFk7fzxTdk/600x800"))
+//        spots.add(Spot(name = "Louvre Museum", city = "Paris", url = "https://source.unsplash.com/LrMWHKqilUw/600x800"))
+//        spots.add(Spot(name = "Eiffel Tower", city = "Paris", url = "https://source.unsplash.com/HN-5Z6AmxrM/600x800"))
+//        spots.add(Spot(name = "Big Ben", city = "London", url = "https://source.unsplash.com/CdVAUADdqEc/600x800"))
+//        spots.add(Spot(name = "Great Wall of China", city = "China", url = "https://source.unsplash.com/AWh9C-QjhE4/600x800"))
+         return spots
     }
     private fun setupButton() {
         binding = FragmentTindercardstackBinding.inflate(layoutInflater)

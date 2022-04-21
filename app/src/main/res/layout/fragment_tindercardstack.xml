@@ -22,22 +22,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/llBottom"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp"
                 android:layout_marginBottom="-117dp"
-                android:clipToPadding="false"
                 android:background="@drawable/ilove"
+                android:clipToPadding="false"
                 android:padding="4dp"></com.yuyakaido.android.cardstackview.CardStackView>
+
             <LinearLayout
                 android:id="@+id/llBottom"
-                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:gravity="center|bottom"
-                android:paddingTop="@dimen/da_spacing_standard_new"
                 android:layout_gravity="bottom|center_horizontal"
+                android:gravity="center|bottom"
                 android:paddingStart="@dimen/da_spacing_standard_new"
+                android:paddingTop="@dimen/da_spacing_standard_new"
                 android:paddingEnd="@dimen/da_spacing_standard_new"
                 android:paddingBottom="@dimen/da_spacing_large">
+
                 <ImageView
                     android:id="@+id/ivClose"
                     android:layout_width="@dimen/_50sdp"
@@ -46,17 +50,19 @@
                     android:padding="@dimen/_12sdp"
                     android:src="@drawable/da_ic_cancel_mark"
                     app:tint="@color/white" />
+
                 <ImageView
                     android:id="@+id/ivUndof"
                     android:layout_width="@dimen/_45sdp"
                     android:layout_height="@dimen/_45sdp"
-                    android:background="@drawable/da_bg_circle"
                     android:layout_marginStart="@dimen/da_spacing_xxlarge"
                     android:layout_marginEnd="@dimen/da_spacing_xxlarge"
+                    android:background="@drawable/da_bg_circle"
                     android:backgroundTint="@color/da_light_gray"
                     android:padding="@dimen/_12sdp"
                     android:src="@drawable/da_ic_undo_arrow"
                     app:tint="@color/da_yellow" />
+
                 <ImageView
                     android:id="@+id/ivHeart"
                     android:layout_width="@dimen/_50sdp"

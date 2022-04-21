@@ -14,6 +14,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.UserInfoFragmentBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 
@@ -49,13 +53,39 @@ class UserInfoFragment : Fragment() {
         binding.ivBack.setOnClickListener {
             Navigation.findNavController(binding.root).navigateUp()
         }
-////        val args: TindercardstackDirections by navArgs()
-//
-//
-//        val  action =   TindercardstackDirections.actionTindercardstackToUserInfoFragment()
-        //tv.setText(action.toString())
-//        val amount: String = UserInfoFragmentArgs.fromBundle(requireArguments()).name
-//        binding.abcd.tvName.setText(amount)
+//        val args: TindercardstackDirections by navArgs()
+
+
+     //   val  action =   TindercardstackDirections.actionTindercardstackToUserInfoFragment()
+     //   tv.setText(action.toString())
+        val amount: String = UserInfoFragmentArgs.fromBundle(requireArguments()).name
+        val rootRef = FirebaseDatabase.getInstance().reference
+
+        val messageRef = rootRef.child("Users")
+
+        val valueEventListener = object : ValueEventListener {
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children) {
+
+                    val id = ds.child("id").getValue(String::class.java)
+
+                    if (id == amount ) {
+                        val name_user = ds.child("name").getValue(String::class.java)
+                        binding.item.tvName.setText(name_user)
+
+                    }
+
+                }
+            }
+
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("TAG", databaseError.getMessage()) //Don't ignore errors!
+            }
+        }
+        messageRef.addListenerForSingleValueEvent(valueEventListener)
+
 
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
 
