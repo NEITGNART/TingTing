@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.FragmentInputUserNameBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -65,13 +66,13 @@ class InputUserName : Fragment() {
             val userName = binding.etInUserName.text.toString()
             if (userName.isEmpty()) {
                 binding.etInUserName.setBackgroundResource(R.drawable.error_border)
-                binding.etInUserName.hint = "Hãy nhập tên của bạn"
+                Toast.makeText(context, "Please enter your name", Toast.LENGTH_SHORT)
+                    .show()
             }
             else {
                 val user = FirebaseAuth.getInstance().currentUser
                 val mDatabaseReference = FirebaseDatabase.getInstance().reference
                 mDatabaseReference.child("Users").child(user?.uid.toString()).child("name").setValue(userName)
-                mDatabaseReference
                 val action = InputUserNameDirections.actionInputUserNameToInputUserBirthday()
                 Navigation.findNavController(binding.root).navigate(action)
             }

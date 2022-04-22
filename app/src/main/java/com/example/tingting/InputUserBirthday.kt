@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.FragmentInputUserBirthdayBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -66,7 +67,8 @@ class InputUserBirthday : Fragment() {
             val userBirthday = binding.etInUserBirthday.text.toString()
             if (userBirthday.isEmpty()) {
                 binding.etInUserBirthday.setBackgroundResource(R.drawable.error_border)
-                binding.etInUserBirthday.hint = "Hãy nhập ngày sinh của bạn"
+                Toast.makeText(context, "Please enter your birthday", Toast.LENGTH_SHORT)
+                    .show()
             }
             else {
                 val user = FirebaseAuth.getInstance().currentUser

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.FragmentInputUserGenderBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -67,7 +68,8 @@ class InputUserGender : Fragment() {
         binding.btnContinue.setOnClickListener{
             val userGender = binding.rgInUserGender.checkedRadioButtonId
             if (userGender == -1) {
-
+                Toast.makeText(context, "Please select your gender", Toast.LENGTH_SHORT)
+                    .show()
             }
             else {
                 val user = FirebaseAuth.getInstance().currentUser

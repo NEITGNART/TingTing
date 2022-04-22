@@ -10,11 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.navigation.Navigation
 import com.example.tingting.activity.MainActivity
 import com.example.tingting.databinding.FragmentAddImageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,7 +64,7 @@ class AddImage : Fragment() {
 
     private lateinit var binding: FragmentAddImageBinding
     private lateinit var auth: FirebaseAuth
-    private var images: MutableList<Uri?> ?= null
+    private lateinit var images: MutableList<Uri?>
     private val PICK_IMAGES_CODE = 0
     private var position = 0
 
@@ -77,16 +80,32 @@ class AddImage : Fragment() {
 
         ///////////////////////////////////////////////////////////////////////
         binding.btnComplete.setOnClickListener{
-            // tạo thông tin thành công -> Chuyển đến main activity
-            val mDatabaseReference = FirebaseDatabase.getInstance().reference
-            mDatabaseReference
-                .child("Users")
-                .child(auth.currentUser?.uid.toString())
-                .child("firstTimeLogin").setValue(false)
+            if (images.isNullOrEmpty()) {
+                Toast.makeText(context, "Please select at least 1 photos", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            else {
+                val mDatabaseReference = FirebaseDatabase.getInstance().reference
+                mDatabaseReference
+                    .child("Users")
+                    .child(auth.currentUser?.uid.toString())
+                    .child("firstTimeLogin").setValue(false)
 
-
-            val intent = Intent(context, MainActivity::class.java)
-            startActivity(intent)
+                val storageReference = FirebaseStorage.getInstance().getReference("Images/" + auth.currentUser?.uid.toString())
+                images.forEach { image ->
+                    storageReference.child(UUID.randomUUID().toString()).putFile(image!!)
+                        .addOnSuccessListener {
+                            storageReference.downloadUrl.addOnSuccessListener {
+                                Log.i("UserInfo", "${it}")
+                            }
+                        }
+                        .addOnFailureListener {
+                            Log.i("UserInfo", "Upload fail")
+                        }
+                }
+                val intent = Intent(context, MainActivity::class.java)
+                startActivity(intent)
+            }
         }
 
         binding.btnBack.setOnClickListener{
@@ -146,13 +165,14 @@ class AddImage : Fragment() {
                     binding.ivAddImage5,
                     binding.ivAddImage6)
 
-            listButtonAddImage.forEach { buttonAddImage ->
-                buttonAddImage.setImageResource(R.drawable.placeholder_img  )
-                buttonAddImage.setBackgroundResource(R.drawable.da_background_tab)
-            }
-            for (i in 0 until images!!.size){
-                listButtonAddImage[i].setImageURI(images!![i])
+            for (i in 0 until images.size){
+                listButtonAddImage[i].setImageURI(images[i])
                 listButtonAddImage[i].setBackgroundResource(R.drawable.da_background_tab)
+            }
+
+            for (i in images.size until listButtonAddImage.size){
+                listButtonAddImage[i].setImageResource(R.drawable.placeholder_img  )
+                listButtonAddImage[i].setBackgroundResource(R.drawable.dashed_border)
             }
 
         }
