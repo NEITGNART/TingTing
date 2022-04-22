@@ -35,20 +35,17 @@ class FourFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
         binding = FragmentFourBinding.inflate(inflater)
         binding.tvMatches.setOnClickListener {
             val action = FourFragmentDirections.actionChatToFragmentMatches()
             Navigation.findNavController(binding.root).navigate(action)
-
         }
 
         // get list of chats from firebase realtime database
 
         // reference to the database
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Users")
+        val myRef = database.getReference("Matched/$currentUser")
 
         myRef.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(p0: com.google.firebase.database.DatabaseError) {
