@@ -11,6 +11,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.tingting.databinding.FragmentFirstBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -57,6 +58,7 @@ class FirstFragment : Fragment() {
                     Toast.makeText(context, "Direction Right", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition-1
                     addVisited( adapter.getSpots()[currentIndex].id_user )
+                    addMatch(adapter.getSpots()[currentIndex].id_user)
 
                 }
                 if (direction == Direction.Top) {
@@ -68,6 +70,8 @@ class FirstFragment : Fragment() {
                     Toast.makeText(context, "Direction Left", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition-1
                     addVisited( adapter.getSpots()[currentIndex].id_user )
+                    addMatch(adapter.getSpots()[currentIndex].id_user)
+
                 }
                 if (direction == Direction.Bottom) {
                     Toast.makeText(context, "Direction Bottom", Toast.LENGTH_SHORT).show()
@@ -140,6 +144,7 @@ class FirstFragment : Fragment() {
                 cardStackView.swipe()
                 val currentIndex = manager.topPosition-1
                 addVisited( adapter.getSpots()[currentIndex].id_user )
+                addMatch(adapter.getSpots()[currentIndex].id_user)
             }
         }
         binding.ivClose.setOnClickListener {
@@ -235,6 +240,26 @@ class FirstFragment : Fragment() {
     fun addVisited(targetId :String ){
        val userId = FirebaseAuth.getInstance().uid!!
         FirebaseDatabase.getInstance().getReference("/Visited/$userId/$targetId").setValue(targetId)
+    }
+    fun addMatch(targetId :String ){
+        val userId = FirebaseAuth.getInstance().uid!!
+        FirebaseDatabase.getInstance().getReference("/Match/$userId/$targetId").setValue(targetId)
+
+        val ref = FirebaseDatabase.getInstance().reference
+                ref.child("Match").child(targetId).child(userId)
+            .get().addOnSuccessListener {
+                if(it.value != null){
+                    Log.d("ABCD", "haha$targetId ${it.value}")
+                    FirebaseDatabase.getInstance().getReference("/Matched/$userId/$targetId").setValue(targetId)
+                    FirebaseDatabase.getInstance().getReference("/Matched/$targetId/$userId").setValue(userId)
+                    val action = FirstFragmentDirections.actionHomepageToCongratulation(it.value.toString())
+                    Navigation.findNavController(binding.root).navigate(action)
+
+
+
+                }
+            }
+
     }
 
 
