@@ -25,12 +25,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/llBottom"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="0dp"
+                android:layout_alignParentStart="true"
+
                 android:layout_marginBottom="-117dp"
                 android:background="@drawable/ilove"
-                android:clipToPadding="false"
-                android:padding="4dp" />
+                android:clipToPadding="false" />
 
             <LinearLayout
                 android:id="@+id/llBottom"

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_firstFragment_to_userInfoFragment"
             app:destination="@id/userInfoFragment" />
+        <action
+            android:id="@+id/action_homepage_to_congratulation"
+            app:destination="@id/congratulation" />
     </fragment>
     <fragment
         android:id="@+id/wholike"
@@ -38,9 +41,6 @@
         android:name="com.example.tingting.UserInfoFragment"
         android:label="user_info_fragment"
         tools:layout="@layout/user_info_fragment" >
-        <action
-            android:id="@+id/action_userInfoFragment_to_congratulationFragment"
-            app:destination="@id/congratulationFragment" />
         <argument
             android:name="name"
             app:argType="string"
@@ -53,7 +53,11 @@
         android:id="@+id/congratulationFragment"
         android:name="com.example.tingting.congratulationFragment"
         android:label="congratulation_fragment"
-        tools:layout="@layout/congratulation_fragment" />
+        tools:layout="@layout/congratulation_fragment" >
+        <argument
+            android:name="targetId"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentMatches"
         android:name="com.example.tingting.FragmentMatches"
@@ -62,5 +66,14 @@
         <action
             android:id="@+id/action_fragmentMatches_to_chat"
             app:destination="@id/chat" />
+    </fragment>
+    <fragment
+        android:id="@+id/congratulation"
+        android:name="com.example.tingting.Congratulation"
+        android:label="fragment_congratulation"
+        tools:layout="@layout/fragment_congratulation" >
+        <argument
+            android:name="targetId"
+            app:argType="string" />
     </fragment>
 </navigation>
