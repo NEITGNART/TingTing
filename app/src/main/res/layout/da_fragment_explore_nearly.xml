@@ -4,110 +4,118 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ThridFragment">
+    >
 
     <fragment
         android:id="@+id/mapAddress"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
     <RelativeLayout
         android:id="@+id/rlInfo"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_100sdp"
-            android:layout_marginTop="@dimen/da_spacing_standard_new"
             android:layout_marginStart="@dimen/_22sdp"
+            android:layout_marginTop="@dimen/da_spacing_standard_new"
             android:layout_marginEnd="@dimen/_22sdp"
             android:layout_marginBottom="@dimen/da_spacing_middle">
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:alpha="0.9"
-                android:background="@drawable/da_shadoe_8dp"/>
+                android:background="@drawable/da_shadoe_8dp" />
+
             <com.example.tingting.utils.DACircleImageView
                 android:id="@+id/ivProfile"
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="@dimen/_70sdp"
                 android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/da_spacing_standard_new"
-                android:src="@drawable/da_user_profile"
                 android:background="@drawable/da_bg_circle"
                 android:backgroundTint="@color/da_light_gray"
-                android:layout_gravity="center_horizontal" />
+                android:src="@drawable/da_user_profile" />
+
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_toEndOf="@id/ivProfile"
-                android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/da_spacing_middle"
-                >
+                android:layout_toEndOf="@id/ivProfile"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/dA_mallanie"
-                    android:textSize="@dimen/da_font_size_xlarge"
                     android:layout_gravity="center_vertical"
+                    android:text="@string/dA_mallanie"
                     android:textAppearance="@style/DAFontBold"
-                    android:textStyle="bold"
-                    android:textColor="@color/da_red"/>
+                    android:textColor="@color/da_red"
+                    android:textSize="@dimen/da_font_size_xlarge"
+                    android:textStyle="bold" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/tvProfession"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/da_art_director"
-                        android:layout_marginTop="@dimen/da_spacing_control"
-                        android:textSize="@dimen/da_font_size_normal"
                         android:layout_gravity="center_vertical"
-                        android:textColor="@color/da_textColorPrimary"/>
+                        android:layout_marginTop="@dimen/da_spacing_control"
+                        android:text="@string/da_art_director"
+                        android:textColor="@color/da_textColorPrimary"
+                        android:textSize="@dimen/da_font_size_normal" />
 
                     <TextView
                         android:id="@+id/tvDisatance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/da_spacing_large"
+                        android:drawableStart="@drawable/da_ic_paper_plane_small"
+                        android:drawablePadding="@dimen/da_spacing_standard"
+                        android:drawableTint="@color/da_textColorPrimary"
                         android:gravity="center"
                         android:text="@string/da_2_km"
-                        android:drawableStart="@drawable/da_ic_paper_plane_small"
-                        android:drawableTint="@color/da_textColorPrimary"
-                        android:drawablePadding="@dimen/da_spacing_standard"
-                        android:layout_alignParentEnd="true"
-                        android:textSize="@dimen/da_font_size_medium"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/da_spacing_large"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/da_textColorPrimary"/>
+                        android:textColor="@color/da_textColorPrimary"
+                        android:textSize="@dimen/da_font_size_medium" />
 
                 </RelativeLayout>
 
             </LinearLayout>
 
         </RelativeLayout>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabChat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/da_red"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/da_spacing_middle"
             android:src="@drawable/da_ic_chat"
-            android:tint="@color/da_white"/>
+            android:tint="@color/da_white"
+            app:backgroundTint="@color/da_red" />
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/ivCurrentLocation"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
-        android:padding="@dimen/_14sdp"
-        android:src="@drawable/da_ic_gps_location_symbol"
         android:layout_margin="@dimen/da_spacing_standard"
-        android:background="@drawable/da_shadoe_8dp"/>
+        android:background="@drawable/da_shadoe_8dp"
+        android:padding="@dimen/_14sdp"
+        android:src="@drawable/da_ic_gps_location_symbol" />
 </RelativeLayout>

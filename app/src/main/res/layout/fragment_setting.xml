@@ -7,7 +7,6 @@
 
 
     <androidx.core.widget.NestedScrollView
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -55,7 +54,7 @@
                 style="@style/ProfileText"
                 android:drawableStart="@drawable/da_ic_filter"
                 android:drawableEnd="@drawable/da_ic_left_arrow"
-                android:text="@string/da_filter" />
+                android:text="Bộ lọc" />
 
             <View style="@style/Divider" />
 
@@ -64,17 +63,18 @@
                 style="@style/ProfileText"
                 android:drawableStart="@drawable/da_ic_padlock"
                 android:drawableEnd="@drawable/da_ic_left_arrow"
-                android:text="@string/da_security" />
+                android:text="Đổi mật khẩu" />
 
             <View style="@style/Divider" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/tvNotification"
                     style="@style/ProfileText"
                     android:paddingStart="@dimen/_24sdp"
-                    android:text="@string/da_notification" />
+                    android:text="Thông báo" />
 
                 <Switch
                     android:id="@+id/switchNotification"
@@ -93,22 +93,17 @@
             </RelativeLayout>
 
             <View style="@style/Divider" />
-            <TextView
-                android:id="@+id/tvLanguage"
-                style="@style/ProfileText"
-                android:drawableStart="@drawable/da_ic_translate"
-                android:drawableEnd="@drawable/da_ic_left_arrow"
-                android:text="@string/da_lan" />
 
             <View style="@style/Divider" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/tvConnectInsta"
                     style="@style/ProfileText"
                     android:drawableStart="@drawable/da_ic_connect"
-                    android:text="@string/da_connect_insta" />
+                    android:text="Kết nối với instagram" />
 
                 <Switch
                     android:id="@+id/connectInstaNotification"
@@ -126,12 +121,6 @@
 
 
             <View style="@style/Divider" />
-            <TextView
-                android:id="@+id/tvSupport"
-                style="@style/ProfileText"
-                android:drawableStart="@drawable/da_ic_call"
-                android:drawableEnd="@drawable/da_ic_left_arrow"
-                android:text="@string/da_support" />
 
             <View style="@style/Divider" />
             <LinearLayout
@@ -144,14 +133,14 @@
                     android:id="@+id/tvLogout"
                     style="@style/ProfileText"
                     android:gravity="center_horizontal"
-                    android:text="@string/da_logout" />
+                    android:text="Đăng xuất" />
                 <View style="@style/Divider" />
                 <TextView
                     android:id="@+id/tvDeleteAccount"
                     style="@style/ProfileText"
                     android:textColor="@color/da_red"
                     android:gravity="center_horizontal"
-                    android:text="@string/da_del_ac" />
+                    android:text="Xóa tài khoản" />
 
             </LinearLayout>
         </LinearLayout>

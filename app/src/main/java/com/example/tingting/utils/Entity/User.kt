@@ -12,11 +12,9 @@ data class User(
     var avatar: String? = null,
     var birthDate: String? = null,
     var gender: String? = null,
-    var listFavorite: List<String>? = null,
-    var listPhoto: List<String>? = null,
     var name: String? = null,
     var phone: String? = null,
     var firstTimeLogin: Boolean ?= null
 ) : Parcelable {
-    constructor() : this("", "", "", "", "", null, null, null, null, null)
+    constructor() : this("", "", "", "", null, null, null)
 }

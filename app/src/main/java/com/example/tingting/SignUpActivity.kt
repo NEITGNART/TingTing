@@ -96,8 +96,6 @@ class SignUpActivity : AppCompatActivity() {
                         "",
                         "",
                         "",
-                        listOf(""),
-                        listOf(""),
                         "",
                         "",
                         firstTimeLogin = true

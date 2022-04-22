@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <com.example.tingting.utils.DACircleImageView
@@ -14,8 +15,8 @@
         android:layout_marginStart="@dimen/da_spacing_standard_new"
         android:background="@drawable/da_bg_circle"
         android:backgroundTint="@color/da_light_gray"
-        android:src="@drawable/da_user_profile"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        tool:src="@drawable/da_user_profile" />
 
     <FrameLayout
         android:id="@+id/llContent"

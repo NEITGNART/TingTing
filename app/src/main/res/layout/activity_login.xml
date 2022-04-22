@@ -168,7 +168,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginStart="@dimen/da_spacing_control"
                     android:layout_marginEnd="@dimen/da_spacing_control"
-                    android:text="@string/da_or_connect_with"
+                    android:text="Don't have account? Sign up"
                     android:textAppearance="@style/DAFontMedium"
                     android:textColor="@color/da_textColorSecondary"
                     android:textSize="@dimen/da_font_size_medium" />

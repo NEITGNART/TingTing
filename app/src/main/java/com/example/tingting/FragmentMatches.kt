@@ -48,8 +48,9 @@ class FragmentMatches : Fragment() {
 //            matches = it
 //        }
 
+
         val database = FirebaseDatabase.getInstance().reference
-        val match = database.child("Match").child( "${FirebaseAuth.getInstance().uid}").child("matched_list")
+        val match = database.child("Match").child( "${FirebaseAuth.getInstance().uid}")
         val matched = mutableListOf<Matched>()
 
         match.addValueEventListener(
@@ -70,7 +71,7 @@ class FragmentMatches : Fragment() {
                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                     val user = dataSnapshot.getValue(User::class.java)
                                     matches.add(user)
-                                    binding.rvMatches.adapter = MatchesAdapter(requireContext(), matches, layoutParams, layoutParams2, width)
+                                    binding.rvMatches.adapter = MatchesAdapter(binding.root.context, matches, layoutParams, layoutParams2, width)
                                 }
                                 override fun onCancelled(databaseError: DatabaseError) {
                                     Log.w("Matched", "loadPost:onCancelled", databaseError.toException())

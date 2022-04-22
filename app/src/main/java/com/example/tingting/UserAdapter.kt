@@ -7,15 +7,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tingting.databinding.ItemListBinding
+import com.example.tingting.utils.Entity.User
 
 class UserAdapter(val context: Context, val searches: MutableList<User>) :
     RecyclerView.Adapter<UserAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(user: User) {
             val binding = ItemListBinding.bind(itemView)
-            Glide.with(context).load(user.img).into(binding.ivImg)
-            binding.tvName.text = user.name + "," + user.age
-            binding.tvDisatance.text = user.distance
+            Glide.with(context).load(user.avatar).into(binding.ivImg)
+            binding.tvName.text = user.name
+//            binding.tvDisatance.text = user.distance
         }
     }
 

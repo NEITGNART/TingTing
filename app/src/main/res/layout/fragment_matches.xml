@@ -151,7 +151,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/ivHeart"
-                        android:text="@string/da_note_match"
+                        android:text="Những người bạn đã thích"
                         android:textColor="@color/da_white"
                         android:textSize="@dimen/da_font_size_xlarge"
                         android:textStyle="bold" />

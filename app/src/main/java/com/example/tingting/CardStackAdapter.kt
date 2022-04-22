@@ -9,9 +9,11 @@ import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+
 
 class CardStackAdapter(
-        private var spots: List<Spot> = emptyList()
+    private var spots: List<Spot> = emptyList()
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,14 +24,18 @@ class CardStackAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val spot = spots[position]
 //        holder.name.text = "${spot.id}. ${spot.name}"
-        holder.name.text =  "${spot.name}"
+        holder.name.text = "${spot.name}"
         holder.city.text = spot.city
-        Glide.with(holder.image)
-                .load(spot.url)
-                .into(holder.image)
+
+        Glide.with(holder.itemView.context)
+            .load(spot.url)
+            .apply(RequestOptions().override(200, 200))
+            .into(holder.image)
+
         holder.itemView.setOnClickListener { v ->
             Toast.makeText(v.context, spot.name, Toast.LENGTH_SHORT).show()
-            val action = FirstFragmentDirections.actionFirstFragmentToUserInfoFragment(name=spot.id_user)
+            val action =
+                FirstFragmentDirections.actionFirstFragmentToUserInfoFragment(name = spot.id_user)
             Navigation.findNavController(holder.name).navigate(action)
 
         }

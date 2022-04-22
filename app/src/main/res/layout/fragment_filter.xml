@@ -52,7 +52,7 @@
                 android:id="@+id/tvLocation"
                 style="@style/ProfileText"
                 android:drawableEnd="@drawable/da_ic_left_arrow"
-                android:text="Shipley Bradford" />
+                android:text="381 Lê Thị Riêng, Thới An, Quận 12" />
 
 
             <TextView
