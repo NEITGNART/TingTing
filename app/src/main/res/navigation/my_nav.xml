@@ -75,5 +75,8 @@
         <argument
             android:name="targetId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_congratulation_to_homepage"
+            app:destination="@id/homepage" />
     </fragment>
 </navigation>

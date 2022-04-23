@@ -65,18 +65,19 @@ class FirstFragment : Fragment() {
                     Toast.makeText(context, "Direction Top", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition-1
                     addVisited( adapter.getSpots()[currentIndex].id_user )
+                    addMatch(adapter.getSpots()[currentIndex].id_user)
                 }
                 if (direction == Direction.Left) {
                     Toast.makeText(context, "Direction Left", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition-1
                     addVisited( adapter.getSpots()[currentIndex].id_user )
-                    addMatch(adapter.getSpots()[currentIndex].id_user)
 
                 }
                 if (direction == Direction.Bottom) {
                     Toast.makeText(context, "Direction Bottom", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition-1
                     addVisited( adapter.getSpots()[currentIndex].id_user )
+                    addMatch(adapter.getSpots()[currentIndex].id_user)
                 }
 
             }
@@ -254,9 +255,6 @@ class FirstFragment : Fragment() {
                     FirebaseDatabase.getInstance().getReference("/Matched/$targetId/$userId").setValue(userId)
                     val action = FirstFragmentDirections.actionHomepageToCongratulation(it.value.toString())
                     Navigation.findNavController(binding.root).navigate(action)
-
-
-
                 }
             }
 

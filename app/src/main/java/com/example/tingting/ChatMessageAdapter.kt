@@ -35,6 +35,7 @@ class ChatMessageAdapter(
                 binding.tvVoiceMessage.text = badge.text
             }
 
+
             binding.tvMessage.hide()
             binding.tvVoiceMessage.hide()
             binding.cardPhoto.hide()
@@ -72,7 +73,7 @@ class ChatMessageAdapter(
                     else -> {
                         binding.cardPhoto.show()
                         binding.cardPhoto.layoutParams = photoParam2
-                        Glide.with(context).load(imgUrl).into(binding.ivChatPhoto)
+                        Glide.with(binding.root.context).load(imgUrl).into(binding.ivChatPhoto)
                     }
                 }
                 binding.ivChatProfile.visibility = View.INVISIBLE
@@ -90,7 +91,6 @@ class ChatMessageAdapter(
                                 R.color.da_textColorPrimary
                             )
                         )
-
                     }
                     badge.type == "Voice Message" -> {
                         binding.tvVoiceMessage.show()
@@ -104,7 +104,7 @@ class ChatMessageAdapter(
                     else -> {
                         binding.cardPhoto.show()
                         binding.cardPhoto.layoutParams = photoParam
-                        Glide.with(context).load(imgUrl).into(binding.ivChatPhoto)
+                        Glide.with(binding.root.context).load(imgUrl).into(binding.ivChatPhoto)
                     }
                 }
                 Glide.with(context).load(imgUrl).into(binding.ivChatProfile)

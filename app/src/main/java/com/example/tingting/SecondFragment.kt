@@ -1,13 +1,20 @@
 package com.example.tingting
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tingting.databinding.FragmentSecondBinding
-
+import com.example.tingting.utils.Entity.User
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 
 class SecondFragment : Fragment() {
     private lateinit var binding: FragmentSecondBinding
@@ -21,84 +28,48 @@ class SecondFragment : Fragment() {
 
         binding.rvList.layoutManager = GridLayoutManager(context, 2)
 
-        generateList()
+        loadMatchedFromFirebase()
 
         binding.rvList.adapter = UserAdapter(binding.root.context, searches)
-
 
         return binding.root
     }
 
-    fun generateList() {
-        searches.apply {
-            addUser {
-                name = "Dezaa"; img = R.drawable.da_user_profile; distance = "2 km"; proffesion =
-                "Art Director";age = "25"
+    fun loadMatchedFromFirebase() {
+        val userId = Firebase.auth.uid!!
+        val ref = FirebaseDatabase.getInstance().getReference("/Matched/$userId")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                searches.clear()
+                for (snapshot in dataSnapshot.children) {
+                    val matchedId = snapshot.key
+
+                    // get matched user from firebase
+
+                    Log.i("matchedId", matchedId.toString())
+
+                    val matchedRef =
+                        FirebaseDatabase.getInstance().getReference("/Users/$matchedId")
+
+                    matchedRef.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val matched = dataSnapshot.getValue(User::class.java)
+                            searches.add(matched!!)
+                            binding.rvList.adapter?.notifyDataSetChanged()
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            // Failed to read value
+                        }
+                    })
+                }
             }
 
-            addUser {
-                name = "Rose"; img = R.drawable.da_img7; distance =
-                "2 km"; proffesion = "Art Director";age = "22"
+            override fun onCancelled(databaseError: DatabaseError) {
+                println("loadPost:onCancelled ${databaseError.toException()}")
             }
-            addUser {
-                name = "Spohia"; img = R.drawable.da_img8; distance = "2 km"; proffesion =
-                "Art Director";age = "20"
-            }
-            addUser {
-                name = "Stella"; img = R.drawable.da_img9; distance = "2 km"; proffesion =
-                "Art Director";age = "18"
-            }
-            addUser {
-                name = "Sam"; img = R.drawable.da_img10; distance = "2 km"; proffesion =
-                "Art Director";age = "25"
-            }
-            addUser {
-                name = "Tiffany"; img = R.drawable.da_img11; distance = "2 km"; proffesion =
-                "Art Director";age = "21"
-            }
-            addUser {
-                name = "Dezaa"; img = R.drawable.da_img12; distance = "2 km"; proffesion =
-                "Art Director";age = "25"
-            }
-
-            addUser {
-                name = "Rose"; img = R.drawable.da_img14; distance =
-                "2 km"; proffesion = "Art Director";age = "22"
-            }
-            addUser {
-                name = "Spohia"; img = R.drawable.da_img15; distance = "2 km"; proffesion =
-                "Art Director";age = "20"
-            }
-            addUser {
-                name = "Stella"; img = R.drawable.da_img16; distance = "2 km"; proffesion =
-                "Art Director";age = "18"
-            }
-            addUser {
-                name = "Sam"; img = R.drawable.da_img17; distance = "2 km"; proffesion =
-                "Art Director";age = "25"
-            }
-
-
-        }
+        })
     }
-
-    fun MutableList<User>.addUser(block: User.() -> Unit) {
-        add(User().apply(block))
-    }
-
-
-
-
-
 }
 
 
-class User {
-    var name:String?=null
-    var distance:String?=null
-    var age:String?=null
-    var proffesion:String?=null
-    var isOnline:Boolean=false
-    var img:Int?=null
-
-}
