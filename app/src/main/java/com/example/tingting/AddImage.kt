@@ -87,7 +87,7 @@ class AddImage : Fragment() {
                 var imageStorage = FirebaseStorage.getInstance().getReference("/Images")
                 val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
                 val mDatabaseReference = FirebaseDatabase.getInstance().reference
-                mDatabaseReference.child("Users").child(userID).child("firstTimeLogin").setValue(true)
+                mDatabaseReference.child("Users").child(userID).child("firstTimeLogin").setValue(false)
 
                 var isSetAvatar = false
                 for (image in images){

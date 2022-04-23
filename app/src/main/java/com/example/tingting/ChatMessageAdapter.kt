@@ -78,7 +78,7 @@ class ChatMessageAdapter(
                 }
                 binding.ivChatProfile.visibility = View.INVISIBLE
             } else {
-
+                badge.showProfile = true
                 when {
                     badge.type == "Message" -> {
                         binding.tvMessage.show()

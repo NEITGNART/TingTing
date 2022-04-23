@@ -41,10 +41,33 @@
         <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/drawable/gray_border.xml" value="0.1375" />
         <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/activity_first_login.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/activity_login.xml" value="0.1265625" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/activity_main.xml" value="0.4782214156079855" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/activity_setting.xml" value="0.5744791666666667" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/content_dauser_detail.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/da_activity_editprofile.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/da_bottom_sheet_activity.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/da_chat_layout_bottom.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/da_fragment_explore_nearly.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/da_map_marker.xml" value="0.35" />
         <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/fragment_add_image.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/fragment_app_introduction.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/fragment_congratulation.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/fragment_filter.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/fragment_first.xml" value="0.35" />
         <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/fragment_four.xml" value="0.5177083333333333" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/fragment_input_user_birthday.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/fragment_input_user_display.xml" value="0.35" />
         <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/fragment_input_user_name.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/fragment_matches.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/fragment_setting.xml" value="0.5744791666666667" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/fragment_tindercardstack.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/item_chat.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/list_image.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/login_fragment.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/layout/user_info_fragment.xml" value="0.35" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/menu/bottom_nav_menu.xml" value="0.5744791666666667" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/menu/toolbar_menu.xml" value="0.5744791666666667" />
+        <entry key="..\:/Users/phihu/Desktop/TingTing/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.4615" />
         <entry key="..\:/Workspace/TingTing/app/src/main/res/drawable/da_bg_color_primary.xml" value="0.4205" />
         <entry key="..\:/Workspace/TingTing/app/src/main/res/drawable/da_gradation_black.xml" value="0.4205" />
         <entry key="..\:/Workspace/TingTing/app/src/main/res/drawable/da_ic_add.xml" value="0.33" />

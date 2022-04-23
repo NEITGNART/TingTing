@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity() {
                         Glide.with(this@MainActivity)
                             .load(user.avatar)
                             .into(binding.ivAvatar)
-
                     }
                 }
             }
