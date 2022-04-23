@@ -1,6 +1,7 @@
 package com.example.tingting.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -19,6 +20,8 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import java.util.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -35,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
@@ -85,10 +89,11 @@ class LoginActivity : AppCompatActivity() {
                                 .child(auth2.currentUser?.uid.toString())
                                 .child("firstTimeLogin")
                                 .get().addOnSuccessListener {
-                                    if (it.value == true) {
-                                        goToFirstLoginPage()
-                                    } else
+                                    Log.i("hihi", it.value.toString())
+                                    if (it.value == false) {
                                         goToHomePage()
+                                    } else
+                                        goToFirstLoginPage()
                                 }
                         } else {
 

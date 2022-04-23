@@ -54,17 +54,18 @@ class FourFragment : Fragment() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 chats.clear()
-                for (i in p0.children) {
-                    val user = i.getValue(User::class.java)
-
-                    Log.i("FourFragment", "User ${user}")
-                    Log.i("FourFragment", "Current ${currentUser}")
-
-                    if (user != null && user.id != currentUser) {
-                        chats.add(user)
+               for (i in p0.children) {
+                   Log.i("hihi", i.key.toString())
+                    database.getReference("/Users/${i.key}").get()
+                        .addOnSuccessListener{
+                            Log.i("hihi", it.value.toString())
+                            val user = it.getValue(User::class.java)
+                            if (user != null && user.id != currentUser) {
+                                chats.add(user)
+                                binding.rvChat.adapter = ChatAdapter(binding.root.context, chats)
+                            }
                     }
                 }
-                binding.rvChat.adapter = ChatAdapter(binding.root.context, chats)
             }
         })
 

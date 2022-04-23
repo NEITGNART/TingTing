@@ -66,7 +66,6 @@ class AddImage : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var images: MutableList<Uri?>
     private val PICK_IMAGES_CODE = 0
-    private var position = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,24 +84,29 @@ class AddImage : Fragment() {
                     .show()
             }
             else {
+                var imageStorage = FirebaseStorage.getInstance().getReference("/Images")
+                val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
                 val mDatabaseReference = FirebaseDatabase.getInstance().reference
-                mDatabaseReference
-                    .child("Users")
-                    .child(auth.currentUser?.uid.toString())
-                    .child("firstTimeLogin").setValue(false)
+                mDatabaseReference.child("Users").child(userID).child("firstTimeLogin").setValue(true)
 
-                val storageReference = FirebaseStorage.getInstance().getReference("Images/" + auth.currentUser?.uid.toString())
-                images.forEach { image ->
-                    storageReference.child(UUID.randomUUID().toString()).putFile(image!!)
+                var isSetAvatar = false
+                for (image in images){
+                    val imageRef = imageStorage.child(UUID.randomUUID().toString())
+                    imageRef.putFile(image!!)
                         .addOnSuccessListener {
-                            storageReference.downloadUrl.addOnSuccessListener {
-                                Log.i("UserInfo", "${it}")
+                            imageRef.downloadUrl.addOnSuccessListener {
+                                if (!isSetAvatar){
+                                    mDatabaseReference.child("Users").child(userID).child("avatar").setValue(it.toString())
+                                    isSetAvatar = true
+                                }
+                                mDatabaseReference.child("Images").child(userID).push().setValue(it.toString())
                             }
                         }
                         .addOnFailureListener {
                             Log.i("UserInfo", "Upload fail")
                         }
                 }
+
                 val intent = Intent(context, MainActivity::class.java)
                 startActivity(intent)
             }
@@ -148,7 +152,6 @@ class AddImage : Fragment() {
                 for (i in 0 until count){
                     val imageUri = data.clipData!!.getItemAt(i).uri
                     images!!.add(imageUri)
-                    Log.i("hihi", images!!.toString())
                 }
             }
             else {
@@ -174,7 +177,6 @@ class AddImage : Fragment() {
                 listButtonAddImage[i].setImageResource(R.drawable.placeholder_img  )
                 listButtonAddImage[i].setBackgroundResource(R.drawable.dashed_border)
             }
-
         }
     }
 }
