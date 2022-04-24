@@ -17,16 +17,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/da_spacing_middle"
-                android:textSize="@dimen/da_font_size_xlarge"
-                android:textColor="@color/da_red"
-                android:layout_gravity="center_horizontal"
-                android:textAppearance="@style/DAFontBold"
-                android:textStyle="bold"
-                android:text="@string/da_settings" />
+
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivBack"
+                    style="@style/DABackIcon" />
+
+                <TextView
+                    style="@style/DAHeading"
+                    android:layout_alignTop="@id/ivBack"
+                    android:layout_alignBottom="@id/ivBack"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="Setting"
+                    android:textSize="@dimen/da_font_size_xlarge" />
+
+            </RelativeLayout>
+
+
 
             <com.example.tingting.utils.DACircleImageView
                 android:id="@+id/ivProfile"

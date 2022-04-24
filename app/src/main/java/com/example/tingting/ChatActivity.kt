@@ -77,6 +77,7 @@ class ChatActivity : AppCompatActivity() {
                 resources = resource, photoParam2 = photoParam2,
                 imgUrl = toUser?.avatar!!,
             )
+
         }
 
         binding.tvUserName.text = toUser?.name
@@ -156,6 +157,7 @@ class ChatActivity : AppCompatActivity() {
                 } else {
 
                 }
+                binding.rvChat.scrollToPosition(chats.size - 1)
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -173,7 +175,6 @@ class ChatActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
-
 
         })
 

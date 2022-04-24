@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
 import com.example.tingting.activity.LoginActivity
+import com.example.tingting.activity.MainActivity
 import com.example.tingting.databinding.FragmentSettingBinding
 import com.example.tingting.utils.Entity.User
+import com.example.tingting.utils.onClick
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,6 +33,12 @@ class SettingFragment : Fragment() {
         binding.tvFilter.setOnClickListener {
             val action = SettingFragmentDirections.actionSettingFragmentToFilterFragment()
             NavHostFragment.findNavController(this).navigate(action)
+        }
+
+        binding.ivBack.setOnClickListener {
+            val intent = Intent(activity, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
         }
 
         // get current user

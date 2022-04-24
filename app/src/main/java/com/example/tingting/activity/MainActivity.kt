@@ -51,6 +51,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //Notification
+        binding.imageView.setOnClickListener {
+            val intent = Intent(this, Notifycation::class.java)
+            startActivity(intent)
+        }
+
         val user = FirebaseAuth.getInstance().uid
         val mRef = FirebaseDatabase.getInstance().getReference("/Users/$user")
 
