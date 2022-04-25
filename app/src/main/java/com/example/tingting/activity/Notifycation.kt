@@ -17,7 +17,5 @@ class Notifycation : AppCompatActivity() {
             finish()
         }
 
-//        binding.rvNotification.adapter = NotificationAdapter()
-
     }
 }

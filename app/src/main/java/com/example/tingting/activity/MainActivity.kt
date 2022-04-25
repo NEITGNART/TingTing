@@ -2,6 +2,7 @@ package com.example.tingting.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -10,11 +11,15 @@ import com.example.tingting.R
 import com.example.tingting.SettingActivity
 import com.example.tingting.databinding.ActivityMainBinding
 import com.example.tingting.utils.Entity.User
+import com.facebook.AccessToken
+import com.facebook.GraphRequest
+import com.facebook.GraphResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
@@ -57,8 +62,42 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+
         val user = FirebaseAuth.getInstance().uid
         val mRef = FirebaseDatabase.getInstance().getReference("/Users/$user")
+
+        val accessToken = AccessToken.getCurrentAccessToken()
+
+        if (accessToken!=null && !accessToken.isExpired) {
+
+            val request = GraphRequest.newMeRequest(
+                accessToken,
+            ) { _, response ->
+
+                val jsonObject = JSONObject(response?.jsonObject.toString())
+                val url = jsonObject.getJSONObject("picture").getJSONObject("data").getString("url")
+
+                mRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val user = p0.getValue(User::class.java)
+                        if (user?.avatar == "") {
+                            mRef.child("avatar").setValue(url)
+                        }
+                    }
+
+                })
+            }
+
+            val parameters = Bundle()
+            parameters.putString("fields", "id,name,link, picture.type(large)")
+            request.parameters = parameters
+            request.executeAsync()
+        }
 
         mRef.addListenerForSingleValueEvent(object :
             ValueEventListener {
@@ -69,6 +108,7 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 if (p0.exists()) {
                     val user = p0.getValue(User::class.java)
+
                     if (user != null) {
                         Glide.with(this@MainActivity)
                             .load(user.avatar)
@@ -77,20 +117,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-
-
-
-//        var list = mutableListOf<Int>()
-
-
-//        list.add(R.drawable.image1)
-//        list.add(R.drawable.image2)
-//        list.add(R.drawable.image3)
-//
-//        adapters = Adapters(this)
-//        adapters.setContentList(list)
-//        viewpager = findViewById(R.id.viewPagerMain)
-//        viewpager.adapter = adapters
 
     }
 

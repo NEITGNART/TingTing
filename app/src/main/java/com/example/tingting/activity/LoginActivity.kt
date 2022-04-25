@@ -1,7 +1,6 @@
 package com.example.tingting.activity
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
@@ -11,16 +10,19 @@ import com.example.tingting.R
 import com.example.tingting.SignUpActivity
 import com.example.tingting.databinding.ActivityLoginBinding
 import com.example.tingting.utils.Entity.User
+import com.facebook.*
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
+import org.json.JSONObject
 import java.util.*
 
 
@@ -30,9 +32,11 @@ class LoginActivity : AppCompatActivity() {
 
     //    private lateinit var binding: LoginFragmentBinding
     private lateinit var auth: FirebaseAuth
-    private lateinit var auth2: FirebaseAuth
+
+    private lateinit var callbackManager: CallbackManager
 
     private lateinit var googleSignInClient: GoogleSignInClient
+    lateinit var mDatabaseReference: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,13 +57,13 @@ class LoginActivity : AppCompatActivity() {
 
         // Firebase
         auth = Firebase.auth
-        auth2 = FirebaseAuth.getInstance()
+
 
         binding.btnLoginGoogle.setOnClickListener {
             signIn()
         }
 
-        var mDatabaseReference: DatabaseReference
+
         binding.btnSignIn.setOnClickListener {
 
 
@@ -80,16 +84,17 @@ class LoginActivity : AppCompatActivity() {
                 binding.etPassword.requestFocus()
             } else {
                 binding.pbLoading.visibility = android.view.View.VISIBLE
-                auth2.signInWithEmailAndPassword(email, password)
+
+                auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
+
                             mDatabaseReference = FirebaseDatabase.getInstance().reference
                             mDatabaseReference
                                 .child("Users")
-                                .child(auth2.currentUser?.uid.toString())
+                                .child(auth.currentUser?.uid.toString())
                                 .child("firstTimeLogin")
                                 .get().addOnSuccessListener {
-                                    Log.i("hihi", it.value.toString())
                                     if (it.value == false) {
                                         goToHomePage()
                                     } else
@@ -106,32 +111,43 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                     }
+
             }
 
 
         }
 
 
-        binding.btnLoginFB.setOnClickListener {
 
+        callbackManager = CallbackManager.Factory.create()
+
+
+        // Login with Facebook
+
+        binding.btnLoginFB.setReadPermissions("email", "public_profile")
+
+        // Callback registration
+        // Callback registration
+        binding.btnLoginFB.registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
+
+            override fun onCancel() {
+                // App code
+            }
+
+            override fun onError(exception: FacebookException) {
+                // App code
+            }
+
+            override fun onSuccess(result: LoginResult?) {
+                Log.d(TAG, "facebook:onSuccess:$result")
+                result?.let { handleFacebookAccessToken(it.accessToken) }
+            }
+        })
+
+        binding.lgFB.setOnClickListener {
+            binding.btnLoginFB.performClick()
         }
 
-
-//        var database = FirebaseDatabase.getInstance().reference
-//        var user = database.child("Users").child("-LrDEBoLokW-5mhaT3ys")
-//
-//        user.addValueEventListener(object: ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//
-//                val post = dataSnapshot.getValue(User::class.java)
-//                Log.i("LoginActicvity", "$post")
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                // Getting Post failed, log a message
-//                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-//            }
-//        })
 
         binding.tvSignUp.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
@@ -139,9 +155,53 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun handleFacebookAccessToken(token: AccessToken) {
+        Log.d(TAG, "handleFacebookAccessToken:$token")
+
+        binding.pbLoading.visibility = android.view.View.VISIBLE
+        val credential = FacebookAuthProvider.getCredential(token.token)
+
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithCredential:success")
+
+                    mDatabaseReference = FirebaseDatabase.getInstance().reference
+                    mDatabaseReference
+                        .child("Users")
+                        .child(auth.currentUser?.uid.toString())
+                        .child("firstTimeLogin")
+                        .get().addOnSuccessListener {
+                            if (it.value == false) {
+                                // get current avatar on facebook and store in user
+
+
+
+                                goToHomePage()
+                            } else
+                                goToFirstLoginPage()
+                        }
+
+
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithCredential:failure", task.exception)
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                    binding.pbLoading.visibility = android.view.View.GONE
+                }
+            }
+
+    }
+
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+
         super.onActivityResult(requestCode, resultCode, data)
+        callbackManager.onActivityResult(requestCode, resultCode, data)
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -155,9 +215,9 @@ class LoginActivity : AppCompatActivity() {
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
 //                Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show()
-
             }
         }
+
     }
 
     fun goToHomePage() {

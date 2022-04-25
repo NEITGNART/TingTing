@@ -5,20 +5,26 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.tingting.databinding.DaMapMarkerBinding
 import com.example.tingting.utils.applyColorFilter
 import com.example.tingting.utils.color
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import com.google.maps.android.ui.IconGenerator
+
 
 class MarkerClusterRenderer(
     context: Context,
@@ -37,20 +43,32 @@ class MarkerClusterRenderer(
                     setCurrentLocationIcon()!!
                 )
             )
-        } else {
+        }
+        markerOptions?.title(item.title)
+    }
 
-            markerOptions?.icon(
-                BitmapDescriptorFactory.fromBitmap(
-                    getMarkerBitmapFromView(
-                        item.mUser?.avatar!!,
-                        false,
-                        context
-                    )
-                )
-            )
+    override fun onClusterItemRendered(clusterItem: DAMapMarker?, marker: Marker?) {
+        super.onClusterItemRendered(clusterItem, marker)
+
+        if (!clusterItem?.isUser!!) {
+            Glide.with(context)
+                .asBitmap()
+                .load(clusterItem.mUser?.avatar)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        val x =getMarkerBitmapFromView(resource, false, context)
+                        marker?.setIcon(BitmapDescriptorFactory.fromBitmap(x))
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+
+                    }
+                })
         }
 
-        markerOptions?.title(item.title)
     }
 
     fun setCurrentLocationIcon(): Bitmap? {
@@ -65,9 +83,10 @@ class MarkerClusterRenderer(
 
     companion object {
         fun getMarkerBitmapFromView(
-            url: String, isSelected: Boolean,
+            image: Bitmap, isSelected: Boolean,
             context: Context
         ): Bitmap {
+
 
             val customMarkerView =
                 (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(
@@ -75,23 +94,21 @@ class MarkerClusterRenderer(
                     null
                 )
 
-//            val markerImageView = customMarkerView.findViewById<ImageView>(R.id.ivUserImage)
-//            Glide.with(context)
-//                .load(url)
-//                .into(markerImageView)
+            val ivUserImage = customMarkerView.findViewById<ImageView>(R.id.ivUserImage)
+            ivUserImage.setImageBitmap(image)
 
-            val binding = DaMapMarkerBinding.inflate(
-                LayoutInflater.from(context),
-            )
+            val viewBack = customMarkerView.findViewById<ImageView>(R.id.viewBack)
+
+            val binding = DaMapMarkerBinding.bind(customMarkerView)
 
             if (!isSelected) {
-                binding.viewBack.applyColorFilter(context.color(R.color.da_white))
-                binding.viewBack.applyColorFilter(context.color(R.color.da_white))
+                viewBack.applyColorFilter(context.color(R.color.da_white))
+                viewBack.applyColorFilter(context.color(R.color.da_white))
             } else {
+                // ivUserImage bordercolor
+                viewBack.applyColorFilter(context.color(R.color.da_red))
                 binding.ivUserImage.borderColor = context.color(R.color.da_red)
-                binding.viewBack.applyColorFilter(context.color(R.color.da_red))
             }
-
 
             customMarkerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
             customMarkerView.layout(
@@ -116,4 +133,4 @@ class MarkerClusterRenderer(
 
     }
 
-} 
+}

@@ -117,8 +117,17 @@
 
             </RelativeLayout>
 
-            <Button
+
+
+            <com.facebook.login.widget.LoginButton
                 android:id="@+id/btnLoginFB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/lgFB"
                 style="@style/DAMaterialButtonStyle.Enabled"
                 android:layout_margin="@dimen/da_spacing_large"
                 android:layout_marginStart="@dimen/da_spacing_large"
