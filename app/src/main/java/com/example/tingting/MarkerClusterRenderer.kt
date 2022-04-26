@@ -27,11 +27,10 @@ import com.google.maps.android.ui.IconGenerator
 
 
 class MarkerClusterRenderer(
-    context: Context,
+    private var context: Context,
     map: GoogleMap,
     clusterManager: ClusterManager<DAMapMarker>
 ) : DefaultClusterRenderer<DAMapMarker>(context, map, clusterManager) {   // 1
-    private var context: Context = context
 
     override fun onBeforeClusterItemRendered(
         item: DAMapMarker?,
@@ -67,11 +66,17 @@ class MarkerClusterRenderer(
 
                     }
                 })
+        } else {
+            marker?.setIcon(
+                BitmapDescriptorFactory.fromBitmap(
+                    setCurrentLocationIcon()!!
+                )
+            )
         }
 
     }
 
-    fun setCurrentLocationIcon(): Bitmap? {
+    private fun setCurrentLocationIcon(): Bitmap? {
         val iconGenerator = IconGenerator(context)  // 3
         val markerImageView = ImageView(context)
         markerImageView.layoutParams = ViewGroup.LayoutParams(120, 120)
