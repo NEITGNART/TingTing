@@ -1,8 +1,12 @@
 package com.example.tingting.activity
 
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -11,9 +15,9 @@ import com.example.tingting.R
 import com.example.tingting.SettingActivity
 import com.example.tingting.databinding.ActivityMainBinding
 import com.example.tingting.utils.Entity.User
+import com.example.tingting.utils.hide
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
-import com.facebook.GraphResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,12 +25,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import org.json.JSONObject
 
+
 class MainActivity : AppCompatActivity() {
 
-    //  hddjwedhd
-//    var button: Button?= null
-//    lateinit var  adapters: Adapters
-//    lateinit var viewpager: ViewPager2
     private lateinit var binding: ActivityMainBinding
 
 
@@ -37,10 +38,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        // Toolbar
-//        val toolbar = binding.toolbar
-//        setSupportActionBar(toolbar)
-
         // Bottom navigation
         val navController = findNavController(R.id.nav_host_fragment_login)
 //
@@ -49,6 +46,8 @@ class MainActivity : AppCompatActivity() {
             number = 10
             isVisible = true
         }
+
+
 
         binding.ivAvatar.setOnClickListener {
             // Call intent to setting
@@ -61,8 +60,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, Notifycation::class.java)
             startActivity(intent)
         }
-
-
 
         val user = FirebaseAuth.getInstance().uid
         val mRef = FirebaseDatabase.getInstance().getReference("/Users/$user")
@@ -120,5 +117,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun hideStatusBarNavigationBar() {
+        window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+        window.statusBarColor = Color.TRANSPARENT
+    }
 
 }

@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import api.RetrofitInstance
 import com.example.tingting.utils.Entity.User
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
 
@@ -16,17 +18,19 @@ class UserInfoViewModel : ViewModel() {
     private val _user: MutableLiveData<User> = MutableLiveData()
     val user: LiveData<User>
         get() = _user
-    init {
+
+    fun getUser(userId: String): LiveData<User> {
         viewModelScope.launch {
             try {
-                val fetchUser = RetrofitInstance.api.getUser()
+                val fetchUser = RetrofitInstance.api.getUser(userId)
                 _user.value = fetchUser
-                Log.i(TAG, "$fetchUser")
             } catch (
                 e: Exception
             ) {
                 Log.e(TAG, "Exception $e")
             }
         }
+        return _user
     }
+
 }

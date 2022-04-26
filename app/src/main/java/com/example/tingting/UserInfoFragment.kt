@@ -15,14 +15,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.ActivityMainBinding
 import com.example.tingting.databinding.UserInfoFragmentBinding
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
+import com.example.tingting.utils.hide
 import com.google.firebase.storage.FirebaseStorage
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
 
 class UserInfoFragment : Fragment() {
@@ -41,77 +37,90 @@ class UserInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //tv.setVisibility(View.INVISIBLE );
+        binding = UserInfoFragmentBinding.inflate(layoutInflater)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
+        super.onViewCreated(view, savedInstanceState)
 
         list.add(R.drawable.da_img16)
         list.add(R.drawable.da_img10)
         list.add(R.drawable.da_img12)
 
-        //tv.setVisibility(View.INVISIBLE );
-        binding = UserInfoFragmentBinding.inflate(layoutInflater)
 
-        val bindingMain = ActivityMainBinding.inflate(layoutInflater)
-        bindingMain.bottomNavigationView.visibility = View.GONE
+        val mainBinding = ActivityMainBinding.inflate(layoutInflater)
+        mainBinding.bottomNavigationView.hide()
+
+        // take the root view
+
 
         var adapters = Adapters(binding.root.context)
         adapters.setContentList(list)
         var viewpager = binding.viewPagerMain
         viewpager.adapter = adapters
-        viewModel = ViewModelProvider(this).get(UserInfoViewModel::class.java)
+        viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
 
         binding.ivBack.setOnClickListener {
             Navigation.findNavController(binding.root).navigateUp()
-            bindingMain.bottomNavigationView.visibility = View.VISIBLE
         }
-//        val args: TindercardstackDirections by navArgs()
-
-
-     //   val  action =   TindercardstackDirections.actionTindercardstackToUserInfoFragment()
-     //   tv.setText(action.toString())
         val amount: String = UserInfoFragmentArgs.fromBundle(requireArguments()).name
-        val rootRef = FirebaseDatabase.getInstance().reference
+//        val rootRef = FirebaseDatabase.getInstance().reference
 
-        val messageRef = rootRef.child("Users")
+//        val messageRef = rootRef.child("Users")
 
-        val valueEventListener = object : ValueEventListener {
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (ds in dataSnapshot.children) {
-
-                    val id = ds.child("id").getValue(String::class.java)
-
-                    if (id == amount ) {
-                        val name_user = ds.child("name").getValue(String::class.java)
-                        binding.item.tvName.setText(name_user)
-
-                    }
-
-                }
-            }
-
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("TAG", databaseError.getMessage()) //Don't ignore errors!
-            }
-        }
-        messageRef.addListenerForSingleValueEvent(valueEventListener)
+//        val valueEventListener = object : ValueEventListener {
+//
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                for (ds in dataSnapshot.children) {
+//
+//                    val id = ds.child("id").getValue(String::class.java)
+//
+//                    if (id == amount) {
+//                        val name_user = ds.child("name").getValue(String::class.java)
+//                        binding.item.tvName.setText(name_user)
+//
+//                    }
+//
+//                }
+//            }
+//
+//
+//            override fun onCancelled(databaseError: DatabaseError) {
+//                Log.d("TAG", databaseError.getMessage()) //Don't ignore errors!
+//            }
+//        }
+//        messageRef.addListenerForSingleValueEvent(valueEventListener)
 
 
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
 
-        viewModel.user.observe(viewLifecycleOwner) {
-            binding.item.tvName.text = it.name
-            binding.item.tvLocation.text = it.address
+        viewModel.getUser(amount).observe(viewLifecycleOwner) { user ->
+            // parse DD/MM/YYYY get age
+            val dateString = user.birthDate
+
+            dateString?.let {
+                try {
+                    val date = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(dateString)
+                    val calendar = Calendar.getInstance()
+                    calendar.time = date
+                    val age = calendar.get(Calendar.YEAR)
+                    binding.item.tvName.text = "${user.name} $age"
+                } catch (e: ParseException) {
+                    binding.item.tvName.text = "${user.name}"
+                    e.printStackTrace()
+                }
+            }
+            binding.item.tvLocation.text = user.address
+            binding.item.tvDetail.text = user.description
         }
 
-        // Upload image on firebase storage.
 
+        // Upload image on firebase storage.
 //        getMultiImage()
 //        getSingleImage()
-
-        return binding.root
     }
 
     private fun getSingleImage() {
@@ -147,6 +156,7 @@ class UserInfoFragment : Fragment() {
             storeImageFirebaseStorage(image!!)
         }
     }
+
 
     fun getImage() {
 

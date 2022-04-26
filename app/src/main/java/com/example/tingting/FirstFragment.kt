@@ -13,7 +13,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.example.tingting.databinding.ActivityMainBinding
 import com.example.tingting.databinding.FragmentFirstBinding
+import com.example.tingting.utils.hide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.yuyakaido.android.cardstackview.*
@@ -21,7 +23,6 @@ import com.yuyakaido.android.cardstackview.*
 
 class FirstFragment : Fragment() {
 
-    private val TAG = "MainActivity"
     private lateinit var binding: FragmentFirstBinding
     lateinit var adapter: CardStackAdapter
     lateinit var database: DatabaseReference
@@ -41,6 +42,7 @@ class FirstFragment : Fragment() {
 
         binding = FragmentFirstBinding.inflate(layoutInflater)
         cardStackView = binding.cardstackview
+
 
 
 
@@ -101,8 +103,6 @@ class FirstFragment : Fragment() {
             }
         })
 
-        val mDatabaseReference = FirebaseDatabase.getInstance().reference
-
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(3)
         manager.setTranslationInterval(8.0f)
@@ -115,7 +115,7 @@ class FirstFragment : Fragment() {
 
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
-        adapter = CardStackAdapter(createSpots(FirebaseAuth.getInstance().uid!!))
+        adapter = CardStackAdapter(binding, createSpots(FirebaseAuth.getInstance().uid!!))
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator = DefaultItemAnimator()
@@ -215,7 +215,7 @@ class FirstFragment : Fragment() {
                     }
 
                 }
-                cardStackView.adapter =   CardStackAdapter(spots)
+                cardStackView.adapter = CardStackAdapter(binding, spots)
             }
 
 
@@ -236,6 +236,11 @@ class FirstFragment : Fragment() {
 //        spots.add(Spot(name = "Big Ben", city = "London", url = "https://source.unsplash.com/CdVAUADdqEc/600x800"))
 //        spots.add(Spot(name = "Great Wall of China", city = "China", url = "https://source.unsplash.com/AWh9C-QjhE4/600x800"))
         return spots
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
     }
 
     fun addVisited(targetId :String ){

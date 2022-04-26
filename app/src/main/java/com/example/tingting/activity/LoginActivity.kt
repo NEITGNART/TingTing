@@ -10,7 +10,10 @@ import com.example.tingting.R
 import com.example.tingting.SignUpActivity
 import com.example.tingting.databinding.ActivityLoginBinding
 import com.example.tingting.utils.Entity.User
-import com.facebook.*
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -22,8 +25,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
-import org.json.JSONObject
-import java.util.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -111,9 +112,7 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                     }
-
             }
-
 
         }
 

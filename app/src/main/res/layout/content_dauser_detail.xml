@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/da_spacing_large"
-            android:text="@string/da_melanie_23"
+            tools:text="@string/da_melanie_23"
             android:textAppearance="@style/DAFontBold"
             android:textColor="@color/da_red"
             android:textSize="@dimen/da_font_size_xxlarge"
@@ -74,7 +74,7 @@
             android:drawablePadding="@dimen/da_spacing_standard"
             android:lineSpacingExtra="@dimen/da_spacing_control_half"
             android:lines="5"
-            android:text="@string/large_text"
+            tools:text="@string/large_text"
             android:textColor="@color/da_textColorPrimary"
             android:textSize="@dimen/da_font_size_normal" />
 

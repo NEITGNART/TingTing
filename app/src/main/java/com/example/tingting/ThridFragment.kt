@@ -93,7 +93,8 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
         lifecycleScope.launch {
             setUpClusterManager(googleMap)
         }
-        
+
+
         val fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(this.requireActivity())
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
@@ -101,34 +102,40 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
                 Toast.makeText(binding.root.context, "${location.latitude}", Toast.LENGTH_SHORT)
                     .show()
                 userLatLng = LatLng(location.latitude, location.longitude)
-            }
-            moveTOLocation(googleMap)
-            userLatLng?.let {
-                drawRedCircleLocation(googleMap, it, 100.0)
-                drawRedCircleLocation(googleMap, it, 300.0)
-                clusterManager.addItem(
-                    DAMapMarker(
-                        latlng = it,
-                        isUser = true
+                moveTOLocation(googleMap)
+                userLatLng?.let {
+                    drawRedCircleLocation(googleMap, it, 100.0)
+                    drawRedCircleLocation(googleMap, it, 300.0)
+                    clusterManager.addItem(
+                        DAMapMarker(
+                            latlng = it,
+                            isUser = true
+                        )
                     )
-                )
+                }
+            } else {
+                val locationManager =
+                    this.requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    0,
+                    0f
+                ) {
+                    userLatLng = LatLng(it.latitude, it.longitude)
+
+                    userLatLng?.let {
+                        drawRedCircleLocation(googleMap, it, 100.0)
+                        drawRedCircleLocation(googleMap, it, 300.0)
+                        clusterManager.addItem(
+                            DAMapMarker(
+                                latlng = it,
+                                isUser = true
+                            )
+                        )
+                    }
+                }
             }
-
         }
-    }
-
-
-    // Use when the first time user use google maps
-    private fun getCurrentUserLocation() {
-        val locationManager =
-            this.requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//        locationManager.requestLocationUpdates(
-//            LocationManager.GPS_PROVIDER,
-//            0,
-//            0f
-//        ) {
-//            userLatLng = LatLng(it.latitude, it.longitude)
-//        }
     }
 
 

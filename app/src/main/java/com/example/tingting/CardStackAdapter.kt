@@ -10,9 +10,11 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.tingting.databinding.FragmentFirstBinding
 
 
 class CardStackAdapter(
+    val binding: FragmentFirstBinding,
     private var spots: List<Spot> = emptyList()
 ) : RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
@@ -23,13 +25,12 @@ class CardStackAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val spot = spots[position]
-//        holder.name.text = "${spot.id}. ${spot.name}"
         holder.name.text = "${spot.name}"
         holder.city.text = spot.city
 
         Glide.with(holder.itemView.context)
             .load(spot.url)
-            .apply(RequestOptions().override(200, 200))
+            .apply(RequestOptions().override(300, 300))
             .into(holder.image)
 
         holder.itemView.setOnClickListener { v ->
@@ -37,7 +38,6 @@ class CardStackAdapter(
             val action =
                 FirstFragmentDirections.actionFirstFragmentToUserInfoFragment(name = spot.id_user)
             Navigation.findNavController(holder.name).navigate(action)
-
         }
 
     }

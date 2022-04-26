@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 
-private const val BASE_URL = "https://tingting-94a57-default-rtdb.asia-southeast1.firebasedatabase.app/Users/Y1QPeWxHZYMMOWIcfAppZW6Q9jp1/"
+private const val BASE_URL = "https://tingting-94a57-default-rtdb.asia-southeast1.firebasedatabase.app/"
 object RetrofitInstance {
     /**
      * Use the Retrofit builder to build a retrofit object using a Moshi converter.
@@ -18,7 +18,7 @@ object RetrofitInstance {
             .build()
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
             .build()
     }
 
