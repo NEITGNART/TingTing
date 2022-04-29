@@ -1,17 +1,13 @@
 package com.example.tingting
 
-import android.content.ClipData.newIntent
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.tingting.activity.MainActivity
 import com.example.tingting.databinding.ItemChatBinding
 import com.example.tingting.utils.Entity.User
 
