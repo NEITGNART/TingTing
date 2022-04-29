@@ -67,7 +67,10 @@ class Congratulation : Fragment() {
 
         }
         binding.tvSearch.setOnClickListener{
-            Navigation.findNavController(binding.root).navigateUp()
+            val action = CongratulationDirections.actionCongratulationToHomepage()
+            Navigation.findNavController(binding.root).navigate(action)
+
+
         }
 
 

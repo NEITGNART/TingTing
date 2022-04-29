@@ -169,10 +169,12 @@ class FirstFragment : Fragment() {
     private fun createSpots(id_user:String): List<Spot> {
         val spots = ArrayList<Spot>()
         val check = ArrayList<String>()
+        val check_matched = ArrayList<String>()
         val rootRef = FirebaseDatabase.getInstance().reference
         val messageRef = rootRef.child("Users")
 
         val messageRef1 = rootRef.child("Visited").child(id_user)
+
         messageRef1.addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -185,16 +187,16 @@ class FirstFragment : Fragment() {
                 messageRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (ds in dataSnapshot.children) {
-                            val id = ds.child("id").getValue(String::class.java)
                             val gender = ds.child("gender").getValue(String::class.java)
                             val display: String? =dataSnapshot.child(id_user).child("display").getValue(String::class.java)
                             var check_id = true
                             for (i in 0 until check.size){
-                                if(id.toString() == check[i]) {
+                                if(ds.key == check[i]) {
                                     check_id= false
                                     break
                                 }
                             }
+
                             if(check_id){
                                 if ( ds.key != id_user && ( display == "All" || gender == display)) {
                                     val name = ds.child("name").getValue(String::class.java)
@@ -258,6 +260,8 @@ class FirstFragment : Fragment() {
                     FirebaseDatabase.getInstance().getReference("/Matched/$targetId/$userId").setValue(userId)
                     val action = FirstFragmentDirections.actionHomepageToCongratulation(it.value.toString())
                     Navigation.findNavController(binding.root).navigate(action)
+
+
                 }
             }
 

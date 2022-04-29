@@ -1,16 +1,20 @@
 package com.example.tingting
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
+import java.net.URL
+import java.util.ArrayList
 
 class Adapters(val context: Context): RecyclerView.Adapter<Adapters.MyViewHolder>() {
-    lateinit var list: List<Int>
+    lateinit var list: ArrayList<String>
 
-    fun setContentList(list:List<Int>){
+    fun setContentList(list:ArrayList<String> ){
         this.list = list
         notifyDataSetChanged()
     }
@@ -24,7 +28,7 @@ class Adapters(val context: Context): RecyclerView.Adapter<Adapters.MyViewHolder
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-       holder.image.setImageResource(list[position])
+      Glide.with(context).load(list[position]).into(holder.image)
     }
 
     override fun getItemCount(): Int {
