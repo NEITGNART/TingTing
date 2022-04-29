@@ -28,8 +28,7 @@ class UserInfoFragment : Fragment() {
     companion object {
         fun newInstance() = UserInfoFragment()
     }
-
-    private lateinit var viewModel: UserInfoViewModel
+private lateinit var viewModel: UserInfoViewModel
     lateinit var tv: EditText
     var list = mutableListOf<Int>()
 
@@ -67,32 +66,6 @@ class UserInfoFragment : Fragment() {
             Navigation.findNavController(binding.root).navigateUp()
         }
         val amount: String = UserInfoFragmentArgs.fromBundle(requireArguments()).name
-//        val rootRef = FirebaseDatabase.getInstance().reference
-
-//        val messageRef = rootRef.child("Users")
-
-//        val valueEventListener = object : ValueEventListener {
-//
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                for (ds in dataSnapshot.children) {
-//
-//                    val id = ds.child("id").getValue(String::class.java)
-//
-//                    if (id == amount) {
-//                        val name_user = ds.child("name").getValue(String::class.java)
-//                        binding.item.tvName.setText(name_user)
-//
-//                    }
-//
-//                }
-//            }
-//
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                Log.d("TAG", databaseError.getMessage()) //Don't ignore errors!
-//            }
-//        }
-//        messageRef.addListenerForSingleValueEvent(valueEventListener)
 
 
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
@@ -100,6 +73,8 @@ class UserInfoFragment : Fragment() {
         viewModel.getUser(amount).observe(viewLifecycleOwner) { user ->
             // parse DD/MM/YYYY get age
             val dateString = user.birthDate
+
+            binding.item.tvLocation.text = user.name
 
             dateString?.let {
                 try {
@@ -115,6 +90,12 @@ class UserInfoFragment : Fragment() {
             }
             binding.item.tvLocation.text = user.address
             binding.item.tvDetail.text = user.description
+            binding.item.tvLang.text = user.birthDate
+            binding.item.tvLocation.text = user.address
+            if(binding.item.tvLocation.text == "") {
+                binding.item.txtLocation.setVisibility(View.GONE);
+                binding.item.tvLocation.setVisibility(View.GONE);
+            }
         }
 
 

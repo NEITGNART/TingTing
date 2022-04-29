@@ -175,9 +175,6 @@ class LoginActivity : AppCompatActivity() {
                         .get().addOnSuccessListener {
                             if (it.value == false) {
                                 // get current avatar on facebook and store in user
-
-
-
                                 goToHomePage()
                             } else
                                 goToFirstLoginPage()

@@ -40,8 +40,8 @@ class ChatMessageAdapter(
             binding.tvVoiceMessage.hide()
             binding.cardPhoto.hide()
             if (badge.isSender) {
-                when {
-                    badge.type == "Message" -> {
+                when (badge.type) {
+                    "Message" -> {
                         binding.tvMessage.show()
 
                         binding.tvMessage.layoutParams = layoutParams2
@@ -56,7 +56,7 @@ class ChatMessageAdapter(
                         )
 
                     }
-                    badge.type == "Voice Message" -> {
+                    "Voice Message" -> {
                         binding.tvVoiceMessage.show()
                         binding.tvVoiceMessage.layoutParams = layoutParams2
                         binding.tvVoiceMessage.background =
@@ -79,8 +79,8 @@ class ChatMessageAdapter(
                 binding.ivChatProfile.visibility = View.INVISIBLE
             } else {
                 badge.showProfile = true
-                when {
-                    badge.type == "Message" -> {
+                when (badge.type) {
+                    "Message" -> {
                         binding.tvMessage.show()
                         binding.tvMessage.layoutParams = layoutParams
                         binding.tvMessage.background =
@@ -92,7 +92,7 @@ class ChatMessageAdapter(
                             )
                         )
                     }
-                    badge.type == "Voice Message" -> {
+                    "Voice Message" -> {
                         binding.tvVoiceMessage.show()
                         binding.tvVoiceMessage.layoutParams = layoutParams
                         binding.tvVoiceMessage.background =

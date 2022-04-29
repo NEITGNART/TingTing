@@ -74,22 +74,22 @@
             android:drawablePadding="@dimen/da_spacing_standard"
             android:lineSpacingExtra="@dimen/da_spacing_control_half"
             android:lines="5"
-            tools:text="@string/large_text"
             android:textColor="@color/da_textColorPrimary"
-            android:textSize="@dimen/da_font_size_normal" />
+            android:textSize="@dimen/da_font_size_normal"
+            tools:text="@string/large_text" />
 
         <TextView
-            android:id="@+id/txtLanguage"
+            android:id="@+id/txtbirthday"
             style="@style/DAEditTextHint"
             android:layout_below="@id/tvDetail"
             android:layout_marginTop="@dimen/da_spacing_large"
-            android:text="@string/da_language"
+            android:text="Birthday"
             android:textSize="@dimen/da_font_size_normal" />
 
         <TextView
             android:id="@+id/tvLang"
             style="@style/ProfileText"
-            android:layout_below="@id/txtLanguage"
+            android:layout_below="@id/txtbirthday"
             android:layout_marginTop="@dimen/da_spacing_control"
             android:text="@string/da_english_german_french" />
 

@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.widget.FrameLayout
+import android.widget.ImageView
+import androidx.core.view.isVisible
 import com.example.tingting.databinding.ActivityChatBinding
+import com.example.tingting.utils.*
 import com.example.tingting.utils.Entity.Chat
 import com.example.tingting.utils.Entity.ChatMessage
 import com.example.tingting.utils.Entity.User
-import com.example.tingting.utils.getDisplayWidth
-import com.example.tingting.utils.hide
-import com.example.tingting.utils.onClick
-import com.example.tingting.utils.setVerticalLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -89,6 +88,62 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
+        binding.item.ivAdd.onClick {
+
+            if (!binding.item.rlAdd.isVisible) {
+                setImageResource(R.drawable.da_ic_plus_gradient)
+                binding.item.rlAdd.show()
+            } else {
+                setImageResource(R.drawable.da_ic_add)
+                resetAddLayout()
+            }
+        }
+
+        binding.item.ivGallary.onClick {
+            setSelectedImg(this)
+            applyColorFilter(color(R.color.da_red))
+            binding.item.ivVoice.applyColorFilter(color(R.color.da_textColorSecondary))
+            binding.item.ivGif.applyColorFilter(color(R.color.da_textColorSecondary))
+            binding.item.rvPhoto.show()
+            binding.item.llVoice.hide()
+            binding.item.rvGif.hide()
+            hideSoftKeyboard()
+            messageType = MEDIA
+        }
+
+
+        binding.item.ivVoice.onClick {
+            binding.item.rvPhoto.hide()
+            binding.item.rvGif.hide()
+
+            binding.item.llVoice.show()
+            applyColorFilter(color(R.color.da_red))
+            binding.item.ivGallary.applyColorFilter(color(R.color.da_textColorSecondary))
+            binding.item.ivGif.applyColorFilter(color(R.color.da_textColorSecondary))
+            hideSoftKeyboard()
+            messageType = VOICE_MESSAGE
+        }
+        binding.item.ivGif.onClick {
+            applyColorFilter(color(R.color.da_red))
+            binding.item.ivGallary.applyColorFilter(color(R.color.da_textColorSecondary))
+            binding.item.ivVoice.applyColorFilter(color(R.color.da_textColorSecondary))
+            binding.item.rvPhoto.hide()
+            binding.item.llVoice.hide()
+            binding.item.rvGif.show()
+            hideSoftKeyboard()
+            messageType = MEDIA
+
+        }
+
+    }
+
+    private fun setSelectedImg(imageView: ImageView?) {
+        binding.item.ivGallary.applyColorFilter(color(R.color.da_textColorSecondary))
+        binding.item.ivVoice.applyColorFilter(color(R.color.da_textColorSecondary))
+        binding.item.ivGif.applyColorFilter(color(R.color.da_textColorSecondary))
+        imageView?.apply {
+            applyColorFilter(color(R.color.da_red))
+        }
     }
 
 

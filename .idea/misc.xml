@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing/app/src/main/res/drawable-v24/skip_white_120dp.xml" value="0.1805" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing/app/src/main/res/layout/activity_chat.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing/app/src/main/res/layout/activity_first_login.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing/app/src/main/res/layout/activity_login.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing/app/src/main/res/layout/activity_notifycation.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing/app/src/main/res/layout/activity_sign_up.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing/app/src/main/res/layout/congratulation_fragment.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/USER/AndroidStudioProjects/TingTing/app/src/main/res/layout/content_dauser_detail.xml" value="0.25416666666666665" />
