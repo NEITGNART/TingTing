@@ -64,7 +64,7 @@
             android:layout_width="@dimen/_140sdp"
             android:layout_height="@dimen/_140sdp"
             android:layout_gravity="end"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:cardCornerRadius="@dimen/da_spacing_control">
 
             <ImageView
@@ -85,6 +85,6 @@
         android:layout_alignEnd="@id/llContent"
         android:layout_marginTop="45dp"
         android:layout_marginEnd="10dp"
-
-        android:text="TextView" />
+        android:text="TextView"
+        android:visibility="gone" />
 </RelativeLayout>

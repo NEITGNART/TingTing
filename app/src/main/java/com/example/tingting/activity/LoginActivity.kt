@@ -67,8 +67,6 @@ class LoginActivity : AppCompatActivity() {
 
 
         binding.btnSignIn.setOnClickListener {
-
-
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
 

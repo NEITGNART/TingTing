@@ -2,6 +2,7 @@ package com.example.tingting
 
 import android.content.Context
 import android.content.res.Resources
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,7 +74,7 @@ class ChatMessageAdapter(
                     else -> {
                         binding.cardPhoto.show()
                         binding.cardPhoto.layoutParams = photoParam2
-                        Glide.with(binding.root.context).load(imgUrl).into(binding.ivChatPhoto)
+                        Glide.with(binding.root.context).load(badge.text).into(binding.ivChatPhoto)
                     }
                 }
                 binding.ivChatProfile.visibility = View.INVISIBLE
@@ -104,7 +105,8 @@ class ChatMessageAdapter(
                     else -> {
                         binding.cardPhoto.show()
                         binding.cardPhoto.layoutParams = photoParam
-                        Glide.with(binding.root.context).load(imgUrl).into(binding.ivChatPhoto)
+                        Glide.with(binding.root.context).load(badge.text).into(binding.ivChatPhoto)
+                        Log.i("message", badge.text.toString())
                     }
                 }
                 Glide.with(context).load(imgUrl).into(binding.ivChatProfile)
@@ -130,5 +132,3 @@ class ChatMessageAdapter(
 
     override fun getItemCount() = chats.size
 }
-
-

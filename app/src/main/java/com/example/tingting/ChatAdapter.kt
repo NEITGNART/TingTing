@@ -28,52 +28,12 @@ class ChatAdapter(
 
             Glide.with(context).load(chat.avatar).into(binding.ivUser)
             binding.tvUserName.text = chat.name
+            binding.tvChatMessage.text = "00.00"
+            binding.tvTime.text = "hello"
 
-            val authID = FirebaseAuth.getInstance().currentUser?.uid
-            val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$authID/${chat.id}")
+//            val authID = FirebaseAuth.getInstance().currentUser?.uid
+//            val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$authID/${chat.id}")
 
-            reference.addChildEventListener(object : ChildEventListener {
-
-                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                    Log.i("message", p1 + p0.toString())
-                    val chatMessage = p0.getValue(Chat::class.java)
-                    binding.tvChatMessage.text = chatMessage?.text
-                    binding.tvTime.text = chatMessage?.time
-                }
-
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-            })
-
-//            query.get().addOnSuccessListener {
-//                Log.i("message1", it.key.toString())
-//                FirebaseDatabase.getInstance().getReference("/user-messages/$authID/${chat.id}/${it.key}")
-//                    .addValueEventListener(object : ValueEventListener {
-//                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                            val chat = dataSnapshot.getValue(Chat::class.java)
-//                            Log.i("message", dataSnapshot.toString())
-//                            binding.tvChatMessage.text = chat?.text
-//                            binding.tvTime.text = chat?.time
-//                        }
-//
-//                        override fun onCancelled(error: DatabaseError) {
-//                            TODO("Not yet implemented")
-//                        }
-//                    })
-//            }
 
             binding.root.setOnClickListener {
                 val intent = Intent(binding.root.context, ChatActivity::class.java)

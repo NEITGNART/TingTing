@@ -1,12 +1,17 @@
 package com.example.tingting
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.view.isVisible
+import com.example.tingting.activity.MainActivity
 import com.example.tingting.databinding.ActivityChatBinding
 import com.example.tingting.utils.*
 import com.example.tingting.utils.Entity.Chat
@@ -17,14 +22,17 @@ import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import java.util.*
 
 private const val TAG = "ChatActivity"
+private val PICK_IMAGES_CODE = 0
+private lateinit var images: MutableList<Uri?>
 
 class ChatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChatBinding
     private var chats = mutableListOf<Chat>()
-
 
     private var messageType: String = MESSAGE
     private var toUser: User? = null
@@ -86,6 +94,11 @@ class ChatActivity : AppCompatActivity() {
                 performSendMessage()
             } else if (messageType == VOICE_MESSAGE) {
             }
+            else if (messageType == MEDIA){
+                performSendMedia()
+            }
+
+            resetAddLayout()
         }
 
         binding.item.ivAdd.onClick {
@@ -100,15 +113,16 @@ class ChatActivity : AppCompatActivity() {
         }
 
         binding.item.ivGallary.onClick {
-            setSelectedImg(this)
             applyColorFilter(color(R.color.da_red))
             binding.item.ivVoice.applyColorFilter(color(R.color.da_textColorSecondary))
             binding.item.ivGif.applyColorFilter(color(R.color.da_textColorSecondary))
-            binding.item.rvPhoto.show()
+
             binding.item.llVoice.hide()
             binding.item.rvGif.hide()
             hideSoftKeyboard()
             messageType = MEDIA
+            images = mutableListOf()
+            pickImageIntent()
         }
 
 
@@ -116,7 +130,7 @@ class ChatActivity : AppCompatActivity() {
             binding.item.rvPhoto.hide()
             binding.item.rvGif.hide()
 
-            binding.item.llVoice.show()
+//            binding.item.llVoice.show()
             applyColorFilter(color(R.color.da_red))
             binding.item.ivGallary.applyColorFilter(color(R.color.da_textColorSecondary))
             binding.item.ivGif.applyColorFilter(color(R.color.da_textColorSecondary))
@@ -129,7 +143,7 @@ class ChatActivity : AppCompatActivity() {
             binding.item.ivVoice.applyColorFilter(color(R.color.da_textColorSecondary))
             binding.item.rvPhoto.hide()
             binding.item.llVoice.hide()
-            binding.item.rvGif.show()
+//            binding.item.rvGif.show()
             hideSoftKeyboard()
             messageType = MEDIA
 
@@ -137,14 +151,14 @@ class ChatActivity : AppCompatActivity() {
 
     }
 
-    private fun setSelectedImg(imageView: ImageView?) {
-        binding.item.ivGallary.applyColorFilter(color(R.color.da_textColorSecondary))
-        binding.item.ivVoice.applyColorFilter(color(R.color.da_textColorSecondary))
-        binding.item.ivGif.applyColorFilter(color(R.color.da_textColorSecondary))
-        imageView?.apply {
-            applyColorFilter(color(R.color.da_red))
-        }
-    }
+//    private fun setSelectedImg(imageView: ImageView?) {
+//        binding.item.ivGallary.applyColorFilter(color(R.color.da_textColorSecondary))
+//        binding.item.ivVoice.applyColorFilter(color(R.color.da_textColorSecondary))
+//        binding.item.ivGif.applyColorFilter(color(R.color.da_textColorSecondary))
+//        imageView?.apply {
+//            applyColorFilter(color(R.color.da_red))
+//        }
+//    }
 
 
     private fun performSendMessage() {
@@ -185,6 +199,59 @@ class ChatActivity : AppCompatActivity() {
             }
 
         toReference.setValue(chatMessage)
+    }
+
+    private fun performSendMedia() {
+        // how do we actually send a message to firebase...
+        val text = binding.item.edtSearch.text.toString()
+
+        if (images.isNullOrEmpty()) {
+            return
+        } else {
+            var imageStorage = FirebaseStorage.getInstance().getReference("/Images")
+            val fromId = FirebaseAuth.getInstance().uid
+            val toId = toUser?.id!!
+            if (fromId == null) return
+
+            for (image in images){
+                val reference =
+                    FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+                val toReference =
+                    FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
+
+                val chatMessage = Chat(
+                    id = reference.key!!,
+                    text = "",
+                    fromId = fromId,
+                    toId = toId,
+                    isSender = true,
+                    time = "${System.currentTimeMillis()}",
+                    type = MEDIA,
+                    showProfile = false
+                )
+
+                val imageRef = imageStorage.child(UUID.randomUUID().toString())
+                imageRef.putFile(image!!)
+                    .addOnSuccessListener {
+                        imageRef.downloadUrl.addOnSuccessListener {
+                            chatMessage.text = it.toString()
+
+                            reference.setValue(chatMessage)
+                                .addOnSuccessListener {
+                                    Log.d(TAG, "Saved our chat message: ${reference.key}")
+                                    binding.item.edtSearch.text.clear()
+                                    binding.rvChat.adapter?.notifyDataSetChanged()
+                                    binding.rvChat.scrollToPosition(chats.size - 1)
+                                }
+
+                            toReference.setValue(chatMessage)
+                        }
+                    }
+                    .addOnFailureListener {
+                        Log.i("UserInfo", "Upload fail")
+                    }
+            }
+        }
     }
 
 
@@ -234,7 +301,6 @@ class ChatActivity : AppCompatActivity() {
         })
 
     }
-
 
 //    fun getUserChats(): MutableList<Chat> {
 //        var list = mutableListOf<Chat>()
@@ -291,7 +357,32 @@ class ChatActivity : AppCompatActivity() {
 
     }
 
+    private fun pickImageIntent(){
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select Image(s)"), PICK_IMAGES_CODE)
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGES_CODE || requestCode == Activity.RESULT_OK) {
+
+            if (data != null) {
+                if (data!!.clipData != null) {
+                    val count: Int = data.clipData!!.itemCount
+                    for (i in 0 until count) {
+                        val imageUri = data.clipData!!.getItemAt(i).uri
+                        images!!.add(imageUri)
+                    }
+                } else {
+                    val imageUri = data!!.data
+                    images!!.add(imageUri)
+                }
+            }
+        }
+    }
 }
 
 
