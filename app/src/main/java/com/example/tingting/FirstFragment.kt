@@ -143,7 +143,7 @@ class FirstFragment : Fragment() {
                     .build()
                 manager.setSwipeAnimationSetting(setting)
                 cardStackView.swipe()
-                val currentIndex = manager.topPosition-1
+                val currentIndex = manager.topPosition
                 addVisited( adapter.getSpots()[currentIndex].id_user )
                 addMatch(adapter.getSpots()[currentIndex].id_user)
             }
@@ -157,7 +157,7 @@ class FirstFragment : Fragment() {
                     .build()
                 manager.setSwipeAnimationSetting(setting)
                 cardStackView.swipe()
-                val currentIndex = manager.topPosition-1
+                val currentIndex = manager.topPosition
                 addVisited( adapter.getSpots()[currentIndex].id_user )
             }
         }
