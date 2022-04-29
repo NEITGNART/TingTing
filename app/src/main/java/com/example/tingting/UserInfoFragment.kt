@@ -28,8 +28,7 @@ class UserInfoFragment : Fragment() {
     companion object {
         fun newInstance() = UserInfoFragment()
     }
-
-    private lateinit var viewModel: UserInfoViewModel
+private lateinit var viewModel: UserInfoViewModel
     lateinit var tv: EditText
     var list = mutableListOf<Int>()
 

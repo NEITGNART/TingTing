@@ -115,7 +115,7 @@ class FirstFragment : Fragment() {
 
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
-        adapter = CardStackAdapter(binding, createSpots(FirebaseAuth.getInstance().uid!!))
+        adapter = CardStackAdapter(binding, createSpots(FirebaseAuth.getInstance().currentUser!!.uid))
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator = DefaultItemAnimator()
@@ -173,58 +173,56 @@ class FirstFragment : Fragment() {
         val messageRef = rootRef.child("Users")
 
         val messageRef1 = rootRef.child("Visited").child(id_user)
-        val valueEventListener1 = object : ValueEventListener {
+        messageRef1.addListenerForSingleValueEvent(object : ValueEventListener {
+
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+
                 for (ds in dataSnapshot.children) {
                     val id = ds.getValue(String::class.java)
                     check.add(id.toString())
                 }
+
+                messageRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (ds in dataSnapshot.children) {
+                            val id = ds.child("id").getValue(String::class.java)
+                            val gender = ds.child("gender").getValue(String::class.java)
+                            val display: String? =dataSnapshot.child(id_user).child("display").getValue(String::class.java)
+                            var check_id = true
+                            for (i in 0 until check.size){
+                                if(id.toString() == check[i]) {
+                                    check_id= false
+                                    break
+                                }
+                            }
+                            if(check_id){
+                                if ( ds.key != id_user && ( display == "All" || gender == display)) {
+                                    val name = ds.child("name").getValue(String::class.java)
+                                    val photo = ds.child("avatar").getValue(String::class.java)
+                                    spots.add(
+                                        Spot(
+                                            name = name.toString(),
+                                            city = "Kyoto",
+                                            url = photo.toString(),
+                                            id_user = ds.key!!
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                        cardStackView.adapter = CardStackAdapter(binding, spots)
+                    }
+
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        Log.d("TAG", databaseError.message)
+                    }
+                })
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.d("TAG", databaseError.message) //Don't ignore errors!
             }
-        }
-        messageRef1.addListenerForSingleValueEvent(valueEventListener1)
-
-
-
-        val valueEventListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (ds in dataSnapshot.children) {
-                    val id = ds.child("id").getValue(String::class.java)
-                    val gender = ds.child("gender").getValue(String::class.java)
-                    var  display: String? =dataSnapshot.child(id_user).child("display").getValue(String::class.java)
-                    var check_id : Boolean = true;
-                    for (i in 0 until check.size){
-                        if(id.toString() == check.get(i))
-                            check_id= false
-                    }
-                    if(check_id){
-                        if ( id != id_user && ( display == "All" || gender == display)) {
-                            val name = ds.child("name").getValue(String::class.java)
-                            val photo = ds.child("avatar").getValue(String::class.java)
-                            spots.add(
-                                Spot(
-                                    name = name.toString(),
-                                    city = "Kyoto",
-                                    url = photo.toString(),
-                                    id_user = id.toString()
-                                )
-                            )
-                        }
-                    }
-
-                }
-                cardStackView.adapter = CardStackAdapter(binding, spots)
-            }
-
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("TAG", databaseError.message)
-            }
-        }
-        messageRef.addListenerForSingleValueEvent(valueEventListener)
-
+        })
 //        spots.add(Spot(name = "Yasaka Shrine", city = "Kyoto", url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"))
 //        spots.add(Spot(name = "Fushimi Inari Shrine", city = "Kyoto", url = "https://source.unsplash.com/NYyCqdBOKwc/600x800"))
 //        spots.add(Spot(name = "Bamboo Forest", city = "Kyoto", url = "https://source.unsplash.com/buF62ewDLcQ/600x800"))
