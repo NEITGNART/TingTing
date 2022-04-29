@@ -107,19 +107,6 @@ class AddImage : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGES_CODE || requestCode == Activity.RESULT_OK) {
-            images = mutableListOf()
-            if (data!!.clipData != null){
-                val count: Int = data.clipData!!.itemCount
-                for (i in 0 until count){
-                    val imageUri = data.clipData!!.getItemAt(i).uri
-                    images!!.add(imageUri)
-                }
-            }
-            else {
-                val imageUri = data.data
-                images!!.add(imageUri)
-            }
-
             var listButtonAddImage =
                 arrayListOf(
                     binding.ivAddImage1,
@@ -127,15 +114,28 @@ class AddImage : Fragment() {
                     binding.ivAddImage3,
                     binding.ivAddImage4,
                     binding.ivAddImage5,
-                    binding.ivAddImage6)
+                    binding.ivAddImage6
+                )
+            images = mutableListOf()
+            if (data != null){
+                if (data!!.clipData != null) {
+                    val count: Int = data.clipData!!.itemCount
+                    for (i in 0 until count) {
+                        val imageUri = data.clipData!!.getItemAt(i).uri
+                        images!!.add(imageUri)
+                    }
+                } else {
+                    val imageUri = data!!.data
+                    images!!.add(imageUri)
+                }
 
-            for (i in 0 until images.size){
-                listButtonAddImage[i].setImageURI(images[i])
-                listButtonAddImage[i].setBackgroundResource(R.drawable.da_background_tab)
+                for (i in 0 until images.size) {
+                    listButtonAddImage[i].setImageURI(images[i])
+                    listButtonAddImage[i].setBackgroundResource(R.drawable.da_background_tab)
+                }
             }
-
-            for (i in images.size until listButtonAddImage.size){
-                listButtonAddImage[i].setImageResource(R.drawable.placeholder_img  )
+            for (i in images.size until listButtonAddImage.size) {
+                listButtonAddImage[i].setImageResource(R.drawable.placeholder_img)
                 listButtonAddImage[i].setBackgroundResource(R.drawable.dashed_border)
             }
         }

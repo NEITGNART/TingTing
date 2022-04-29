@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.FragmentFourBinding
+import com.example.tingting.utils.Entity.Chat
 import com.example.tingting.utils.Entity.User
 import com.example.tingting.utils.setVerticalLayout
 import com.google.firebase.auth.FirebaseAuth

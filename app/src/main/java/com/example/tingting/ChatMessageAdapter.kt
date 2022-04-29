@@ -26,7 +26,7 @@ class ChatMessageAdapter(
     val resources: Resources,
 ) : RecyclerView.Adapter<ChatMessageAdapter.ViewHolder>() {
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(badge: Chat) {
+        fun bind(badge:Chat ) {
             val binding = ItemChatHistoryBinding.bind(view)
 
             if (badge.type == "Message") {
@@ -113,9 +113,7 @@ class ChatMessageAdapter(
                 } else {
                     binding.ivChatProfile.invisible()
                 }
-
             }
-
 
         }
     }
