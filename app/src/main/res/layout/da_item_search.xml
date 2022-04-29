@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/cardimg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/da_spacing_middle"
+        android:layout_marginTop="@dimen/da_spacing_standard"
+        android:layout_marginBottom="@dimen/da_spacing_standard">
+
+        <com.example.tingting.utils.DACircleImageView
+            android:id="@+id/ivUser"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/da_profile2"
+            android:layout_marginStart="@dimen/da_spacing_control" />
+
+        <View
+            android:id="@+id/viewStatus"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_10sdp"
+            android:layout_gravity="end"
+            android:background="@drawable/da_bg_circle_dot" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/cardimg"
+        android:layout_alignBottom="@id/cardimg"
+        android:layout_toEndOf="@id/cardimg"
+        android:gravity="center_vertical"
+        android:text="John Pham"
+        android:textColor="@color/da_textColorPrimary"
+        android:textSize="@dimen/da_font_size_normal" />
+
+    <View
+        style="@style/Divider"
+        android:layout_below="@id/cardimg"
+        android:layout_toEndOf="@id/cardimg"
+        android:layout_margin="0dp"/>
+
+</RelativeLayout>
+

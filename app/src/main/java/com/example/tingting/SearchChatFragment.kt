@@ -1,41 +1,47 @@
 package com.example.tingting
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import com.example.tingting.databinding.FragmentFourBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tingting.databinding.FragmentSearchChatBinding
 import com.example.tingting.utils.Entity.User
-import com.example.tingting.utils.setVerticalLayout
-import com.google.firebase.auth.FirebaseAuth
+import com.example.tingting.utils.onClick
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 
-class FourFragment : Fragment() {
 
-    private lateinit var binding: FragmentFourBinding
+class SearchChatFragment : Fragment() {
+
+
+    private lateinit var binding: FragmentSearchChatBinding
     private val chats = mutableListOf<User>()
-    private val currentUser = FirebaseAuth.getInstance().uid
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFourBinding.inflate(inflater)
-        binding.tvMatches.setOnClickListener {
-            val action = FourFragmentDirections.actionChatToFragmentMatches()
-            Navigation.findNavController(binding.root).navigate(action)
+
+        binding = FragmentSearchChatBinding.inflate(inflater)
+
+        binding.tvCancel.onClick {
+            Navigation.findNavController(binding.root).navigateUp()
         }
 
-        // get list of chats from firebase realtime database
+        binding.rvPeople.apply {
+            adapter = SearchChatAdapter(binding.root.context, chats)
+            layoutManager = LinearLayoutManager(context)
+        }
 
         // reference to the database
         val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Matched/$currentUser")
+        val myRef = database.getReference("Matched/${Firebase.auth.currentUser!!.uid}")
 
         myRef.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(p0: com.google.firebase.database.DatabaseError) {
@@ -44,31 +50,20 @@ class FourFragment : Fragment() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 chats.clear()
-               for (i in p0.children) {
+                for (i in p0.children) {
                     database.getReference("/Users/${i.key}").get()
                         .addOnSuccessListener{
                             val user = it.getValue(User::class.java)
-                            if (user != null && user.id != currentUser) {
+                            if (user != null && user.id != Firebase.auth.currentUser!!.uid) {
                                 chats.add(user)
-                                binding.rvChat.adapter = ChatAdapter(binding.root.context, chats)
+                                binding.rvPeople.adapter = ChatAdapter(binding.root.context, chats)
                             }
-                    }
+                        }
                 }
             }
         })
-
-        binding.ivSearch.setOnClickListener {
-//            val action = FourFragmentDirections.actionChatToFragmentSearch()
-            val action = FourFragmentDirections.actionChatToSearchChatFragment()
-            Navigation.findNavController(binding.root).navigate(action)
-        }
-
-        binding.rvChat.apply {
-            setVerticalLayout()
-        }
 
         return binding.root
     }
 
 }
-

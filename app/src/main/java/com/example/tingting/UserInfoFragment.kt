@@ -50,7 +50,7 @@ private lateinit var viewModel: UserInfoViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-        val amount: String = UserInfoFragmentArgs.fromBundle(requireArguments()).name
+        val amount: String = UserInfoFragmentArgs.fromBundle(requireArguments()).idTarget
         var adapters = Adapters(binding.root.context)
 
 
@@ -105,15 +105,15 @@ private lateinit var viewModel: UserInfoViewModel
                     e.printStackTrace()
                 }
             }
-            binding.item.tvProfession.setVisibility(View.GONE);
-            binding.item.tvDetail.setVisibility(View.GONE)
+            binding.item.tvProfession.visibility = View.GONE
+            binding.item.tvDetail.visibility = View.GONE
             binding.item.tvLocation.text = user.address
             binding.item.tvDetail.text = user.description
             binding.item.tvLang.text = user.birthDate
             binding.item.tvLocation.text = user.address
             if(binding.item.tvLocation.text == "") {
-                binding.item.txtLocation.setVisibility(View.GONE);
-                binding.item.tvLocation.setVisibility(View.GONE);
+                binding.item.txtLocation.visibility = View.GONE
+                binding.item.tvLocation.visibility = View.GONE
             }
         }
 

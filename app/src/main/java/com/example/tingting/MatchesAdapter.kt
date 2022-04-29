@@ -1,6 +1,7 @@
 package com.example.tingting
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,6 +46,12 @@ class MatchesAdapter(
                 binding.viewDummy.visibility = View.GONE
             }
             Glide.with(binding.root.context).load("${user.avatar}").into(binding.ivProfile)
+
+            binding.root.setOnClickListener {
+                val intent = Intent(context, ChatActivity::class.java)
+                intent.putExtra("toUser", user)
+                context.startActivity(intent)
+            }
         }
 
     }
