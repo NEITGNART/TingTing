@@ -42,10 +42,28 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_login)
 //
         binding.bottomNavigationView.setupWithNavController(navController)
-        binding.bottomNavigationView.getOrCreateBadge(R.id.chat).apply {
-            number = 10
-            isVisible = true
-        }
+
+        val reference =
+            FirebaseDatabase.getInstance().getReference("/Matched/${FirebaseAuth.getInstance().currentUser!!.uid}")
+
+        // count number of child
+
+        reference.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+            override fun onDataChange(p0: DataSnapshot) {
+                // count number of child
+                val count = p0.childrenCount
+                binding.bottomNavigationView.getOrCreateBadge(R.id.chat).apply {
+                    number = count.toInt()
+                    isVisible = true
+                }
+            }
+
+        })
+
+
 
 
 

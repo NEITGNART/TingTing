@@ -1,5 +1,6 @@
 package com.example.tingting
 
+import android.R.attr.data
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -16,10 +17,15 @@ import androidx.navigation.Navigation
 import com.example.tingting.databinding.ActivityMainBinding
 import com.example.tingting.databinding.UserInfoFragmentBinding
 import com.example.tingting.utils.hide
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class UserInfoFragment : Fragment() {
     lateinit var binding: UserInfoFragmentBinding
@@ -30,7 +36,7 @@ class UserInfoFragment : Fragment() {
     }
 private lateinit var viewModel: UserInfoViewModel
     lateinit var tv: EditText
-    var list = mutableListOf<Int>()
+    val list: ArrayList<String> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,28 +50,39 @@ private lateinit var viewModel: UserInfoViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
+        val amount: String = UserInfoFragmentArgs.fromBundle(requireArguments()).idTarget
+        var adapters = Adapters(binding.root.context)
 
-        list.add(R.drawable.da_img16)
-        list.add(R.drawable.da_img10)
-        list.add(R.drawable.da_img12)
+
+        val rootRef = FirebaseDatabase.getInstance().reference
+        val messageRef1 = rootRef.child("Images").child(amount)
+        messageRef1.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children) {
+                     list.add(ds.getValue().toString())
+                    Log.i("hahahaha", ds.getValue().toString())
+                }
+                adapters.setContentList(list)
+                var viewpager = binding.viewPagerMain
+                viewpager.adapter = adapters
+
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d("TAG", databaseError.message)
+            }
+        })
+
 
 
         val mainBinding = ActivityMainBinding.inflate(layoutInflater)
         mainBinding.bottomNavigationView.hide()
 
-        // take the root view
 
-
-        var adapters = Adapters(binding.root.context)
-        adapters.setContentList(list)
-        var viewpager = binding.viewPagerMain
-        viewpager.adapter = adapters
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
 
         binding.ivBack.setOnClickListener {
             Navigation.findNavController(binding.root).navigateUp()
         }
-        val amount: String = UserInfoFragmentArgs.fromBundle(requireArguments()).name
 
 
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
@@ -88,13 +105,15 @@ private lateinit var viewModel: UserInfoViewModel
                     e.printStackTrace()
                 }
             }
+            binding.item.tvProfession.visibility = View.GONE
+            binding.item.tvDetail.visibility = View.GONE
             binding.item.tvLocation.text = user.address
             binding.item.tvDetail.text = user.description
             binding.item.tvLang.text = user.birthDate
             binding.item.tvLocation.text = user.address
             if(binding.item.tvLocation.text == "") {
-                binding.item.txtLocation.setVisibility(View.GONE);
-                binding.item.tvLocation.setVisibility(View.GONE);
+                binding.item.txtLocation.visibility = View.GONE
+                binding.item.tvLocation.visibility = View.GONE
             }
         }
 

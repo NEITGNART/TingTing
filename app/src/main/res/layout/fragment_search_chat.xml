@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchChatFragment">
+
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/da_white">
+        <EditText
+            android:id="@+id/edtSearch"
+            android:hint="@string/da_search"
+            android:layout_toStartOf="@id/tvCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/da_button_disabled"
+            android:layout_marginTop="@dimen/da_spacing_large"
+            android:layout_marginStart="@dimen/da_spacing_large"
+            android:drawableStart="@drawable/da_ic_search_new"
+            android:paddingTop="@dimen/_7sdp"
+            android:paddingBottom="@dimen/_7sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:drawablePadding="@dimen/da_spacing_standard"
+            android:drawableTint="@color/da_textColorSecondary"
+            />
+        <TextView
+            android:id="@+id/tvCancel"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@id/edtSearch"
+            android:layout_alignBottom="@id/edtSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginStart="@dimen/da_spacing_middle"
+            android:text="Cancel"
+            style="@style/DAHeading"
+            android:textColor="@color/da_textColorPrimary"
+            android:textSize="@dimen/da_font_size_normal"
+            />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_below="@id/edtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/da_spacing_large"
+                    android:layout_marginTop="@dimen/da_spacing_middle"
+                    android:text="People"
+                    style="@style/DAHeading"
+                    android:textColor="@color/da_textColorPrimary"
+                    android:textSize="@dimen/da_font_size_large"
+                    />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPeople"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/da_spacing_standard_new"
+                    android:paddingStart="@dimen/da_spacing_large"
+                    android:paddingEnd="@dimen/da_spacing_large"
+                    android:paddingBottom="@dimen/da_spacing_large"
+                    android:overScrollMode="never"/>
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+
+
+</FrameLayout>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tingting.databinding.ItemListBinding
@@ -17,6 +18,11 @@ class UserAdapter(val context: Context, val searches: MutableList<User>) :
             Glide.with(context).load(user.avatar).into(binding.ivImg)
             binding.tvName.text = user.name
 //            binding.tvDisatance.text = user.distance
+
+            binding.root.setOnClickListener {
+                val action = SecondFragmentDirections.actionWholikeToUserInfoFragment(idTarget = user.id!!)
+                Navigation.findNavController(binding.root).navigate(action)
+            }
         }
     }
 
@@ -27,6 +33,7 @@ class UserAdapter(val context: Context, val searches: MutableList<User>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bind(searches[position])
+
 
     override fun getItemCount() = searches.size
 

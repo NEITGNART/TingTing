@@ -36,7 +36,7 @@ class CardStackAdapter(
         holder.itemView.setOnClickListener { v ->
             Toast.makeText(v.context, spot.name, Toast.LENGTH_SHORT).show()
             val action =
-                FirstFragmentDirections.actionFirstFragmentToUserInfoFragment(name = spot.id_user)
+                FirstFragmentDirections.actionFirstFragmentToUserInfoFragment(idTarget = spot.id_user)
             Navigation.findNavController(holder.name).navigate(action)
         }
 

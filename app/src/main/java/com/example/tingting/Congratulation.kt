@@ -1,6 +1,7 @@
 package com.example.tingting
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -54,20 +55,23 @@ class Congratulation : Fragment() {
 
         val refCurrent = FirebaseDatabase.getInstance().getReference("/Users/$userId/avatar").get()
 
+        Log.i("hahahahaa", targetId +"...."+ userId)
 
 
-        refTarget.addOnSuccessListener {
-            val imageUrl = it.getValue(String::class.java)
-            Glide.with(binding.root.context).load(imageUrl).into(binding.ivProfile2)
-
+        FirebaseDatabase.getInstance().getReference("/Users/$targetId/avatar").get().addOnSuccessListener {
+            Glide.with(binding.root.context).load(it.value).into(binding.ivProfile2)
         }
-        refCurrent.addOnSuccessListener {
-            val imageUrl = it.getValue(String::class.java)
-            Glide.with(binding.root.context).load(imageUrl).into(binding.ivProfile1)
-
+        FirebaseDatabase.getInstance().getReference("/Users/$userId/avatar").get().addOnSuccessListener {
+            Glide.with(binding.root.context).load(it.value).into(binding.ivProfile1)
         }
+
+
+
         binding.tvSearch.setOnClickListener{
-            Navigation.findNavController(binding.root).navigateUp()
+            val action = CongratulationDirections.actionCongratulationToHomepage()
+            Navigation.findNavController(binding.root).navigate(action)
+
+
         }
 
 
