@@ -56,7 +56,6 @@ class FirstFragment : Fragment() {
                     "onCardSwiped: p=" + manager.topPosition + " d=" + direction.name
                 )
                 if (direction == Direction.Right) {
-
                     Toast.makeText(context, "Direction Right", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition-1
                     addVisited( adapter.getSpots()[currentIndex].id_user )
@@ -67,7 +66,6 @@ class FirstFragment : Fragment() {
                     Toast.makeText(context, "Direction Top", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition-1
                     addVisited( adapter.getSpots()[currentIndex].id_user )
-                    addMatch(adapter.getSpots()[currentIndex].id_user)
                 }
                 if (direction == Direction.Left) {
                     Toast.makeText(context, "Direction Left", Toast.LENGTH_SHORT).show()
@@ -79,7 +77,6 @@ class FirstFragment : Fragment() {
                     Toast.makeText(context, "Direction Bottom", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition-1
                     addVisited( adapter.getSpots()[currentIndex].id_user )
-                    addMatch(adapter.getSpots()[currentIndex].id_user)
                 }
 
             }
@@ -137,7 +134,7 @@ class FirstFragment : Fragment() {
         binding.ivHeart.setOnClickListener {
             if (manager.topPosition < adapter.itemCount) {
                 val setting = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Left)
+                    .setDirection(Direction.Right)
                     .setDuration(Duration.Normal.duration)
                     .setInterpolator(AccelerateInterpolator())
                     .build()
@@ -151,7 +148,7 @@ class FirstFragment : Fragment() {
         binding.ivClose.setOnClickListener {
             if (manager.topPosition < adapter.itemCount) {
                 val setting = SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Right)
+                    .setDirection(Direction.Left)
                     .setDuration(Duration.Normal.duration)
                     .setInterpolator(AccelerateInterpolator())
                     .build()
@@ -258,7 +255,7 @@ class FirstFragment : Fragment() {
                     Log.d("ABCD", "haha$targetId ${it.value}")
                     FirebaseDatabase.getInstance().getReference("/Matched/$userId/$targetId").setValue(targetId)
                     FirebaseDatabase.getInstance().getReference("/Matched/$targetId/$userId").setValue(userId)
-                    val action = FirstFragmentDirections.actionHomepageToCongratulation(it.value.toString())
+                    val action = FirstFragmentDirections.actionHomepageToCongratulation(targetId)
                     Navigation.findNavController(binding.root).navigate(action)
 
 
