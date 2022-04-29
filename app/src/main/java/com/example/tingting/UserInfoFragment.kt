@@ -28,8 +28,7 @@ class UserInfoFragment : Fragment() {
     companion object {
         fun newInstance() = UserInfoFragment()
     }
-
-    private lateinit var viewModel: UserInfoViewModel
+private lateinit var viewModel: UserInfoViewModel
     lateinit var tv: EditText
     var list = mutableListOf<Int>()
 
@@ -67,6 +66,8 @@ class UserInfoFragment : Fragment() {
             Navigation.findNavController(binding.root).navigateUp()
         }
         val amount: String = UserInfoFragmentArgs.fromBundle(requireArguments()).name
+
+
 //        val rootRef = FirebaseDatabase.getInstance().reference
 
 //        val messageRef = rootRef.child("Users")
