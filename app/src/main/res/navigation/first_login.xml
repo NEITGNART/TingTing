@@ -71,8 +71,8 @@
             android:id="@+id/action_inputUserPreferences_to_inputUserDisplay"
             app:destination="@id/inputUserDisplay" />
         <action
-            android:id="@+id/action_inputUserPreferences_to_addImage"
-            app:destination="@id/addImage" />
+            android:id="@+id/action_inputUserPreferences_to_inputfavorite"
+            app:destination="@id/inputfavorite" />
     </fragment>
     <fragment
         android:id="@+id/addImage"
@@ -80,7 +80,19 @@
         android:label="fragment_add_image"
         tools:layout="@layout/fragment_add_image" >
         <action
-            android:id="@+id/action_addImage_to_inputUserPreferences"
+            android:id="@+id/action_addImage_to_inputfavorite"
+            app:destination="@id/inputfavorite" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputfavorite"
+        android:name="com.example.tingting.inputfavorite"
+        android:label="fragment_inputfavorite"
+        tools:layout="@layout/fragment_inputfavorite" >
+        <action
+            android:id="@+id/action_inputfavorite_to_addImage"
+            app:destination="@id/addImage" />
+        <action
+            android:id="@+id/action_inputfavorite_to_inputUserPreferences"
             app:destination="@id/inputUserPreferences" />
     </fragment>
 </navigation>
