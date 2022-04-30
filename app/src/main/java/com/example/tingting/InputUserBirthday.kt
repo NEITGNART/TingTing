@@ -1,16 +1,20 @@
 package com.example.tingting
 
+import android.app.DatePickerDialog
+import android.icu.util.Calendar
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.FragmentInputUserBirthdayBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,11 +61,31 @@ class InputUserBirthday : Fragment() {
 
     private lateinit var binding: FragmentInputUserBirthdayBinding
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentInputUserBirthdayBinding.inflate(layoutInflater)
+        val whichAndroidVersion: Int
+
+        whichAndroidVersion = Build.VERSION.SDK_INT
+
+
+        val c  = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+
+
+        binding.button2.setOnClickListener {
+            val dpd = DatePickerDialog(binding.root.context , DatePickerDialog.OnDateSetListener { view, mYear, mMonth, mDay ->
+                binding.etInUserBirthday.setText(""+ mDay +"/"+mMonth+"/"+mYear)
+            },year, month,day )
+
+            dpd.show()
+        }
 
         binding.btnContinue.setOnClickListener{
             val userBirthday = binding.etInUserBirthday.text.toString()
