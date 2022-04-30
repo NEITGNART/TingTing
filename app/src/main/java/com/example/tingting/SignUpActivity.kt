@@ -1,22 +1,25 @@
 package com.example.tingting
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.tingting.activity.FirstLogin
-import com.example.tingting.activity.MainActivity
 import com.example.tingting.databinding.ActivitySignUpBinding
 import com.example.tingting.utils.Entity.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var auth: FirebaseAuth
 
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
@@ -24,11 +27,10 @@ class SignUpActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-
         binding.ivBack.setOnClickListener {
             finish()
         }
-        
+
         binding.ivTogglePswd.setOnClickListener {
             // toogle password visibility
             binding.etMobilePassword.transformationMethod =
@@ -76,14 +78,10 @@ class SignUpActivity : AppCompatActivity() {
 
             }
         }
-
-        // binding.btnLogin.setOnClickListener {
-        //     finish()
-        // }
     }
 
     // sign up with email and password
-    fun signUpWithEmail(email: String, password: String) {
+    private fun signUpWithEmail(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -102,10 +100,14 @@ class SignUpActivity : AppCompatActivity() {
                     )
 
                     Toast.makeText(this, "Sign up successful", Toast.LENGTH_SHORT).show()
-
-                    val mDatabaseReference = FirebaseDatabase.getInstance().reference
-                    mDatabaseReference.child("Users").child(currentUser?.uid.toString()).setValue(user)
                     startActivity(Intent(this, FirstLogin::class.java))
+
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.IO) {
+                            val mDatabaseReference = FirebaseDatabase.getInstance().reference
+                            mDatabaseReference.child("Users").child(currentUser.uid).setValue(user)
+                        }
+                    }
                     finish()
                 } else {
                     // If sign in fails, display a message to the user.
@@ -117,18 +119,3 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 }
-
-//////////SIGN UP/////////////////////////
-//val email = binding.etEmail.text.toString()
-//val password = binding.etPassword.text.toString()
-//auth2.createUserWithEmailAndPassword(email, password)
-//.addOnCompleteListener{task ->
-//    Log.i("hihi", auth2.currentUser?.uid.toString())
-//    if (task.isSuccessful) {
-//        goToFirstLoginPage()
-//        mDatabaseReference = FirebaseDatabase.getInstance().reference
-//        mDatabaseReference.child("Users").child(auth2.currentUser?.uid.toString()).setValue(user)
-//    }
-//    else
-//        Log.i("hihi", "failed")
-//}

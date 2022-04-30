@@ -1,6 +1,5 @@
 package com.example.tingting
 
-import android.R.attr.data
 import android.app.Activity
 import android.content.Intent
 import android.location.Address
@@ -39,7 +38,6 @@ class UserInfoFragment : Fragment() {
     }
 
     private lateinit var viewModel: UserInfoViewModel
-    lateinit var tv: EditText
     val list: ArrayList<String> = ArrayList()
 
     override fun onCreateView(
@@ -180,7 +178,6 @@ class UserInfoFragment : Fragment() {
 
 
     fun getImage() {
-
         // pick multiple images
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
@@ -205,10 +202,5 @@ class UserInfoFragment : Fragment() {
             }
 
 
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        // TODO: Use the ViewModel
     }
 }

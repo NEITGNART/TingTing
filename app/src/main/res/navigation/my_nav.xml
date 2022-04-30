@@ -30,7 +30,11 @@
         android:id="@+id/browser"
         android:name="com.example.tingting.ThridFragment"
         android:label="Chat"
-        tools:layout="@layout/fragment_thrid" />
+        tools:layout="@layout/fragment_thrid" >
+        <action
+            android:id="@+id/action_browser_to_filterFragment2"
+            app:destination="@id/filterFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/chat"
         android:name="com.example.tingting.FourFragment"
@@ -94,5 +98,14 @@
         <action
             android:id="@+id/action_searchChatFragment_to_fragmentMatches"
             app:destination="@id/fragmentMatches" />
+    </fragment>
+    <fragment
+        android:id="@+id/filterFragment2"
+        android:name="com.example.tingting.FilterFragment"
+        android:label="fragment_filter"
+        tools:layout="@layout/fragment_filter" >
+        <action
+            android:id="@+id/action_filterFragment2_to_browser"
+            app:destination="@id/browser" />
     </fragment>
 </navigation>
