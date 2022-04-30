@@ -11,23 +11,23 @@
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/da_white">
-        <EditText
+
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
             android:id="@+id/edtSearch"
-            android:hint="@string/da_search"
-            android:layout_toStartOf="@id/tvCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/da_button_disabled"
-            android:layout_marginTop="@dimen/da_spacing_large"
             android:layout_marginStart="@dimen/da_spacing_large"
+            android:layout_marginTop="@dimen/da_spacing_large"
+            android:layout_toStartOf="@id/tvCancel"
+            android:background="@drawable/da_button_disabled"
             android:drawableStart="@drawable/da_ic_search_new"
-            android:paddingTop="@dimen/_7sdp"
-            android:paddingBottom="@dimen/_7sdp"
-            android:paddingStart="@dimen/_10sdp"
-            android:paddingEnd="@dimen/_10sdp"
             android:drawablePadding="@dimen/da_spacing_standard"
             android:drawableTint="@color/da_textColorSecondary"
-            />
+            android:hint="@string/da_search"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_7sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_7sdp" />
         <TextView
             android:id="@+id/tvCancel"
             android:layout_alignParentEnd="true"
@@ -63,6 +63,7 @@
                     android:textSize="@dimen/da_font_size_large"
                     />
                 <androidx.recyclerview.widget.RecyclerView
+                    tools:listitem="@layout/da_item_search"
                     android:id="@+id/rvPeople"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

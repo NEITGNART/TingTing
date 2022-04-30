@@ -64,9 +64,6 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-
-
-
         binding.ivAvatar.setOnClickListener {
             // Call intent to setting
             val intent = Intent(this, SettingActivity::class.java)

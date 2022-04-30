@@ -28,8 +28,8 @@ class ChatAdapter(
 
             Glide.with(context).load(chat.avatar).into(binding.ivUser)
             binding.tvUserName.text = chat.name
-            binding.tvChatMessage.text = "00.00"
-            binding.tvTime.text = "hello"
+            binding.tvChatMessage.text = "Hello"
+            binding.tvTime.text = "12:00"
 
 //            val authID = FirebaseAuth.getInstance().currentUser?.uid
 //            val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$authID/${chat.id}")
