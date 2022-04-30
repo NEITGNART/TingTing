@@ -28,8 +28,29 @@ class ChatAdapter(
 
             Glide.with(context).load(chat.avatar).into(binding.ivUser)
             binding.tvUserName.text = chat.name
-            binding.tvChatMessage.text = "Hello"
-            binding.tvTime.text = "12:00"
+
+            FirebaseDatabase.getInstance()
+                .getReference("/latest-messages/${chat.id}/${FirebaseAuth.getInstance().uid}")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                        Log.d("ChatAdapter", "onCancelled")
+                    }
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val message = p0.getValue(Chat::class.java)
+                        if (message != null) {
+                            binding.tvChatMessage.text = message.text
+
+                            message.time.let {
+                                val time = it.toLong()
+                                val date = java.util.Date(time)
+                                val sdf = java.text.SimpleDateFormat("HH:mm")
+                                binding.tvTime.text = sdf.format(date)
+                            }
+
+                        }
+                    }
+                })
+
 
 //            val authID = FirebaseAuth.getInstance().currentUser?.uid
 //            val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$authID/${chat.id}")

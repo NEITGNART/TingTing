@@ -56,12 +56,6 @@
             android:name="idTarget"
             app:argType="string"
             android:defaultValue='""' />
-        <action
-            android:id="@+id/action_userInfoFragment_to_homepage"
-            app:destination="@id/homepage" />
-        <action
-            android:id="@+id/action_userInfoFragment_to_wholike"
-            app:destination="@id/wholike" />
     </fragment>
     <fragment
         android:id="@+id/fragmentMatches"
@@ -83,29 +77,15 @@
         <argument
             android:name="targetId"
             app:argType="string" />
-        <action
-            android:id="@+id/action_congratulation_to_homepage"
-            app:destination="@id/homepage" />
     </fragment>
     <fragment
         android:id="@+id/searchChatFragment"
         android:name="com.example.tingting.SearchChatFragment"
         android:label="fragment_search_chat"
-        tools:layout="@layout/fragment_search_chat" >
-        <action
-            android:id="@+id/action_searchChatFragment_to_chat"
-            app:destination="@id/chat" />
-        <action
-            android:id="@+id/action_searchChatFragment_to_fragmentMatches"
-            app:destination="@id/fragmentMatches" />
-    </fragment>
+        tools:layout="@layout/fragment_search_chat" />
     <fragment
         android:id="@+id/filterFragment2"
         android:name="com.example.tingting.FilterFragment"
         android:label="fragment_filter"
-        tools:layout="@layout/fragment_filter" >
-        <action
-            android:id="@+id/action_filterFragment2_to_browser"
-            app:destination="@id/browser" />
-    </fragment>
+        tools:layout="@layout/fragment_filter" />
 </navigation>

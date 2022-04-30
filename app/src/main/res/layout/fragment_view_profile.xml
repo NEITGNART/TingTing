@@ -60,10 +60,10 @@
                 android:layout_marginTop="@dimen/da_spacing_large"
                 android:layout_marginEnd="@dimen/da_spacing_large"
                 android:layout_toStartOf="@id/ivEdit"
-                tools:text="@string/da_about"
                 android:textAppearance="@style/DAFontSemiBold"
                 android:textColor="@color/da_white"
-                android:textSize="@dimen/da_font_size_large" />
+                android:textSize="@dimen/da_font_size_large"
+                android:text="@string/da_about" />
 
             <ImageView
                 android:id="@+id/ivEdit"

@@ -69,7 +69,7 @@
                     android:background="@drawable/da_bg_circle"
                     android:backgroundTint="@color/da_light_gray"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/image2" />
+                    tools:src="@drawable/image2" />
 
             </androidx.cardview.widget.CardView>
 
@@ -91,7 +91,7 @@
                     android:layout_gravity="center_horizontal"
                     android:backgroundTint="@color/da_light_gray"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/image3" />
+                    tools:src="@drawable/image3" />
 
             </androidx.cardview.widget.CardView>
 
