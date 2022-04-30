@@ -1,11 +1,21 @@
 package com.example.tingting.activity
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.example.tingting.DAMapMarker
 import com.example.tingting.R
 import com.example.tingting.SignUpActivity
 import com.example.tingting.databinding.ActivityLoginBinding
@@ -19,6 +29,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -27,7 +39,7 @@ import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LocationListener {
 
     private lateinit var binding: ActivityLoginBinding
 
@@ -39,12 +51,16 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     lateinit var mDatabaseReference: DatabaseReference
 
+    private lateinit var locationManager: LocationManager
+    private val locationPermissionCode = 2
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 
@@ -67,6 +83,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         binding.btnSignIn.setOnClickListener {
+            getLocation()
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
 
@@ -97,8 +114,9 @@ class LoginActivity : AppCompatActivity() {
                                 .get().addOnSuccessListener {
                                     if (it.value == false) {
                                         goToHomePage()
-                                    } else
+                                    } else {
                                         goToFirstLoginPage()
+                                    }
                                 }
                         } else {
 
@@ -114,8 +132,6 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
-
-
 
         callbackManager = CallbackManager.Factory.create()
 
@@ -189,7 +205,6 @@ class LoginActivity : AppCompatActivity() {
             }
 
     }
-
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -302,6 +317,28 @@ class LoginActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "GoogleActivity"
         private const val RC_SIGN_IN = 9001
+    }
+
+    private fun getLocation() {
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionCode)
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
+    }
+    override fun onLocationChanged(location: Location) {
+        Log.i("hihi", "Latitude: " + location.latitude + " , Longitude: " + location.longitude)
+    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == locationPermissionCode) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
 //////////SIGN UP/////////////////////////

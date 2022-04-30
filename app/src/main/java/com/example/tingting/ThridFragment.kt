@@ -209,6 +209,7 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
 
                     val users = p0.children
                     users.forEachIndexed { i: Int, it: DataSnapshot ->
+                        Log.i("hihi", it.toString())
                         val user = it.getValue(User::class.java)
                         if (user?.address != null) {
                             if (user.id == FirebaseAuth.getInstance().currentUser?.uid) {
