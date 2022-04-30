@@ -109,6 +109,8 @@ class InputUserPreferences : Fragment() {
 
 
             Toast.makeText(binding.root.context, message.toString(), Toast.LENGTH_LONG).show()
+            val action = InputUserPreferencesDirections.actionInputUserPreferencesToAddImage()
+            Navigation.findNavController(binding.root).navigate(action)
 
 
         }
