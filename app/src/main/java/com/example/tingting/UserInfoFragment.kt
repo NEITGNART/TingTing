@@ -3,6 +3,8 @@ package com.example.tingting
 import android.R.attr.data
 import android.app.Activity
 import android.content.Intent
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -17,6 +19,7 @@ import androidx.navigation.Navigation
 import com.example.tingting.databinding.ActivityMainBinding
 import com.example.tingting.databinding.UserInfoFragmentBinding
 import com.example.tingting.utils.hide
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -34,7 +37,8 @@ class UserInfoFragment : Fragment() {
     companion object {
         fun newInstance() = UserInfoFragment()
     }
-private lateinit var viewModel: UserInfoViewModel
+
+    private lateinit var viewModel: UserInfoViewModel
     lateinit var tv: EditText
     val list: ArrayList<String> = ArrayList()
 
@@ -59,7 +63,7 @@ private lateinit var viewModel: UserInfoViewModel
         messageRef1.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (ds in dataSnapshot.children) {
-                     list.add(ds.getValue().toString())
+                    list.add(ds.getValue().toString())
                     Log.i("hahahaha", ds.getValue().toString())
                 }
                 adapters.setContentList(list)
@@ -67,11 +71,11 @@ private lateinit var viewModel: UserInfoViewModel
                 viewpager.adapter = adapters
 
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.d("TAG", databaseError.message)
             }
         })
-
 
 
         val mainBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -107,11 +111,12 @@ private lateinit var viewModel: UserInfoViewModel
             }
             binding.item.tvProfession.visibility = View.GONE
             binding.item.tvDetail.visibility = View.GONE
-            binding.item.tvLocation.text = user.address
             binding.item.tvDetail.text = user.description
             binding.item.tvLang.text = user.birthDate
-            binding.item.tvLocation.text = user.address
-            if(binding.item.tvLocation.text == "") {
+            user.address?.let {
+                fromLatLntToAddress(LatLng(it.latitude,it.longitude))
+            }
+            if (binding.item.tvLocation.text == "") {
                 binding.item.txtLocation.visibility = View.GONE
                 binding.item.tvLocation.visibility = View.GONE
             }
@@ -121,6 +126,22 @@ private lateinit var viewModel: UserInfoViewModel
         // Upload image on firebase storage.
 //        getMultiImage()
 //        getSingleImage()
+    }
+
+    fun fromLatLntToAddress(lt: LatLng) {
+        val geocoder = Geocoder(context, Locale.getDefault())
+        val addresses: List<Address>? = geocoder.getFromLocation(lt.latitude, lt.longitude, 1)
+        if (addresses != null && addresses.isNotEmpty()) {
+            val address = addresses[0]
+            val sb = StringBuilder()
+            for (i in 0 until address.maxAddressLineIndex) {
+                sb.append(address.getAddressLine(i)).append("\n")
+            }
+            sb.append(address.locality).append("\n")
+            sb.append(address.postalCode).append("\n")
+            sb.append(address.countryName)
+            binding.item.tvLocation.text = sb.toString()
+        }
     }
 
     private fun getSingleImage() {

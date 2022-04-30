@@ -1,8 +1,10 @@
 package com.example.tingting
 
 import android.location.Geocoder
+import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.model.LatLng
 
 import org.junit.Test
@@ -33,11 +35,4 @@ class ExampleInstrumentedTest {
         throw Exception("Can't get latlng from address")
     }
 
-    @Test
-    fun getLatLngFromAddressTest() {
-        val address = "381 Lê Thị Riêng Thới An Quận 12"
-        val latLng = getLatLngFromAddress(address)
-        print("Latitude$latLng")
-        assertEquals(10.87909, latLng.latitude, 0.00001)
-    }
 }

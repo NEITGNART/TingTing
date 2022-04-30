@@ -1,19 +1,19 @@
 package com.example.tingting
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tingting.databinding.FragmentSearchChatBinding
 import com.example.tingting.utils.Entity.User
 import com.example.tingting.utils.onClick
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 
 
@@ -21,7 +21,7 @@ class SearchChatFragment : Fragment() {
 
 
     private lateinit var binding: FragmentSearchChatBinding
-    private val chats = mutableListOf<User>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,35 +35,81 @@ class SearchChatFragment : Fragment() {
         }
 
         binding.rvPeople.apply {
-            adapter = SearchChatAdapter(binding.root.context, chats)
             layoutManager = LinearLayoutManager(context)
         }
+
+        binding.edtSearch.setOnClickListener {
+
+        }
+
 
         // reference to the database
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Matched/${Firebase.auth.currentUser!!.uid}")
+        getMatched(myRef, database, binding, false)
 
-        myRef.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onCancelled(p0: com.google.firebase.database.DatabaseError) {
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                // do nothing
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // do nothing
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                if (s.toString().isNotEmpty()) {
+                    getMatched(myRef, database, binding, true)
+
+                } else {
+                    getMatched(myRef, database, binding, false)
+                }
+            }
+
+        })
+
+        return binding.root
+    }
+
+    fun getMatched(
+        myRef: DatabaseReference,
+        database: FirebaseDatabase,
+        binding: FragmentSearchChatBinding,
+        flag: Boolean = false
+    ) {
+        myRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
                 TODO("Not yet implemented")
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                chats.clear()
+                val chats = mutableListOf<User>()
                 for (i in p0.children) {
                     database.getReference("/Users/${i.key}").get()
-                        .addOnSuccessListener{
+                        .addOnSuccessListener {
                             val user = it.getValue(User::class.java)
-                            if (user != null && user.id != Firebase.auth.currentUser!!.uid) {
-                                chats.add(user)
-                                binding.rvPeople.adapter = ChatAdapter(binding.root.context, chats)
+                            if (!flag) {
+                                if (user != null && user.id != Firebase.auth.currentUser!!.uid) {
+                                    chats.add(user)
+                                    binding.rvPeople.adapter =
+                                        ChatAdapter(binding.root.context, chats)
+                                }
+                            } else {
+                                if (user != null && user.id != Firebase.auth.currentUser!!.uid && user.name!!.contains(
+                                        binding.edtSearch.text.toString()
+                                    )
+                                ) {
+                                    chats.add(user)
+                                    binding.rvPeople.adapter =
+                                        ChatAdapter(binding.root.context, chats)
+                                }
                             }
+
                         }
                 }
             }
         })
-
-        return binding.root
     }
 
 }

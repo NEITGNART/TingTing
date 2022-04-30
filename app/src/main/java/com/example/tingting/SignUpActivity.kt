@@ -92,7 +92,7 @@ class SignUpActivity : AppCompatActivity() {
 
                     val user = User(
                         currentUser!!.uid,
-                        "",
+                        null,
                         "",
                         "",
                         "",

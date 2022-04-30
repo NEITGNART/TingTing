@@ -6,16 +6,14 @@ import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +25,7 @@ import com.example.tingting.utils.color
 import com.example.tingting.utils.hide
 import com.example.tingting.utils.onClick
 import com.example.tingting.utils.show
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -41,9 +39,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.maps.android.clustering.ClusterManager
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 private const val TAG = "ThridFragment"
@@ -52,7 +48,6 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding: FragmentThridBinding
     lateinit var clusterManager: ClusterManager<DAMapMarker>
-
     private var lastSelected: DAMapMarker? = null
     private var userLatLng: LatLng? = null
 
@@ -94,9 +89,9 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
             setUpClusterManager(googleMap)
         }
 
-
         val fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(this.requireActivity())
+
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             if (location != null) {
                 Toast.makeText(binding.root.context, "${location.latitude}", Toast.LENGTH_SHORT)
@@ -115,7 +110,8 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
                 }
             } else {
                 val locationManager =
-                    this.requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                    this.requireActivity()
+                        .getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
                     0,
@@ -138,7 +134,6 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-
     private fun drawRedCircleLocation(googleMap: GoogleMap, latLng: LatLng, radius: Double) {
         googleMap.addCircle(
             CircleOptions()
@@ -152,7 +147,7 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
 
     private fun moveTOLocation(googleMap: GoogleMap?) {
         userLatLng?.let {
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(it, 16f))
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(it, 15f))
         }
     }
 
@@ -194,8 +189,6 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
 
     private fun getItems() {
 
-        // get list of firebase users
-
         val ref = FirebaseDatabase.getInstance().reference.child("Users")
 
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -211,30 +204,18 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
                     users.forEachIndexed { i: Int, it: DataSnapshot ->
                         Log.i("hihi", it.toString())
                         val user = it.getValue(User::class.java)
-                        if (user?.address != null) {
-                            if (user.id == FirebaseAuth.getInstance().currentUser?.uid) {
-                                try {
-//                                    val latLng = getLatLngFromAddress(user.address)
-
-                                } catch (e: Exception) {
-                                    Log.e("Explore frag", "getItems: " + e.message)
-                                }
-
-                            } else {
-                                val address = user.address
-                                try {
-                                    val latLng = getLatLngFromAddress(address)
-                                    clusterManager.addItem(DAMapMarker(latLng, user))
-                                } catch (e: Exception) {
-                                    Log.e("Explore frag", "onDataChange: " + e.message)
+                        user?.let {
+                            if (it.address != null) {
+                                user.address?.let {
+                                    clusterManager.addItem(DAMapMarker(LatLng(it.latitude, it.longitude), user))
                                 }
                             }
                         }
+
                     }
                 }
             }
         })
-
 
     }
 

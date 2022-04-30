@@ -67,6 +67,9 @@
         <action
             android:id="@+id/action_fragmentMatches_to_chat"
             app:destination="@id/chat" />
+        <action
+            android:id="@+id/action_fragmentMatches_to_searchChatFragment"
+            app:destination="@id/searchChatFragment" />
     </fragment>
     <fragment
         android:id="@+id/congratulation"
@@ -88,5 +91,8 @@
         <action
             android:id="@+id/action_searchChatFragment_to_chat"
             app:destination="@id/chat" />
+        <action
+            android:id="@+id/action_searchChatFragment_to_fragmentMatches"
+            app:destination="@id/fragmentMatches" />
     </fragment>
 </navigation>

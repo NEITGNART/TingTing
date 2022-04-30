@@ -1,34 +1,39 @@
 package com.example.tingting.activity
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.example.tingting.R
 import com.example.tingting.SettingActivity
 import com.example.tingting.databinding.ActivityMainBinding
+import com.example.tingting.utils.Entity.LatLng
 import com.example.tingting.utils.Entity.User
-import com.example.tingting.utils.hide
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mGoogleApiClient: GoogleApiClient
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,14 +42,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         // Bottom navigation
         val navController = findNavController(R.id.nav_host_fragment_login)
 //
         binding.bottomNavigationView.setupWithNavController(navController)
 
         val reference =
-            FirebaseDatabase.getInstance().getReference("/Matched/${FirebaseAuth.getInstance().currentUser!!.uid}")
+            FirebaseDatabase.getInstance()
+                .getReference("/Matched/${FirebaseAuth.getInstance().currentUser!!.uid}")
 
         // count number of child
 
@@ -52,6 +57,7 @@ class MainActivity : AppCompatActivity() {
             override fun onCancelled(p0: DatabaseError) {
                 TODO("Not yet implemented")
             }
+
             override fun onDataChange(p0: DataSnapshot) {
                 // count number of child
                 val count = p0.childrenCount
@@ -64,7 +70,38 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            // request the permission
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
+            return
+        }
 
+        FusedLocationProviderClient(this).lastLocation.addOnSuccessListener {
+            if (it != null) {
+                val latLng = LatLng(it.latitude, it.longitude)
+                val reference = FirebaseDatabase.getInstance()
+                    .getReference("/Users/${FirebaseAuth.getInstance().currentUser!!.uid}/address")
+                reference.setValue(latLng)
+            }
+        }
 
 
         binding.ivAvatar.setOnClickListener {
@@ -84,28 +121,31 @@ class MainActivity : AppCompatActivity() {
 
         val accessToken = AccessToken.getCurrentAccessToken()
 
-        if (accessToken!=null && !accessToken.isExpired) {
+        if (accessToken != null && !accessToken.isExpired) {
 
             val request = GraphRequest.newMeRequest(
                 accessToken,
             ) { _, response ->
 
-                val jsonObject = JSONObject(response?.jsonObject.toString())
-                val url = jsonObject.getJSONObject("picture").getJSONObject("data").getString("url")
 
-                mRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onCancelled(p0: DatabaseError) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
+                lifecycleScope.launch {
+                    val jsonObject = JSONObject(response?.jsonObject.toString())
+                    val url = jsonObject.getJSONObject("picture").getJSONObject("data").getString("url")
 
-                    override fun onDataChange(p0: DataSnapshot) {
-                        val user = p0.getValue(User::class.java)
-                        if (user?.avatar == "") {
-                            mRef.child("avatar").setValue(url)
+                    mRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(p0: DatabaseError) {
+                            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                         }
-                    }
 
-                })
+                        override fun onDataChange(p0: DataSnapshot) {
+                            val user = p0.getValue(User::class.java)
+                            if (user?.avatar == "") {
+                                mRef.child("avatar").setValue(url)
+                            }
+                        }
+
+                    })
+                }
             }
 
             val parameters = Bundle()
@@ -114,24 +154,27 @@ class MainActivity : AppCompatActivity() {
             request.executeAsync()
         }
 
-        mRef.addListenerForSingleValueEvent(object :
-            ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("Not yet implemented")
-            }
 
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val user = p0.getValue(User::class.java)
+        lifecycleScope.launch {
+            mRef.addListenerForSingleValueEvent(object :
+                ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
 
-                    if (user != null) {
-                        Glide.with(this@MainActivity)
-                            .load(user.avatar)
-                            .into(binding.ivAvatar)
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (p0.exists()) {
+                        val user = p0.getValue(User::class.java)
+                        if (user != null) {
+                            Glide.with(this@MainActivity)
+                                .load(user.avatar)
+                                .into(binding.ivAvatar)
+                        }
                     }
                 }
-            }
-        })
+            })
+        }
+
 
     }
 
@@ -140,5 +183,6 @@ class MainActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
         window.statusBarColor = Color.TRANSPARENT
     }
+
 
 }

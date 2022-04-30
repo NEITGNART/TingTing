@@ -88,6 +88,15 @@ class FragmentMatches : Fragment() {
         )
 
 
+        binding.ivSearch.setOnClickListener {
+//            val action = FourFragmentDirections.actionChatToFragmentSearch()
+            val action = FragmentMatchesDirections.actionFragmentMatchesToSearchChatFragment()
+            Navigation.findNavController(binding.root).navigate(action)
+        }
+
+
+
+
         binding.rvMatches.layoutManager = GridLayoutManager(requireContext(), 3)
         return binding.root
     }
