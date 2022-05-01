@@ -33,6 +33,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -147,7 +148,6 @@ class LoginActivity : AppCompatActivity(), LocationListener {
             override fun onCancel() {
                 // App code
             }
-
             override fun onError(exception: FacebookException) {
                 // App code
             }
@@ -181,18 +181,10 @@ class LoginActivity : AppCompatActivity(), LocationListener {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
 
-                    mDatabaseReference = FirebaseDatabase.getInstance().reference
-                    mDatabaseReference
-                        .child("Users")
-                        .child(auth.currentUser?.uid.toString())
-                        .child("firstTimeLogin")
-                        .get().addOnSuccessListener {
-                            if (it.value == false) {
-                                // get current avatar on facebook and store in user
-                                goToHomePage()
-                            } else
-                                goToFirstLoginPage()
-                        }
+
+                    handleLogin(auth.currentUser)
+
+
 
 
                 } else {
@@ -250,36 +242,14 @@ class LoginActivity : AppCompatActivity(), LocationListener {
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    fun firebaseAuthWithGoogle(idToken: String) {
+    private fun firebaseAuthWithGoogle(idToken: String) {
         val authCredential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(authCredential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // check that user id in database
                     val user = auth.currentUser
-                    val uid = user!!.uid
-                    val database = FirebaseDatabase.getInstance().reference
-                    val userRef = database.child("Users").child(uid)
-
-                    userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                            if (dataSnapshot.exists()) {
-                                goToHomePage()
-                            } else {
-
-                                val user = User(uid)
-                                userRef.setValue(user)
-                                goToFirstLoginPage()
-
-                            }
-                        }
-
-                        override fun onCancelled(databaseError: DatabaseError) {
-                            // Getting Post failed, log a message
-                            Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
-                        }
-                    })
+                    handleLogin(user)
 
                 } else {
                     // If sign in fails, display a message to the user.
@@ -291,13 +261,41 @@ class LoginActivity : AppCompatActivity(), LocationListener {
             }
     }
 
+    fun handleLogin(user: FirebaseUser?) {
+        val uid = user!!.uid
+        val database = FirebaseDatabase.getInstance().reference
+        val userRef = database.child("Users").child(uid)
+
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (dataSnapshot.child("firstTimeLogin").value.toString() == "true") {
+                        goToFirstLoginPage()
+                    } else {
+                        goToHomePage()
+                    }
+
+                } else {
+                    val user = User(uid)
+                    userRef.setValue(user)
+                    goToFirstLoginPage()
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        })
+    }
+
     fun loginWithEmail(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithEmail:success")
-                    val user = auth.currentUser
+                    auth.currentUser
                     goToHomePage()
                 } else {
                     // If sign in fails, display a message to the user.
@@ -318,6 +316,7 @@ class LoginActivity : AppCompatActivity(), LocationListener {
         private const val TAG = "GoogleActivity"
         private const val RC_SIGN_IN = 9001
     }
+<<<<<<< HEAD
 
     private fun getLocation() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -367,3 +366,6 @@ class LoginActivity : AppCompatActivity(), LocationListener {
 //    else
 //        Log.i("hihi", "failed")
 //}
+=======
+}
+>>>>>>> 1e758ce589b909ec859c47998c43a2c14950f4c1

@@ -18,16 +18,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FilterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FilterFragment : Fragment() {
 
     private lateinit var binding: FragmentFilterBinding
@@ -35,21 +25,29 @@ class FilterFragment : Fragment() {
     private val distanceArray =
         arrayOf("1 km", "2 km", "3 km", "4 km", "5 km", "6 km", "7 km", "8 km", "9 km", "10 km")
     private val ageArray2 = arrayOf("18", "19", "20", "21", "22", "23", "24", "25")
+<<<<<<< HEAD
     private val spDisplay = arrayOf("Male", "Female", "All")
     private val userID = FirebaseAuth.getInstance().uid
+=======
+
+>>>>>>> 1e758ce589b909ec859c47998c43a2c14950f4c1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         binding = FragmentFilterBinding.inflate(inflater)
         binding.ivBack.setOnClickListener {
             Navigation.findNavController(it).navigateUp()
         }
 
+<<<<<<< HEAD
         var minDistance = 0F
         var maxDistance = 0F
+=======
+>>>>>>> 1e758ce589b909ec859c47998c43a2c14950f4c1
         binding.rangebarDistance.tickTopLabels = distanceArray
         FirebaseDatabase.getInstance().getReference("Setting/$userID").child("distance").child("max").get().addOnSuccessListener {itMax ->
             when (itMax.value.toString()){
@@ -115,6 +113,7 @@ class FilterFragment : Fragment() {
 
         binding.tvLocation.onClick {
         }
+<<<<<<< HEAD
 
 
 
@@ -136,6 +135,12 @@ class FilterFragment : Fragment() {
             reference.child("distance").child("max").setValue(distanceArray[binding.rangebarDistance.leftIndex])
             reference.child("distance").child("min").setValue(distanceArray[binding.rangebarDistance.rightIndex])
             FirebaseDatabase.getInstance().getReference("User/$userID").child("display").setValue(binding.spDisplay.selectedItem.toString())
+=======
+        binding.tvGender.onClick {
+
+        }
+        return binding.root
+>>>>>>> 1e758ce589b909ec859c47998c43a2c14950f4c1
 
             val action = FilterFragmentDirections.actionFilterFragmentToSettingFragment()
             Navigation.findNavController(binding.root).navigate(action)

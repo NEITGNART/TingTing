@@ -38,6 +38,9 @@ class FourFragment : Fragment() {
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Matched/$currentUser")
 
+        val fromId = FirebaseAuth.getInstance().uid
+
+
         myRef.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(p0: com.google.firebase.database.DatabaseError) {
                 TODO("Not yet implemented")
@@ -51,6 +54,8 @@ class FourFragment : Fragment() {
                             val user = it.getValue(User::class.java)
                             if (user != null && user.id != currentUser) {
                                 chats.add(user)
+
+
                                 binding.rvChat.adapter = ChatAdapter(binding.root.context, chats)
                             }
                     }

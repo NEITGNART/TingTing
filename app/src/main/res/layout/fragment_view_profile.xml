@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewProfileFragment">
+
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/da_profile_2" />
+        <ImageView
+            android:id="@+id/ivBack"
+            android:padding="@dimen/da_spacing_control"
+            android:src="@drawable/da_ic_close"
+            style="@style/DABackIcon"
+            app:tint="@color/da_white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/da_gradation_black"
+            android:layout_alignParentBottom="true"
+            android:paddingTop="@dimen/da_spacing_xxxlarge"
+            android:paddingBottom="@dimen/da_spacing_xlarge">
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/DAHeading"
+                tools:text="@string/da_william_26"
+                android:textColor="@color/da_white" />
+
+            <TextView
+                android:id="@+id/tvProfession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvName"
+                android:layout_marginStart="@dimen/da_spacing_large"
+                android:layout_marginEnd="@dimen/da_spacing_large"
+                android:text="@string/da_profession"
+                android:textAppearance="@style/DAFontSemiBold"
+                android:textColor="@color/da_white"
+                android:textSize="@dimen/da_font_size_xlarge" />
+
+            <TextView
+                android:id="@+id/tvAbout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvProfession"
+                android:layout_marginStart="@dimen/da_spacing_large"
+                android:layout_marginTop="@dimen/da_spacing_large"
+                android:layout_marginEnd="@dimen/da_spacing_large"
+                android:layout_toStartOf="@id/ivEdit"
+                android:textAppearance="@style/DAFontSemiBold"
+                android:textColor="@color/da_white"
+                android:textSize="@dimen/da_font_size_large"
+                android:text="@string/da_about" />
+
+            <ImageView
+                android:id="@+id/ivEdit"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_alignTop="@id/tvAbout"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/da_spacing_large"
+                android:background="@drawable/da_circle_redprimary"
+                android:padding="@dimen/da_spacing_middle"
+                android:src="@drawable/da_ic_mode_edit_black_24dp"
+                app:tint="@color/da_white" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</FrameLayout>

@@ -4,11 +4,9 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Resources
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +15,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.tingting.databinding.FragmentThridBinding
@@ -25,7 +24,7 @@ import com.example.tingting.utils.color
 import com.example.tingting.utils.hide
 import com.example.tingting.utils.onClick
 import com.example.tingting.utils.show
-import com.google.android.gms.location.*
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -134,6 +133,8 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+
+
     private fun drawRedCircleLocation(googleMap: GoogleMap, latLng: LatLng, radius: Double) {
         googleMap.addCircle(
             CircleOptions()
@@ -205,11 +206,21 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
                         Log.i("hihi", it.toString())
                         val user = it.getValue(User::class.java)
                         user?.let {
-                            if (it.address != null) {
+                            if (it.id != FirebaseAuth.getInstance().currentUser?.uid &&
+                                it.address != null
+                            ) {
                                 user.address?.let {
-                                    clusterManager.addItem(DAMapMarker(LatLng(it.latitude, it.longitude), user))
+                                    clusterManager.addItem(
+                                        DAMapMarker(
+                                            LatLng(
+                                                it.latitude,
+                                                it.longitude
+                                            ), user
+                                        )
+                                    )
                                 }
                             }
+                            Log.e("Explore frag", "onDataChange: " + it.id)
                         }
 
                     }
@@ -219,22 +230,13 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
 
     }
 
-    private fun getLatLngFromAddress(address: String?): LatLng {
-        val geocoder = Geocoder(binding.root.context)
-        val list = geocoder.getFromLocationName(address, 3)
-        if (list.size > 0) {
-            return LatLng(list[0].latitude, list[0].longitude)
-        }
-        throw Exception("Can't get latlng from address")
-    }
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentThridBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -244,6 +246,11 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.mapAddress) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        binding.ivFilter.setOnClickListener {
+            val action = ThridFragmentDirections.actionBrowserToFilterFragment2()
+            Navigation.findNavController(it).navigate(action)
+        }
     }
 
 }

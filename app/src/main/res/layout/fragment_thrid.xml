@@ -114,8 +114,28 @@
         android:id="@+id/ivCurrentLocation"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
+        android:layout_marginStart="@dimen/da_spacing_standard"
+        android:layout_marginTop="@dimen/da_spacing_standard"
+        android:layout_marginEnd="@dimen/da_spacing_standard"
+        android:layout_marginBottom="@dimen/da_spacing_standard"
+        android:background="@drawable/da_shadoe_8dp"
         android:padding="@dimen/_14sdp"
-        android:src="@drawable/da_ic_gps_location_symbol"
-        android:layout_margin="@dimen/da_spacing_standard"
-        android:background="@drawable/da_shadoe_8dp"/>
+        android:src="@drawable/da_ic_gps_location_symbol" />
+
+
+    <ImageView
+        android:id="@+id/ivFilter"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/da_spacing_standard"
+        android:layout_marginTop="@dimen/da_spacing_standard"
+        android:layout_marginEnd="@dimen/da_spacing_standard_new"
+        android:layout_marginBottom="@dimen/da_spacing_standard"
+        android:padding="@dimen/da_spacing_control"
+        android:src="@drawable/da_ic_filter"
+        app:tint="@color/da_textColorThird" />
+
+
+
 </RelativeLayout>

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileFragment">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/da_white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                style="@style/DABackIcon"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                style="@style/DAHeading"
+                android:layout_alignTop="@id/ivBack"
+                android:layout_alignBottom="@id/ivBack"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/da_profile"
+                android:textSize="@dimen/da_font_size_xlarge" />
+
+        </RelativeLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            tools:context=".activity.DAWalkThroughActivity">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/da_spacing_standard_new"
+                    android:layout_marginEnd="@dimen/_14sdp"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardProfile1"
+                        style="@style/ProfileCard"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_160sdp">
+
+                        <ImageView
+                            style="@style/ProfileImage"
+                            android:src="@drawable/da_profile_2" />
+
+                        <ImageView
+                            android:id="@+id/ivEdit1"
+                            style="@style/ProfileEdit"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:padding="@dimen/_6sdp"
+                            android:src="@drawable/da_ic_mode_edit_black_24dp" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardProfile2"
+                            style="@style/ProfileCard">
+
+                            <ImageView
+                                style="@style/ProfileImage"
+                                android:src="@drawable/da_profile_2" />
+
+                            <ImageView
+                                android:id="@+id/ivEdit2"
+                                style="@style/ProfileEdit"
+                                android:src="@drawable/da_ic_mode_edit_black_24dp" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardProfile3"
+                            style="@style/ProfileCard">
+
+                            <ImageView style="@style/ProfileImage" />
+
+                            <ImageView
+                                android:id="@+id/ivEdit3"
+                                style="@style/ProfileEdit" />
+
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_14sdp"
+                    android:layout_marginEnd="@dimen/_14sdp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardProfile4"
+                        style="@style/ProfileCard">
+
+                        <ImageView style="@style/ProfileImage" />
+
+                        <ImageView
+                            android:id="@+id/ivEdit4"
+                            style="@style/ProfileEdit" />
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardProfile5"
+                        style="@style/ProfileCard">
+
+                        <ImageView style="@style/ProfileImage" />
+
+                        <ImageView
+                            android:id="@+id/ivEdit5"
+                            style="@style/ProfileEdit" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardProfile6"
+                        style="@style/ProfileCard">
+
+                        <ImageView style="@style/ProfileImage" />
+
+                        <ImageView
+                            android:id="@+id/ivEdit6"
+                            style="@style/ProfileEdit" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+
+                <TextView
+                    style="@style/DAEditTextHint"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:text="@string/da_username" />
+
+                <EditText
+                    android:id="@+id/edtUsername"
+                    style="@style/DaEditText"
+                    android:layout_marginStart="@dimen/da_spacing_large"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:layout_marginEnd="@dimen/da_spacing_large"
+                    android:background="@drawable/da_edittext"
+                    android:text="John Pham" />
+
+                <TextView
+                    style="@style/DAEditTextHint"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:text="@string/da_birthday" />
+
+                <EditText
+                    android:id="@+id/edtBirthday"
+                    style="@style/DaEditText"
+                    android:layout_marginStart="@dimen/da_spacing_large"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:layout_marginEnd="@dimen/da_spacing_large"
+                    android:background="@drawable/da_edittext"
+                    android:editable="false"
+                    android:text="@string/da_20_02_1998" />
+
+                <TextView
+                    style="@style/DAEditTextHint"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:text="@string/da_gender" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ivFemale"
+                        style="@style/GenderIcon"
+                        android:layout_margin="@dimen/da_spacing_standard_new"
+                        android:src="@drawable/da_ic_female" />
+
+                    <ImageView
+                        android:id="@+id/ivMale"
+                        style="@style/GenderIcon"
+                        android:layout_margin="@dimen/da_spacing_standard_new"
+                        android:src="@drawable/da_ic_male" />
+
+                    <ImageView
+                        android:id="@+id/ivOther"
+                        style="@style/GenderIcon"
+                        android:layout_margin="@dimen/da_spacing_standard_new"
+                        android:src="@drawable/da_ic_gender_equality" />
+
+                </LinearLayout>
+
+                <TextView
+                    style="@style/DAEditTextHint"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:text="@string/da_location" />
+
+                <EditText
+                    android:id="@+id/edtLocation"
+                    style="@style/DaEditText"
+                    android:layout_marginStart="@dimen/da_spacing_large"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:layout_marginEnd="@dimen/da_spacing_large"
+                    android:background="@drawable/da_edittext"
+                    android:editable="false"
+                    android:text="@string/da_shipley_bradford" />
+
+                <TextView
+                    style="@style/DAEditTextHint"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:text="@string/da_work" />
+
+                <EditText
+                    android:id="@+id/edtWork"
+                    style="@style/DaEditText"
+                    android:layout_marginStart="@dimen/da_spacing_large"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:layout_marginEnd="@dimen/da_spacing_large"
+                    android:background="@drawable/da_edittext"
+                    android:editable="false"
+                    android:text="@string/da_profession" />
+
+                <TextView
+                    style="@style/DAEditTextHint"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:text="@string/da_hint_mobile" />
+
+                <EditText
+                    android:id="@+id/edtMobileNum"
+                    style="@style/DaEditText"
+                    android:layout_marginStart="@dimen/da_spacing_large"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:layout_marginEnd="@dimen/da_spacing_large"
+                    android:background="@drawable/da_edittext"
+                    android:editable="false"
+                    android:text="@string/da_num" />
+
+                <TextView
+                    style="@style/DAEditTextHint"
+                    android:layout_marginTop="@dimen/da_spacing_standard"
+                    android:text="@string/da_about_me" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/da_spacing_large"
+                    android:layout_marginEnd="@dimen/da_spacing_large"
+                    android:background="@drawable/da_edittext">
+
+                    <EditText
+                        android:id="@+id/edtAboutMe"
+                        style="@style/DaEditText"
+                        android:layout_toStartOf="@id/tvMaxFont"
+                        android:singleLine="false"
+                        android:text="@string/da_about" />
+
+                    <TextView
+                        android:id="@+id/tvMaxFont"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:padding="@dimen/da_spacing_middle"
+                        android:text="@string/da_500"
+                        android:textColor="@color/da_textColorSecondary"
+                        android:textSize="@dimen/da_font_size_medium" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/da_spacing_xxlarge"
+                    android:layout_marginBottom="@dimen/da_spacing_large">
+
+                    <Button
+                        android:id="@+id/btnSave"
+                        style="@style/DAMaterialButtonStyle.Enabled"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="@dimen/da_spacing_large"
+                        android:layout_marginEnd="@dimen/da_spacing_large"
+                        android:layout_marginBottom="@dimen/da_spacing_standard"
+                        android:text="@string/da_save"
+                        android:textAllCaps="true" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+
+
+</FrameLayout>

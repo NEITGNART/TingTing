@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
 import com.example.tingting.activity.LoginActivity
@@ -18,6 +19,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.launch
 
 class SettingFragment : Fragment() {
 
@@ -41,6 +43,11 @@ class SettingFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.ivProfile.setOnClickListener {
+            val action = SettingFragmentDirections.actionSettingFragmentToViewProfileFragment()
+            NavHostFragment.findNavController(this@SettingFragment).navigate(action)
+        }
+
         // get current user
 
         val user = FirebaseAuth.getInstance().uid
@@ -48,26 +55,26 @@ class SettingFragment : Fragment() {
 
         // if user is not null, then user is logged in
 
-        mRef.addListenerForSingleValueEvent(object :
-            ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("Not yet implemented")
-            }
+        lifecycleScope.launch {
+            mRef.addListenerForSingleValueEvent(object :
+                ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
 
-            override fun onDataChange(p0: DataSnapshot) {
-                if (p0.exists()) {
-                    val user = p0.getValue(User::class.java)
-                    if (user != null) {
-                        binding.tvUsername.text = user.name
-                        Glide.with(this@SettingFragment)
-                            .load(user.avatar)
-                            .into(binding.ivProfile)
-
+                override fun onDataChange(p0: DataSnapshot) {
+                    if (p0.exists()) {
+                        val user = p0.getValue(User::class.java)
+                        if (user != null) {
+                            binding.tvUsername.text = user.name
+                            Glide.with(this@SettingFragment)
+                                .load(user.avatar)
+                                .into(binding.ivProfile)
+                        }
                     }
                 }
-            }
-        })
-
+            })
+        }
 
         if (user != null) {
             binding.tvLogout.visibility = View.VISIBLE

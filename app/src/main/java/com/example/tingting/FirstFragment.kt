@@ -43,9 +43,6 @@ class FirstFragment : Fragment() {
         binding = FragmentFirstBinding.inflate(layoutInflater)
         cardStackView = binding.cardstackview
 
-
-
-
         manager = CardStackLayoutManager(context, object : CardStackListener {
             override fun onCardDragging(direction: Direction, ratio: Float) {
             }

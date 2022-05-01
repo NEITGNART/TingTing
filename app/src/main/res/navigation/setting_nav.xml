@@ -13,14 +13,34 @@
         <action
             android:id="@+id/action_settingFragment_to_filterFragment"
             app:destination="@id/filterFragment" />
+        <action
+            android:id="@+id/action_settingFragment_to_viewProfileFragment"
+            app:destination="@id/viewProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
         android:name="com.example.tingting.FilterFragment"
         android:label="fragment_filter"
+<<<<<<< HEAD
         tools:layout="@layout/fragment_filter" >
         <action
             android:id="@+id/action_filterFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
+=======
+        tools:layout="@layout/fragment_filter" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.tingting.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/viewProfileFragment"
+        android:name="com.example.tingting.ViewProfileFragment"
+        android:label="fragment_view_profile"
+        tools:layout="@layout/fragment_view_profile" >
+        <action
+            android:id="@+id/action_viewProfileFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+>>>>>>> 1e758ce589b909ec859c47998c43a2c14950f4c1
     </fragment>
 </navigation>

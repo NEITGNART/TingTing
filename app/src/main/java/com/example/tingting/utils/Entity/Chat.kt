@@ -1,6 +1,7 @@
 package com.example.tingting.utils.Entity
 
 data class Chat(
+
     val id: String? = null,
     var text: String? = null,
     var isSender: Boolean = false,

@@ -74,7 +74,7 @@ class AddImage : Fragment() {
         }
 
         binding.btnBack.setOnClickListener{
-            val action = AddImageDirections.actionAddImageToInputUserPreferences()
+            val action = AddImageDirections.actionAddImageToInputfavorite()
             Navigation.findNavController(binding.root).navigate(action)
         }
 
