@@ -19,7 +19,7 @@
             android:name=".activity.CongratulationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.Notifycation"
+            android:name=".activity.NotificationActivity"
             android:exported="false" />
 
         <meta-data

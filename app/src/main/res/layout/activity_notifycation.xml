@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/da_white">
+    android:background="@color/da_white"
+    tools:context=".activity.NotificationActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -12,14 +15,15 @@
             style="@style/DABackIcon"
             android:layout_width="27dp"
             android:layout_height="26dp" />
+
         <TextView
             style="@style/DAHeading"
-            android:layout_centerHorizontal="true"
             android:layout_alignTop="@id/ivBack"
             android:layout_alignBottom="@id/ivBack"
+            android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:textSize="@dimen/da_font_size_xlarge"
-            android:text="@string/da_notification" />
+            android:text="@string/da_notification"
+            android:textSize="@dimen/da_font_size_xlarge" />
 
     </RelativeLayout>
     <androidx.recyclerview.widget.RecyclerView

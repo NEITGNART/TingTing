@@ -3,19 +3,15 @@ package com.example.tingting
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.example.tingting.activity.MainActivity
 import com.example.tingting.databinding.ActivityChatBinding
 import com.example.tingting.utils.*
 import com.example.tingting.utils.Entity.Chat
-import com.example.tingting.utils.Entity.ChatMessage
 import com.example.tingting.utils.Entity.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ChildEventListener
@@ -87,7 +83,7 @@ class ChatActivity : AppCompatActivity() {
 
         }
 
-        binding.tvUserName.text = toUser?.name
+        binding.tvUsername.text= toUser?.name
 
         binding.item.ivSend.onClick {
             if (messageType == MESSAGE) {
@@ -309,45 +305,6 @@ class ChatActivity : AppCompatActivity() {
         })
 
     }
-
-//    fun getUserChats(): MutableList<Chat> {
-//        var list = mutableListOf<Chat>()
-//
-//        var badge = Chat()
-//        badge.text = "Hey Malanie"
-//        badge.isSender = true
-//        badge.type = "Message"
-//
-//        list.add(badge)
-//
-//        var badge1 = Chat()
-//        badge1.text = "Hello"
-//        badge1.type = "Message"
-//
-//        list.add(badge1)
-//
-//        var badge2 = Chat()
-//        badge2.text = "Have i bother you?"
-//        badge2.isSender = true
-//        badge2.type = "Message"
-//
-//        list.add(badge2)
-//
-//        var badge3 = Chat()
-//        badge3.text = "N0"
-//        badge3.type = "Message"
-//
-//        list.add(badge3)
-//
-//        var badge4 = Chat()
-//        badge4.text = "Just Say it"
-//        badge4.type = "Message"
-//
-//        badge4.showProfile = false
-//
-//        list.add(badge4)
-//        return list
-//    }
 
     private fun resetAddLayout() {
         binding.item.rlAdd.hide()

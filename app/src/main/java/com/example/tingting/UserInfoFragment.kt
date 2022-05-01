@@ -162,7 +162,7 @@ class UserInfoFragment : Fragment() {
                         val userId = FirebaseAuth.getInstance().uid!!
                         FirebaseDatabase.getInstance().getReference("/Users/$userId/address").get().addOnSuccessListener {
                             val latlng_user = it.getValue(com.example.tingting.utils.Entity.LatLng::class.java)
-                            binding.item.tvDisatance.text=  getDistance(latlng!!.latitude, latlng!!.longitude,latlng_user!!.latitude, latlng_user!!.longitude).toString() + " Km"
+                            binding.item.tvDisatance.text= getDistance(latlng!!.latitude, latlng!!.longitude,latlng_user!!.latitude, latlng_user!!.longitude).toString() + " Km"
 
                         }
                     }

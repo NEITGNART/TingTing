@@ -21,7 +21,7 @@
                 style="@style/DABackIcon"/>
 
             <TextView
-                android:id="@+id/tvUserName"
+                android:id="@+id/tvUsername"
                 style="@style/DAHeading"
                 android:layout_alignTop="@id/ivBack"
                 android:layout_alignBottom="@id/ivBack"

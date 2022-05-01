@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.tingting.databinding.FragmentFirstBinding
+import com.example.tingting.utils.Entity.Notification
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.yuyakaido.android.cardstackview.*
@@ -57,7 +58,7 @@ class FirstFragment : Fragment() {
                     Toast.makeText(context, "Direction Right", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition - 1
                     addVisited(adapter.getSpots()[currentIndex].id_user)
-                    addMatch(adapter.getSpots()[currentIndex].id_user)
+                    addMatch(adapter.getSpots()[currentIndex].id_user, adapter.getSpots()[currentIndex].name)
 
                 }
                 if (direction == Direction.Top) {
@@ -237,7 +238,7 @@ class FirstFragment : Fragment() {
         FirebaseDatabase.getInstance().getReference("/Visited/$userId/$targetId").setValue(targetId)
     }
 
-    fun addMatch(targetId: String) {
+    fun addMatch(targetId: String, name: String) {
 
 
         lifecycleScope.launch {
@@ -248,6 +249,17 @@ class FirstFragment : Fragment() {
                 FirebaseDatabase.getInstance().getReference("/Match/$userId/$targetId")
                     .setValue(targetId)
 
+                val notify = Notification(
+                    "$name has liked you",
+                    false,
+                    time = System.currentTimeMillis().toString(),
+                    null,
+                    targetId
+                )
+
+                FirebaseDatabase.getInstance().getReference("/Notify/$targetId").push().setValue(notify)
+
+
                 FirebaseDatabase.getInstance().getReference("/Match/$targetId/$userId")
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onCancelled(p0: DatabaseError) {
@@ -256,7 +268,12 @@ class FirstFragment : Fragment() {
                         override fun onDataChange(p0: DataSnapshot) {
 
                             if (p0.exists()) {
+
+                                val action = FirstFragmentDirections.actionHomepageToCongratulation(targetId = targetId)
+                                Navigation.findNavController(view!!).navigate(action)
+
                                 Log.i("TAG", p0.value.toString())
+
                                 FirebaseDatabase.getInstance()
                                     .getReference("/Matched/$userId/$targetId")
                                     .setValue(targetId)
@@ -264,8 +281,16 @@ class FirstFragment : Fragment() {
                                     .getReference("/Matched/$targetId/$userId")
                                     .setValue(userId)
 
-                                val action = FirstFragmentDirections.actionHomepageToCongratulation(targetId = targetId)
-                                Navigation.findNavController(view!!).navigate(action)
+                                val notify = Notification(
+                                    "You got a match!",
+                                    false,
+                                    time = System.currentTimeMillis().toString(),
+                                    null,
+                                    targetId
+                                )
+
+                                FirebaseDatabase.getInstance().getReference("/Notify/$targetId").push().setValue(notify)
+
                             }
                         }
                     })
