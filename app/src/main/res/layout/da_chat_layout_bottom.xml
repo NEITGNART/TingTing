@@ -28,27 +28,33 @@
                 android:layout_marginStart="@dimen/da_spacing_control"
                 android:layout_margin="0dp"
                 style="@style/DABackIcon"/>
+
             <ImageView
+
                 android:id="@+id/ivVoice"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp"
-                android:src="@drawable/da_ic_microphone"
-                android:layout_marginEnd="@dimen/_14sdp"
-                android:padding="@dimen/da_spacing_control_half"
+                style="@style/DABackIcon"
+                android:layout_centerInParent="true"
                 android:layout_marginStart="@dimen/_14sdp"
-                style="@style/DABackIcon"/>
-            <ImageView
-                android:id="@+id/ivGif"
-                android:layout_toEndOf="@id/ivVoice"
-                android:layout_centerVertical="true"
-                android:src="@drawable/da_ic_gif"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="@dimen/_14sdp"
+                android:layout_marginBottom="0dp"
                 android:padding="@dimen/da_spacing_control_half"
-                android:layout_marginStart="@dimen/da_spacing_control"
-                style="@style/DABackIcon"/>
+                android:src="@drawable/da_ic_microphone"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/ivGif"
+                style="@style/DABackIcon"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:layout_toEndOf="@id/ivVoice"
+                android:padding="@dimen/da_spacing_control_half"
+                android:src="@drawable/da_ic_gif" />
 
         </RelativeLayout>
 
@@ -60,14 +66,6 @@
             android:paddingTop="@dimen/da_spacing_middle"
             android:paddingBottom="@dimen/da_spacing_middle">
 
-            <ImageView
-                android:id="@+id/ivCamera"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/da_spacing_middle"
-                android:padding="@dimen/_6sdp"
-                android:src="@drawable/da_ic_photo_camera" />
 
             <ImageView
                 android:id="@+id/ivAdd"
@@ -75,7 +73,6 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="12dp"
-                android:layout_toEndOf="@id/ivCamera"
                 android:padding="@dimen/_6sdp"
                 android:src="@drawable/da_ic_add" />
 
