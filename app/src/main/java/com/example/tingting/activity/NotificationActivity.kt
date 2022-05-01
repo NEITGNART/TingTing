@@ -25,63 +25,39 @@ class NotificationActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@NotificationActivity)
         }
 
-        FirebaseDatabase.getInstance().getReference("/Notify/${FirebaseAuth.getInstance().uid}").addChildEventListener(object :
-            ChildEventListener {
+        FirebaseDatabase.getInstance().getReference("/Notify/${FirebaseAuth.getInstance().uid}")
+            .addChildEventListener(object :
+                ChildEventListener {
 
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-//                Log.d(TAG, "onChildAdded: ${p0.key}")
-//                val notification = p0.getValue(Notification::class.java)
-//                if (notification != null) {
-//                    binding.rvNotification.adapter = NotificationAdapter(notification.chat)
-//                }
+                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                    val noti = p0.getValue(Notification::class.java)
+                    if (noti != null) {
+                        chats.add(noti)
+                        // push reverse
+                        binding.rvNotification.adapter = NotificationAdapter(
+                            binding.root.context,
+                            chats.reversed() as MutableList<Notification>
+                        )
+                    }
 
-                 val noti = p0.getValue(Notification::class.java)
-                if (noti != null) {
-                    chats.add(noti)
-                    // push reverse
-                    binding.rvNotification.adapter = NotificationAdapter(binding.root.context,
-                        chats.reversed() as MutableList<Notification>
-                    )
                 }
 
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                    TODO("Not yet implemented")
+                }
 
-//                val chatMessage = p0.getValue(Chat::class.java)
-//                if (chatMessage != null) {
-//                    Log.d(TAG, chatMessage.text!!)
-//
-//                    if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
-//                        chatMessage.isSender = true
-//                        chats.add(chatMessage)
-//                        binding.rvChat.adapter?.notifyDataSetChanged()
-//                    } else {
-//                        chatMessage.isSender = false
-//                        chats.add(chatMessage)
-//                        binding.rvChat.adapter?.notifyDataSetChanged()
-//                    }
-//                } else {
-//
-//                }
-//                binding.rvChat.scrollToPosition(chats.size - 1)
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+                    TODO("Not yet implemented")
+                }
 
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                    TODO("Not yet implemented")
+                }
 
-            }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
 
 
 

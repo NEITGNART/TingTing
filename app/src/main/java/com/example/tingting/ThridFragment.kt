@@ -181,35 +181,38 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
         clusterManager = ClusterManager<DAMapMarker>(binding.root.context, googleMap)
         val reRender = MarkerClusterRenderer(binding.root.context, googleMap, clusterManager)
 
-        clusterManager.setOnClusterItemClickListener {
-            if (it.isUser) {
-                return@setOnClusterItemClickListener true
-            }
-
-            binding.rlInfo.show()
-
-            // check that rlInfo is visible
-            if (binding.rlInfo.visibility == View.VISIBLE) {
-                // if it is visible, hide it
-                Glide.with(binding.root.context)
-                    // optimization size
-                    .load(it.mUser?.avatar)
-                    .apply(RequestOptions().override(100, 100))
-                    .into(binding.ivProfile)
-            } else {
-
-            }
-
-            binding.fbBack.onClick {
-                binding.rlInfo.hide()
-            }
-            lastSelected = it
-            return@setOnClusterItemClickListener true
-        }
+//        clusterManager.setOnClusterItemClickListener {
+//            if (it.isUser) {
+//                return@setOnClusterItemClickListener true
+//            }
+//
+//            binding.rlInfo.show()
+//
+//            // check that rlInfo is visible
+//            if (binding.rlInfo.visibility == View.VISIBLE) {
+//                // if it is visible, hide it
+//                Glide.with(binding.root.context)
+//                    // optimization size
+//                    .load(it.mUser?.avatar)
+//                    .apply(RequestOptions().override(100, 100))
+//                    .into(binding.ivProfile)
+//            } else {
+//
+//            }
+//
+//            binding.fbBack.onClick {
+//                binding.rlInfo.hide()
+//            }
+//            lastSelected = it
+//            return@setOnClusterItemClickListener true
+//        }
         clusterManager.renderer = reRender
         googleMap.setOnCameraIdleListener(clusterManager)
         googleMap.setOnMarkerClickListener(clusterManager)
-        getItems()
+
+        lifecycleScope.launch {
+            getItems()
+        }
     }
 
     private fun getItems() {

@@ -18,6 +18,7 @@ import com.example.tingting.databinding.FragmentFirstBinding
 import com.example.tingting.utils.Entity.Notification
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -58,7 +59,7 @@ class FirstFragment : Fragment() {
                     Toast.makeText(context, "Direction Right", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition - 1
                     addVisited(adapter.getSpots()[currentIndex].id_user)
-                    addMatch(adapter.getSpots()[currentIndex].id_user, adapter.getSpots()[currentIndex].name)
+                    addMatch(adapter.getSpots()[currentIndex].id_user)
 
                 }
                 if (direction == Direction.Top) {
@@ -238,7 +239,7 @@ class FirstFragment : Fragment() {
         FirebaseDatabase.getInstance().getReference("/Visited/$userId/$targetId").setValue(targetId)
     }
 
-    fun addMatch(targetId: String, name: String) {
+    fun addMatch(targetId: String) {
 
 
         lifecycleScope.launch {
@@ -249,15 +250,19 @@ class FirstFragment : Fragment() {
                 FirebaseDatabase.getInstance().getReference("/Match/$userId/$targetId")
                     .setValue(targetId)
 
-                val notify = Notification(
-                    "$name has liked you",
-                    false,
-                    time = System.currentTimeMillis().toString(),
-                    null,
-                    targetId
-                )
 
-                FirebaseDatabase.getInstance().getReference("/Notify/$targetId").push().setValue(notify)
+                FirebaseDatabase.getInstance().getReference("/Users/${FirebaseAuth.getInstance().uid}/name")
+                    .get().addOnSuccessListener {
+                        val notify = Notification(
+                            "${it.getValue(String::class.java)} has liked you",
+                            false,
+                            time = System.currentTimeMillis().toString(),
+                            null,
+                            FirebaseAuth.getInstance().uid!!,
+                            )
+                        FirebaseDatabase.getInstance().getReference("/Notify/$targetId").push().setValue(notify)
+                    }
+
 
 
                 FirebaseDatabase.getInstance().getReference("/Match/$targetId/$userId")
@@ -286,7 +291,7 @@ class FirstFragment : Fragment() {
                                     false,
                                     time = System.currentTimeMillis().toString(),
                                     null,
-                                    targetId
+                                    FirebaseAuth.getInstance().uid!!,
                                 )
 
                                 FirebaseDatabase.getInstance().getReference("/Notify/$targetId").push().setValue(notify)
