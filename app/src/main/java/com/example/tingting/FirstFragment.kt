@@ -39,6 +39,9 @@ class FirstFragment : Fragment() {
 
     private lateinit var manager: CardStackLayoutManager
     private lateinit var cardStackView: CardStackView
+    private val distanceArray =
+        arrayOf("1 km", "2 km", "3 km", "4 km", "5 km", "6 km", "7 km", "8 km", "9 km", "10 km")
+    private val ageArray2 = arrayOf("18", "19", "20", "21", "22", "23", "24", "25")
 
 
     override fun onCreateView(
@@ -48,6 +51,8 @@ class FirstFragment : Fragment() {
 
         binding = FragmentFirstBinding.inflate(layoutInflater)
         cardStackView = binding.cardstackview
+
+
 
         manager = CardStackLayoutManager(context, object : CardStackListener {
             override fun onCardDragging(direction: Direction, ratio: Float) {
@@ -177,9 +182,9 @@ class FirstFragment : Fragment() {
 
         }
         FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/min").get().addOnSuccessListener {
-            val age_min = it.getValue(Int::class.java)
+            val age_min = ageArray2[it.getValue(Int::class.java)!!]
             FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/max").get().addOnSuccessListener {
-                val age_max = it.getValue(Int::class.java)
+                val age_max = ageArray2[it.getValue(Int::class.java)!!]
 
                 messageRef1.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -197,6 +202,7 @@ class FirstFragment : Fragment() {
                                     val age_user = ds.child("birthDate").getValue(String::class.java)
                                     val list_age: List<String> = age_user!!.split("/")
                                     val age = 2022 - list_age[2].toInt()
+                                    Log.i("AGe", age.toString()+","+age_max+","+age_min)
                                     var check_id = true
                                     for (i in 0 until check.size) {
                                         if (ds.key == check[i]) {
@@ -204,13 +210,15 @@ class FirstFragment : Fragment() {
                                             break
                                         }
                                     }
-                                    if(age<= age_max!! && age >= age_min!!){
+                                    if(age <= age_max.toInt() && age >= age_min.toInt() ){
+                                        Log.i("hahahaa", id_user.toString())
                                         FirebaseDatabase.getInstance().getReference("/Setting/$id_user/distance/max").get().addOnSuccessListener {
                                             val distance_max = it.getValue(Int::class.java)
+                                            Log.i("KC", distance_max.toString())
                                             if (check_id) {
-                                                val kc = getDistance(latlng!!.latitude, latlng!!.longitude,latlng_user!!.latitude, latlng_user!!.longitude).toString()
-                                                if(kc.toInt() < distance_max!!) {
+
                                                     if (ds.key != id_user && (display == "All" || gender == display)) {
+
                                                         val name = ds.child("name")
                                                             .getValue(String::class.java)
                                                         val photo = ds.child("avatar")
@@ -223,34 +231,46 @@ class FirstFragment : Fragment() {
                                                                 latlng!!.longitude,
                                                                 1
                                                             )
-                                                        val address =
-                                                            addresses.get(0).getAddressLine(0)
-                                                        val list_address: List<String> =
-                                                            address!!.split(", ")
-                                                        var address_user: String = list_address[2]
-                                                        for (i in 3 until list_address.size) {
-                                                            address_user =
-                                                                address_user + ", " + list_address[i]
-                                                        }
-                                                        val ad = address_user
-
-                                                        spots.add(
-                                                            Spot(
-                                                                name = name.toString() + " - " + kc,
-                                                                city = ad.toString(),
-                                                                url = photo.toString(),
-                                                                id_user = ds.key!!
-                                                            )
+                                                        val kc = getDistance(
+                                                            latlng!!.latitude,
+                                                            latlng!!.longitude,
+                                                            latlng_user!!.latitude,
+                                                            latlng_user!!.longitude
                                                         )
+                                                        if (kc < (distance_max!! + 1)) {
+                                                            val address =
+                                                                addresses.get(0).getAddressLine(0)
+                                                            val list_address: List<String> =
+                                                                address!!.split(", ")
+                                                            var address_user: String =
+                                                                list_address[2]
+                                                            for (i in 3 until list_address.size) {
+                                                                address_user =
+                                                                    address_user + ", " + list_address[i]
+                                                            }
+                                                            val ad = address_user
+
+                                                            spots.add(
+                                                                Spot(
+                                                                    name = name.toString() + " - " + kc,
+                                                                    city = ad.toString(),
+                                                                    url = photo.toString(),
+                                                                    id_user = ds.key!!
+                                                                )
+                                                            )
+                                                            cardStackView.adapter =
+                                                                CardStackAdapter(binding, spots)
+
+                                                        }
                                                     }
-                                                }
+
+                                                    }
                                             }
                                         }
 
-                                    }
 
                                 }
-                                cardStackView.adapter = CardStackAdapter(binding, spots)
+
                             }
 
 
