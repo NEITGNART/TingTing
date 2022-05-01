@@ -25,6 +25,8 @@ class NotificationActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@NotificationActivity)
         }
 
+        FirebaseDatabase.getInstance().getReference("/SeenNotify/${FirebaseAuth.getInstance().uid}").setValue(false)
+
         FirebaseDatabase.getInstance().getReference("/Notify/${FirebaseAuth.getInstance().uid}")
             .addChildEventListener(object :
                 ChildEventListener {
@@ -58,8 +60,6 @@ class NotificationActivity : AppCompatActivity() {
                     TODO("Not yet implemented")
                 }
             })
-
-
 
         binding.ivBack.setOnClickListener {
             finish()
