@@ -40,6 +40,12 @@ class SettingFragment : Fragment() {
             NavHostFragment.findNavController(this).navigate(action)
         }
 
+        binding.tvSecurity.setOnClickListener {
+            val action = SettingFragmentDirections.actionSettingFragmentToChangePassWordFragment()
+            NavHostFragment.findNavController(this).navigate(action)
+        }
+
+
         binding.ivBack.setOnClickListener {
             activity?.onBackPressed()
         }

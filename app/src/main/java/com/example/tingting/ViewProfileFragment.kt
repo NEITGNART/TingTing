@@ -58,7 +58,7 @@ class ViewProfileFragment : Fragment() {
                 override fun onDataChange(p0: com.google.firebase.database.DataSnapshot) {
                     val user = p0.getValue(User::class.java)
                     binding.tvName.text = user?.name
-                    Glide.with(this@ViewProfileFragment)
+                    Glide.with(binding.root.context)
                         .load(user?.avatar)
                         .into(binding.profileImage)
                 }

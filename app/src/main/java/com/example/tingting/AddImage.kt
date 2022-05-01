@@ -23,7 +23,6 @@ class AddImage : Fragment() {
     private lateinit var binding: FragmentAddImageBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var images: MutableList<Uri?>
-
     private val PICK_IMAGES_CODE = 0
 
     override fun onCreateView(
