@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.tingting.databinding.ItemChatBinding
@@ -18,7 +19,8 @@ import kotlin.math.log
 
 class ChatAdapter(
     val context: Context,
-    val chats: MutableList<User>
+    val chats: MutableList<User>,
+    val matched: Boolean
 ) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     inner class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -35,6 +37,7 @@ class ChatAdapter(
                     override fun onCancelled(p0: DatabaseError) {
                         Log.d("ChatAdapter", "onCancelled")
                     }
+
                     override fun onDataChange(p0: DataSnapshot) {
                         val message = p0.getValue(Chat::class.java)
                         if (message != null) {
@@ -56,12 +59,20 @@ class ChatAdapter(
 //            val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$authID/${chat.id}")
 
 
-            binding.root.setOnClickListener {
-                val intent = Intent(binding.root.context, ChatActivity::class.java)
-                intent.putExtra("toUser", chat)
+            if (matched) {
+                binding.root.setOnClickListener {
+                    val action = SearchChatFragmentDirections.actionSearcMatchedListToUserInfoFragment(chat.id!!)
+                    Navigation.findNavController(binding.root).navigate(action)
+                }
+            } else {
+                binding.root.setOnClickListener {
+                    val intent = Intent(binding.root.context, ChatActivity::class.java)
+                    intent.putExtra("toUser", chat)
 
-                startActivity(binding.root.context, intent, null)
+                    startActivity(binding.root.context, intent, null)
+                }
             }
+
         }
     }
 

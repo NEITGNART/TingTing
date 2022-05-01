@@ -1,5 +1,6 @@
 package com.example.tingting
 
+import android.R
 import android.app.Activity
 import android.content.Intent
 import android.location.Address
@@ -11,7 +12,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -19,6 +19,7 @@ import com.example.tingting.databinding.ActivityMainBinding
 import com.example.tingting.databinding.UserInfoFragmentBinding
 import com.example.tingting.utils.hide
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -82,8 +83,12 @@ class UserInfoFragment : Fragment() {
 
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
 
+
+
         binding.ivBack.setOnClickListener {
             Navigation.findNavController(binding.root).navigateUp()
+
+
         }
 
 
