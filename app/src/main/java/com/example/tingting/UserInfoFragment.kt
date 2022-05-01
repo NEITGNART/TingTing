@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.ActivityMainBinding
 import com.example.tingting.databinding.UserInfoFragmentBinding
@@ -28,6 +29,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -106,67 +108,72 @@ class UserInfoFragment : Fragment() {
                     e.printStackTrace()
                 }
             }
-            val id_user = user.id
-            var favo : String? = null
-            val messageRef2 = rootRef.child("Setting").child(amount).child("favorite")
-            messageRef2.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    for (ds in dataSnapshot.children) {
-                        if(favo ==null)
-                            favo= ds.getValue().toString()
+
+
+            lifecycleScope.launch {
+                val id_user = user.id
+                var favo : String? = null
+                val messageRef2 = rootRef.child("Setting").child(amount).child("favorite")
+                messageRef2.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (ds in dataSnapshot.children) {
+                            if(favo ==null)
+                                favo= ds.getValue().toString()
+                            else
+                                favo = favo +", "+ds.getValue().toString()
+
+                        }
+                        if(favo==null) {
+                            binding.item.tvfavorite.visibility = View.GONE
+                            binding.item.txtFavorite.visibility = View.GONE
+                        }
                         else
-                            favo = favo +", "+ds.getValue().toString()
+                            binding.item.tvfavorite.setText(favo)
+
 
                     }
-                    if(favo==null) {
-                        binding.item.tvfavorite.visibility = View.GONE
-                        binding.item.txtFavorite.visibility = View.GONE
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        Log.d("TAG", databaseError.message)
                     }
+                })
+                FirebaseDatabase.getInstance().getReference("/Users/$id_user/work").get().addOnSuccessListener {
+                    if(it.value == null)
+                        binding.item.tvProfession.visibility = View.GONE
                     else
-                        binding.item.tvfavorite.setText(favo)
-
-
+                        binding.item.tvProfession.setText(it.value.toString())
                 }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.d("TAG", databaseError.message)
+                FirebaseDatabase.getInstance().getReference("/Users/$id_user/about").get().addOnSuccessListener {
+                    if(it.value == null)
+                        binding.item.tvDetail.visibility = View.GONE
+                    else
+                        binding.item.tvDetail.setText(it.value.toString())
                 }
-            })
-            FirebaseDatabase.getInstance().getReference("/Users/$id_user/work").get().addOnSuccessListener {
-                if(it.value == null)
-                    binding.item.tvProfession.visibility = View.GONE
-                else
-                    binding.item.tvProfession.setText(it.value.toString())
-            }
-            FirebaseDatabase.getInstance().getReference("/Users/$id_user/about").get().addOnSuccessListener {
-                if(it.value == null)
-                    binding.item.tvDetail.visibility = View.GONE
-                else
-                    binding.item.tvDetail.setText(it.value.toString())
-            }
-            var address: String? = null;
+                var address: String? = null;
 
-            FirebaseDatabase.getInstance().getReference("/Users/$id_user/address").get().addOnSuccessListener { it ->
-                val latlng = it.getValue(com.example.tingting.utils.Entity.LatLng::class.java)
-                if(latlng != null) {
-                    val geocoder = Geocoder(binding.root.context)
-                    val addresses =
-                        geocoder.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
-                    address = addresses[0].getAddressLine(0)
-                    binding.item.tvLocation.setText(address.toString())
-                    val userId = FirebaseAuth.getInstance().uid!!
-                    FirebaseDatabase.getInstance().getReference("/Users/$userId/address").get().addOnSuccessListener {
-                        val latlng_user = it.getValue(com.example.tingting.utils.Entity.LatLng::class.java)
-                        binding.item.tvDisatance.text=  getDistance(latlng!!.latitude, latlng!!.longitude,latlng_user!!.latitude, latlng_user!!.longitude).toString() + " Km"
+                FirebaseDatabase.getInstance().getReference("/Users/$id_user/address").get().addOnSuccessListener { it ->
+                    val latlng = it.getValue(com.example.tingting.utils.Entity.LatLng::class.java)
+                    if(latlng != null) {
+                        val geocoder = Geocoder(binding.root.context)
+                        val addresses =
+                            geocoder.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
+                        address = addresses[0].getAddressLine(0)
+                        binding.item.tvLocation.setText(address.toString())
+                        val userId = FirebaseAuth.getInstance().uid!!
+                        FirebaseDatabase.getInstance().getReference("/Users/$userId/address").get().addOnSuccessListener {
+                            val latlng_user = it.getValue(com.example.tingting.utils.Entity.LatLng::class.java)
+                            binding.item.tvDisatance.text=  getDistance(latlng!!.latitude, latlng!!.longitude,latlng_user!!.latitude, latlng_user!!.longitude).toString() + " Km"
+
+                        }
+                    }
+                    else{
+                        binding.item.tvLocation.visibility = View.GONE
+                        binding.item.txtLocation.visibility = View.GONE
 
                     }
                 }
-                else{
-                    binding.item.tvLocation.visibility = View.GONE
-                    binding.item.txtLocation.visibility = View.GONE
-
-                }
             }
+
             binding.item.tvLang.text = user.birthDate
         }
 

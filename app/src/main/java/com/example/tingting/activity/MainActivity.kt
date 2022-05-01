@@ -3,12 +3,7 @@ package com.example.tingting.activity
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
@@ -24,8 +19,7 @@ import com.example.tingting.utils.hide
 import com.example.tingting.utils.show
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -92,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -121,9 +116,9 @@ class MainActivity : AppCompatActivity() {
         FusedLocationProviderClient(this).lastLocation.addOnSuccessListener {
             if (it != null) {
                 val latLng = LatLng(it.latitude, it.longitude)
-                val reference = FirebaseDatabase.getInstance()
+                FirebaseDatabase.getInstance()
                     .getReference("/Users/${FirebaseAuth.getInstance().currentUser!!.uid}/address")
-                reference.setValue(latLng)
+                    .setValue(latLng)
 
 //                val geocoder = Geocoder(this)
 //                val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
@@ -134,10 +129,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
-
-
-
         binding.ivAvatar.setOnClickListener {
             // Call intent to setting
             val intent = Intent(this, SettingActivity::class.java)
@@ -145,7 +136,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Notification
-        binding.imageView.setOnClickListener {
+        binding.ivNoti.setOnClickListener {
             val intent = Intent(this, Notifycation::class.java)
             startActivity(intent)
         }
@@ -213,10 +204,5 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun hideStatusBarNavigationBar() {
-        window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-        window.statusBarColor = Color.TRANSPARENT
-    }
 
 }
