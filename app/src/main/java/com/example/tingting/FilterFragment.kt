@@ -43,32 +43,40 @@ class FilterFragment : Fragment() {
         var maxDistance = 0F
 
         binding.rangebarDistance.tickTopLabels = distanceArray
-        FirebaseDatabase.getInstance().getReference("Setting/$userID").child("distance").child("max").get().addOnSuccessListener {itMax ->
 
-            FirebaseDatabase.getInstance().getReference("Setting/$userID").child("distance").child("min").get().addOnSuccessListener {itMin ->
-                binding.rangebarDistance.setRangePinsByValue(itMin.value.toString().toFloat(), itMax.value.toString().toFloat())
-            }
+        FirebaseDatabase.getInstance().getReference("Setting/$userID").child("distance").child("max").get().addOnSuccessListener { itMax ->
+            FirebaseDatabase.getInstance().getReference("Setting/$userID").child("distance")
+                .child("min").get().addOnSuccessListener { itMin ->
+                binding.rangebarDistance.setRangePinsByValue(
+                    itMin.value.toString().toFloat(),
+                    itMax.value.toString().toFloat()
+                )}
         }
 
         var minAge = 0F
         var maxAge = 0F
         binding.rangebarAge.tickTopLabels = ageArray2
         FirebaseDatabase.getInstance().getReference("Setting/$userID").child("age").child("max").get().addOnSuccessListener { itMax ->
-            FirebaseDatabase.getInstance().getReference("Setting/$userID").child("age").child("min").get().addOnSuccessListener { itMin ->
-                binding.rangebarAge.setRangePinsByValue(itMin.value.toString().toFloat(), itMax.value.toString().toFloat())
+            FirebaseDatabase.getInstance().getReference("Setting/$userID").child("age").child("min")
+                .get().addOnSuccessListener { itMin ->
+                binding.rangebarAge.setRangePinsByValue(
+                    itMin.value.toString().toFloat(),
+                    itMax.value.toString().toFloat()
+                )
             }
         }
-
 
         binding.tvLocation.onClick {
         }
 
 
-        val adapter = ArrayAdapter(binding.root.context,
-            R.layout.simple_spinner_dropdown_item, spDisplay)
+        val adapter = ArrayAdapter(
+            binding.root.context,
+            R.layout.simple_spinner_dropdown_item, spDisplay
+        )
         binding.spDisplay.adapter = adapter
         FirebaseDatabase.getInstance().getReference("Users/$userID").child("display").get().addOnSuccessListener {
-            when (it.value.toString()){
+            when (it.value.toString()) {
                 "Male" -> binding.spDisplay.setSelection(0)
                 "Female" -> binding.spDisplay.setSelection(1)
                 "All" -> binding.spDisplay.setSelection(2)
@@ -85,10 +93,11 @@ class FilterFragment : Fragment() {
                 .setValue(binding.rangebarDistance.leftIndex)
             reference.child("distance").child("min")
                 .setValue(binding.rangebarDistance.rightIndex)
-            FirebaseDatabase.getInstance().getReference("Users/$userID").child("display").setValue(binding.spDisplay.selectedItem.toString())
-
+            FirebaseDatabase.getInstance().getReference("Users/$userID").child("display")
+                .setValue(binding.spDisplay.selectedItem.toString())
             Navigation.findNavController(binding.root).navigateUp()
         }
+
         return binding.root
     }
 }

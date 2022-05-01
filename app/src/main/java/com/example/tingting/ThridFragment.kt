@@ -93,19 +93,16 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
 
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             if (location != null) {
-                Toast.makeText(binding.root.context, "${location.latitude} ${location.longitude}", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    binding.root.context,
+                    "${location.latitude} ${location.longitude}",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
                 userLatLng = LatLng(location.latitude, location.longitude)
                 moveTOLocation(googleMap)
                 userLatLng?.let {
-                    drawRedCircleLocation(googleMap, it, 100.0)
-                    drawRedCircleLocation(googleMap, it, 300.0)
-                    clusterManager.addItem(
-                        DAMapMarker(
-                            latlng = it,
-                            isUser = true
-                        )
-                    )
+                    setUpCircle(it, googleMap)
                 }
             } else {
                 val locationManager =
@@ -119,8 +116,8 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
                     userLatLng = LatLng(it.latitude, it.longitude)
 
                     userLatLng?.let {
-                        drawRedCircleLocation(googleMap, it, 100.0)
-                        drawRedCircleLocation(googleMap, it, 300.0)
+
+                        setUpCircle(it, googleMap)
                         clusterManager.addItem(
                             DAMapMarker(
                                 latlng = it,
@@ -133,6 +130,33 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun setUpCircle(it: LatLng, googleMap: GoogleMap) {
+        lifecycleScope.launch {
+            val ref = FirebaseDatabase.getInstance()
+                .getReference("/Setting/${FirebaseAuth.getInstance().currentUser?.uid}/distance")
+            ref.child("min").get().addOnSuccessListener { space ->
+                val distance = space.value.toString().toDouble() * 1000
+                drawRedCircleLocation(googleMap, it, distance)
+                clusterManager.addItem(
+                    DAMapMarker(
+                        latlng = it,
+                        isUser = true
+                    )
+                )
+            }
+            ref.child("max").get().addOnSuccessListener { space ->
+                val distance = space.value.toString().toDouble() * 1000
+                drawRedCircleLocation(googleMap, it, distance)
+                clusterManager.addItem(
+                    DAMapMarker(
+                        latlng = it,
+                        isUser = true
+                    )
+                )
+            }
+        }
+
+    }
 
 
     private fun drawRedCircleLocation(googleMap: GoogleMap, latLng: LatLng, radius: Double) {
@@ -157,35 +181,38 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
         clusterManager = ClusterManager<DAMapMarker>(binding.root.context, googleMap)
         val reRender = MarkerClusterRenderer(binding.root.context, googleMap, clusterManager)
 
-        clusterManager.setOnClusterItemClickListener {
-            if (it.isUser) {
-                return@setOnClusterItemClickListener true
-            }
-
-            binding.rlInfo.show()
-
-            // check that rlInfo is visible
-            if (binding.rlInfo.visibility == View.VISIBLE) {
-                // if it is visible, hide it
-                Glide.with(binding.root.context)
-                    // optimization size
-                    .load(it.mUser?.avatar)
-                    .apply(RequestOptions().override(100, 100))
-                    .into(binding.ivProfile)
-            } else {
-
-            }
-
-            binding.fbBack.onClick {
-                binding.rlInfo.hide()
-            }
-            lastSelected = it
-            return@setOnClusterItemClickListener true
-        }
+//        clusterManager.setOnClusterItemClickListener {
+//            if (it.isUser) {
+//                return@setOnClusterItemClickListener true
+//            }
+//
+//            binding.rlInfo.show()
+//
+//            // check that rlInfo is visible
+//            if (binding.rlInfo.visibility == View.VISIBLE) {
+//                // if it is visible, hide it
+//                Glide.with(binding.root.context)
+//                    // optimization size
+//                    .load(it.mUser?.avatar)
+//                    .apply(RequestOptions().override(100, 100))
+//                    .into(binding.ivProfile)
+//            } else {
+//
+//            }
+//
+//            binding.fbBack.onClick {
+//                binding.rlInfo.hide()
+//            }
+//            lastSelected = it
+//            return@setOnClusterItemClickListener true
+//        }
         clusterManager.renderer = reRender
         googleMap.setOnCameraIdleListener(clusterManager)
         googleMap.setOnMarkerClickListener(clusterManager)
-        getItems()
+
+        lifecycleScope.launch {
+            getItems()
+        }
     }
 
     private fun getItems() {

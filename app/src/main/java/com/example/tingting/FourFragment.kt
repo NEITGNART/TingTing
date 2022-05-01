@@ -1,12 +1,11 @@
 package com.example.tingting
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.navArgs
 import com.example.tingting.databinding.FragmentFourBinding
 import com.example.tingting.utils.Entity.User
 import com.example.tingting.utils.setVerticalLayout
@@ -53,8 +52,6 @@ class FourFragment : Fragment() {
                             val user = it.getValue(User::class.java)
                             if (user != null && user.id != currentUser) {
                                 chats.add(user)
-
-
                                 binding.rvChat.adapter = ChatAdapter(
                                     binding.root.context,
                                     chats,
@@ -66,8 +63,9 @@ class FourFragment : Fragment() {
             }
         })
 
+
+
         binding.ivSearch.setOnClickListener {
-//            val action = FourFragmentDirections.actionChatToFragmentSearch()
             val action = FourFragmentDirections.actionChatToSearchChatFragment()
             Navigation.findNavController(binding.root).navigate(action)
         }

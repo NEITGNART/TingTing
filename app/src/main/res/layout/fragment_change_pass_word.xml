@@ -40,8 +40,6 @@
                 android:layout_marginEnd="@dimen/da_spacing_large"
                 android:background="@drawable/da_edittext">
 
-
-
                 <EditText
                     android:id="@+id/edMobilePassword"
                     style="@style/DaEditText"

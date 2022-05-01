@@ -26,44 +26,45 @@
 
     <com.example.tingting.utils.DACircleImageView
         android:id="@+id/ivUser"
-        android:layout_below="@id/tvDay"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
-        android:src="@drawable/da_profile2"
-        android:layout_marginEnd="@dimen/da_spacing_middle"
+        android:layout_below="@id/tvDay"
+        android:layout_marginStart="@dimen/da_spacing_control"
         android:layout_marginTop="@dimen/da_spacing_standard"
+        android:layout_marginEnd="@dimen/da_spacing_middle"
         android:layout_marginBottom="@dimen/da_spacing_standard"
-        android:layout_marginStart="@dimen/da_spacing_control" />
+        android:src="@drawable/da_profile2" />
+
     <RelativeLayout
-        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignTop="@id/ivUser"
         android:layout_alignBottom="@id/ivUser"
-        android:gravity="center_vertical"
-        android:layout_toEndOf="@id/ivUser"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="@dimen/da_spacing_standard_new"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_toEndOf="@id/ivUser"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Johny Pham"
             android:textColor="@color/da_textColorPrimary"
-            android:textSize="@dimen/da_font_size_normal"
-            android:text="Johny Pham" />
+            android:textSize="@dimen/da_font_size_normal" />
 
 
         <TextView
             android:id="@+id/tvTime"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@id/tvUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tvUserName"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/da_spacing_standard_new"
             android:layout_marginTop="@dimen/da_spacing_control"
             android:textColor="@color/da_textColorSecondary"
             android:textSize="@dimen/da_font_size_medium"
-            android:layout_marginStart="@dimen/da_spacing_standard_new"
             tools:text="Just now" />
 
     </RelativeLayout>

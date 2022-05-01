@@ -1,5 +1,6 @@
 package com.example.tingting
 
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,21 +12,26 @@ import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.example.tingting.databinding.ActivityMainBinding
 import com.example.tingting.databinding.FragmentFirstBinding
-import com.example.tingting.utils.hide
+import com.example.tingting.utils.Entity.LatLng
+import com.example.tingting.utils.Entity.Notification
+import com.example.tingting.utils.Global.getDistance
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import com.yuyakaido.android.cardstackview.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class FirstFragment : Fragment() {
 
     private lateinit var binding: FragmentFirstBinding
-    lateinit var adapter: CardStackAdapter
-    lateinit var database: DatabaseReference
+    private lateinit var adapter: CardStackAdapter
 
     companion object {
         fun newInstance() = tindercardstack()
@@ -54,26 +60,26 @@ class FirstFragment : Fragment() {
                 )
                 if (direction == Direction.Right) {
                     Toast.makeText(context, "Direction Right", Toast.LENGTH_SHORT).show()
-                    val currentIndex = manager.topPosition-1
-                    addVisited( adapter.getSpots()[currentIndex].id_user )
+                    val currentIndex = manager.topPosition - 1
+                    addVisited(adapter.getSpots()[currentIndex].id_user)
                     addMatch(adapter.getSpots()[currentIndex].id_user)
 
                 }
                 if (direction == Direction.Top) {
                     Toast.makeText(context, "Direction Top", Toast.LENGTH_SHORT).show()
-                    val currentIndex = manager.topPosition-1
-                    addVisited( adapter.getSpots()[currentIndex].id_user )
+                    val currentIndex = manager.topPosition - 1
+                    addVisited(adapter.getSpots()[currentIndex].id_user)
                 }
                 if (direction == Direction.Left) {
                     Toast.makeText(context, "Direction Left", Toast.LENGTH_SHORT).show()
-                    val currentIndex = manager.topPosition-1
-                    addVisited( adapter.getSpots()[currentIndex].id_user )
+                    val currentIndex = manager.topPosition - 1
+                    addVisited(adapter.getSpots()[currentIndex].id_user)
 
                 }
                 if (direction == Direction.Bottom) {
                     Toast.makeText(context, "Direction Bottom", Toast.LENGTH_SHORT).show()
-                    val currentIndex = manager.topPosition-1
-                    addVisited( adapter.getSpots()[currentIndex].id_user )
+                    val currentIndex = manager.topPosition - 1
+                    addVisited(adapter.getSpots()[currentIndex].id_user)
                 }
 
             }
@@ -109,7 +115,8 @@ class FirstFragment : Fragment() {
 
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
-        adapter = CardStackAdapter(binding, createSpots(FirebaseAuth.getInstance().currentUser!!.uid))
+        adapter =
+            CardStackAdapter(binding, createSpots(FirebaseAuth.getInstance().currentUser!!.uid))
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator = DefaultItemAnimator()
@@ -137,9 +144,7 @@ class FirstFragment : Fragment() {
                     .build()
                 manager.setSwipeAnimationSetting(setting)
                 cardStackView.swipe()
-                val currentIndex = manager.topPosition
-                addVisited( adapter.getSpots()[currentIndex].id_user )
-                addMatch(adapter.getSpots()[currentIndex].id_user)
+
             }
         }
         binding.ivClose.setOnClickListener {
@@ -151,8 +156,6 @@ class FirstFragment : Fragment() {
                     .build()
                 manager.setSwipeAnimationSetting(setting)
                 cardStackView.swipe()
-                val currentIndex = manager.topPosition
-                addVisited( adapter.getSpots()[currentIndex].id_user )
             }
         }
 
@@ -160,14 +163,19 @@ class FirstFragment : Fragment() {
     }
 
 
-    private fun createSpots(id_user:String): List<Spot> {
+    private fun createSpots(id_user: String): List<Spot> {
         val spots = ArrayList<Spot>()
         val check = ArrayList<String>()
-        val check_matched = ArrayList<String>()
+        val kc_user = ArrayList<String>()
         val rootRef = FirebaseDatabase.getInstance().reference
         val messageRef = rootRef.child("Users")
 
         val messageRef1 = rootRef.child("Visited").child(id_user)
+        var latlng_user:LatLng? = LatLng()
+        FirebaseDatabase.getInstance().getReference("/Users/$id_user/address").get().addOnSuccessListener {
+             latlng_user = it.getValue(LatLng::class.java)!!
+
+        }
 
         messageRef1.addListenerForSingleValueEvent(object : ValueEventListener {
 
@@ -178,27 +186,49 @@ class FirstFragment : Fragment() {
                     check.add(id.toString())
                 }
 
+
                 messageRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (ds in dataSnapshot.children) {
                             val gender = ds.child("gender").getValue(String::class.java)
-                            val display: String? =dataSnapshot.child(id_user).child("display").getValue(String::class.java)
+                            val display: String? = dataSnapshot.child(id_user).child("display")
+                                .getValue(String::class.java)
+                            val latlng =  ds.child("address").getValue(LatLng::class.java)
+
+
+
+
                             var check_id = true
-                            for (i in 0 until check.size){
-                                if(ds.key == check[i]) {
-                                    check_id= false
+                            for (i in 0 until check.size) {
+                                if (ds.key == check[i]) {
+                                    check_id = false
                                     break
                                 }
                             }
 
-                            if(check_id){
-                                if ( ds.key != id_user && ( display == "All" || gender == display)) {
+
+                            if (check_id) {
+                                if (ds.key != id_user && (display == "All" || gender == display)) {
                                     val name = ds.child("name").getValue(String::class.java)
                                     val photo = ds.child("avatar").getValue(String::class.java)
+                                    val geocoder = Geocoder(binding.root.context)
+                                    val addresses =
+                                        geocoder.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
+                                    val address =addresses.get(0).getAddressLine(0)
+                                    val list_address: List<String> = address!!.split(", ")
+                                    var address_user:String=list_address[2]
+
+                                    for (i in 3 until list_address.size)
+                                    {
+                                        address_user = address_user +", "+ list_address[i]
+                                    }
+                                    val ad = address_user
+                                    val kc = getDistance(latlng!!.latitude, latlng!!.longitude,latlng_user!!.latitude, latlng_user!!.longitude).toString() + " Km"
+
                                     spots.add(
                                         Spot(
-                                            name = name.toString(),
-                                            city = "Kyoto",
+                                            name = name.toString() +" - "+ kc,
+                                            city = ad.toString(),
                                             url = photo.toString(),
                                             id_user = ds.key!!
                                         )
@@ -215,6 +245,7 @@ class FirstFragment : Fragment() {
                     }
                 })
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.d("TAG", databaseError.message) //Don't ignore errors!
             }
@@ -232,35 +263,82 @@ class FirstFragment : Fragment() {
         return spots
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-    }
-
-    fun addVisited(targetId :String ){
-       val userId = FirebaseAuth.getInstance().uid!!
+    fun addVisited(targetId: String) {
+        val userId = FirebaseAuth.getInstance().uid!!
         FirebaseDatabase.getInstance().getReference("/Visited/$userId/$targetId").setValue(targetId)
     }
-    fun addMatch(targetId :String ){
-        val userId = FirebaseAuth.getInstance().uid!!
-        FirebaseDatabase.getInstance().getReference("/Match/$userId/$targetId").setValue(targetId)
 
-        val ref = FirebaseDatabase.getInstance().reference
-                ref.child("Match").child(targetId).child(userId)
-            .get().addOnSuccessListener {
-                if(it.value != null){
-                    Log.d("ABCD", "haha$targetId ${it.value}")
-                    FirebaseDatabase.getInstance().getReference("/Matched/$userId/$targetId").setValue(targetId)
-                    FirebaseDatabase.getInstance().getReference("/Matched/$targetId/$userId").setValue(userId)
-                    val action = FirstFragmentDirections.actionHomepageToCongratulation(targetId)
-                    Navigation.findNavController(binding.root).navigate(action)
+    fun addMatch(targetId: String) {
 
 
-                }
+        lifecycleScope.launch {
+
+            withContext(Dispatchers.IO) {
+                val userId = FirebaseAuth.getInstance().uid!!
+
+                FirebaseDatabase.getInstance().getReference("/Match/$userId/$targetId")
+                    .setValue(targetId)
+
+
+                FirebaseDatabase.getInstance()
+                    .getReference("/Users/${FirebaseAuth.getInstance().uid}/name")
+                    .get().addOnSuccessListener {
+                        val notify = Notification(
+                            "${it.getValue(String::class.java)} has liked you",
+                            false,
+                            time = System.currentTimeMillis().toString(),
+                            null,
+                            FirebaseAuth.getInstance().uid!!,
+                        )
+                        FirebaseDatabase.getInstance().getReference("/Notify/$targetId").push()
+                            .setValue(notify)
+                        FirebaseDatabase.getInstance().getReference("/SeenNotify/$targetId").setValue(true)
+                    }
+
+
+
+                FirebaseDatabase.getInstance().getReference("/Match/$targetId/$userId")
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(p0: DatabaseError) {
+                        }
+
+                        override fun onDataChange(p0: DataSnapshot) {
+
+                            if (p0.exists()) {
+
+                                val action =
+                                    FirstFragmentDirections.actionHomepageToCongratulation(targetId = targetId)
+                                Navigation.findNavController(view!!).navigate(action)
+
+                                Log.i("TAG", p0.value.toString())
+
+                                FirebaseDatabase.getInstance()
+                                    .getReference("/Matched/$userId/$targetId")
+                                    .setValue(targetId)
+                                FirebaseDatabase.getInstance()
+                                    .getReference("/Matched/$targetId/$userId")
+                                    .setValue(userId)
+
+                                val notify = Notification(
+                                    "You got a match!",
+                                    false,
+                                    time = System.currentTimeMillis().toString(),
+                                    null,
+                                    FirebaseAuth.getInstance().uid!!,
+                                )
+
+                                FirebaseDatabase.getInstance().getReference("/Notify/$targetId")
+                                    .push().setValue(notify)
+                                FirebaseDatabase.getInstance().getReference("/SeenNotify/$targetId").setValue(true)
+                            }
+                        }
+                    })
             }
 
-    }
+        }
 
+    }
 
 
 }

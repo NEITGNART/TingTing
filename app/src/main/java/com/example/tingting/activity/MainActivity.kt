@@ -3,17 +3,12 @@ package com.example.tingting.activity
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.Glide
 import com.example.tingting.R
 import com.example.tingting.SettingActivity
@@ -24,13 +19,9 @@ import com.example.tingting.utils.hide
 import com.example.tingting.utils.show
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -38,7 +29,6 @@ import org.json.JSONObject
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +38,10 @@ class MainActivity : AppCompatActivity() {
 
         // Bottom navigation
         val navController = findNavController(R.id.nav_host_fragment_login)
-//
-        binding.bottomNavigationView.setupWithNavController(navController)
+
+        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
+
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
             if (destination.id == R.id.homepage
@@ -89,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -118,9 +111,9 @@ class MainActivity : AppCompatActivity() {
         FusedLocationProviderClient(this).lastLocation.addOnSuccessListener {
             if (it != null) {
                 val latLng = LatLng(it.latitude, it.longitude)
-                val reference = FirebaseDatabase.getInstance()
+                FirebaseDatabase.getInstance()
                     .getReference("/Users/${FirebaseAuth.getInstance().currentUser!!.uid}/address")
-                reference.setValue(latLng)
+                    .setValue(latLng)
 
 //                val geocoder = Geocoder(this)
 //                val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
@@ -131,10 +124,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
-
-
-
         binding.ivAvatar.setOnClickListener {
             // Call intent to setting
             val intent = Intent(this, SettingActivity::class.java)
@@ -142,8 +131,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Notification
-        binding.imageView.setOnClickListener {
-            val intent = Intent(this, Notifycation::class.java)
+        binding.ivNoti.setOnClickListener {
+            val intent = Intent(this, NotificationActivity::class.java)
             startActivity(intent)
         }
 
@@ -205,15 +194,28 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             })
+
+            FirebaseDatabase.getInstance().getReference("/SeenNotify/$user")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val value = p0.value
+                        value?.let {
+                            if (it == true) {
+                                binding.viewStatus.show()
+                            } else {
+                                binding.viewStatus.hide()
+                            }
+                        }
+                    }
+                })
         }
 
 
     }
 
-    private fun hideStatusBarNavigationBar() {
-        window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
-        window.statusBarColor = Color.TRANSPARENT
-    }
 
 }

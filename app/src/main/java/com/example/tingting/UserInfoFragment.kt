@@ -8,23 +8,28 @@ import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.ActivityMainBinding
 import com.example.tingting.databinding.UserInfoFragmentBinding
+import com.example.tingting.utils.Global.getDistance
 import com.example.tingting.utils.hide
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -79,19 +84,10 @@ class UserInfoFragment : Fragment() {
 
         val mainBinding = ActivityMainBinding.inflate(layoutInflater)
         mainBinding.bottomNavigationView.hide()
-
-
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
-
-
-
         binding.ivBack.setOnClickListener {
             Navigation.findNavController(binding.root).navigateUp()
-
-
         }
-
-
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
 
         viewModel.getUser(amount).observe(viewLifecycleOwner) { user ->
@@ -112,40 +108,84 @@ class UserInfoFragment : Fragment() {
                     e.printStackTrace()
                 }
             }
-            binding.item.tvProfession.visibility = View.GONE
-            binding.item.tvDetail.visibility = View.GONE
-            binding.item.tvDetail.text = user.description
+
+
+            lifecycleScope.launch {
+                val id_user = user.id
+                var favo : String? = null
+                val messageRef2 = rootRef.child("Setting").child(amount).child("favorite")
+                messageRef2.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (ds in dataSnapshot.children) {
+                            if(favo ==null)
+                                favo= ds.getValue().toString()
+                            else
+                                favo = favo +", "+ds.getValue().toString()
+
+                        }
+                        if(favo==null) {
+                            binding.item.tvfavorite.visibility = View.GONE
+                            binding.item.txtFavorite.visibility = View.GONE
+                        }
+                        else
+                            binding.item.tvfavorite.setText(favo)
+
+
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        Log.d("TAG", databaseError.message)
+                    }
+                })
+                FirebaseDatabase.getInstance().getReference("/Users/$id_user/work").get().addOnSuccessListener {
+                    if(it.value == null)
+                        binding.item.tvProfession.visibility = View.GONE
+                    else
+                        binding.item.tvProfession.setText(it.value.toString())
+                }
+                FirebaseDatabase.getInstance().getReference("/Users/$id_user/about").get().addOnSuccessListener {
+                    if(it.value == null)
+                        binding.item.tvDetail.visibility = View.GONE
+                    else
+                        binding.item.tvDetail.setText(it.value.toString())
+                }
+                var address: String? = null;
+
+                FirebaseDatabase.getInstance().getReference("/Users/$id_user/address").get().addOnSuccessListener { it ->
+                    val latlng = it.getValue(com.example.tingting.utils.Entity.LatLng::class.java)
+                    if(latlng != null) {
+                        val geocoder = Geocoder(binding.root.context)
+                        val addresses =
+                            geocoder.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
+                        address = addresses[0].getAddressLine(0)
+                        // get city name, state name, country name
+
+                        // addresses[0].getAddressLine(0) // add
+
+                        binding.item.tvLocation.setText(address.toString())
+                        val userId = FirebaseAuth.getInstance().uid!!
+                        FirebaseDatabase.getInstance().getReference("/Users/$userId/address").get().addOnSuccessListener {
+                            val latlng_user = it.getValue(com.example.tingting.utils.Entity.LatLng::class.java)
+                            binding.item.tvDisatance.text= getDistance(latlng!!.latitude, latlng!!.longitude,latlng_user!!.latitude, latlng_user!!.longitude).toString() + " Km"
+
+                        }
+                    }
+                    else{
+                        binding.item.tvLocation.visibility = View.GONE
+                        binding.item.txtLocation.visibility = View.GONE
+
+                    }
+                }
+            }
+
             binding.item.tvLang.text = user.birthDate
-            user.address?.let {
-                fromLatLntToAddress(LatLng(it.latitude,it.longitude))
-            }
-            if (binding.item.tvLocation.text == "") {
-                binding.item.txtLocation.visibility = View.GONE
-                binding.item.tvLocation.visibility = View.GONE
-            }
         }
 
 
-        // Upload image on firebase storage.
-//        getMultiImage()
-//        getSingleImage()
     }
 
-    fun fromLatLntToAddress(lt: LatLng) {
-        val geocoder = Geocoder(context, Locale.getDefault())
-        val addresses: List<Address>? = geocoder.getFromLocation(lt.latitude, lt.longitude, 1)
-        if (addresses != null && addresses.isNotEmpty()) {
-            val address = addresses[0]
-            val sb = StringBuilder()
-            for (i in 0 until address.maxAddressLineIndex) {
-                sb.append(address.getAddressLine(i)).append("\n")
-            }
-            sb.append(address.locality).append("\n")
-            sb.append(address.postalCode).append("\n")
-            sb.append(address.countryName)
-            binding.item.tvLocation.text = sb.toString()
-        }
-    }
+
+
 
     private fun getSingleImage() {
         // pick multiple images
@@ -183,7 +223,6 @@ class UserInfoFragment : Fragment() {
 
 
     fun getImage() {
-        // pick multiple images
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)

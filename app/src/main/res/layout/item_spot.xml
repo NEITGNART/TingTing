@@ -85,7 +85,6 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/learn_profile_3"
             android:layout_gravity="center"/>
 
     </FrameLayout>
@@ -99,7 +98,6 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/learn_profile_7"
             android:layout_gravity="center"/>
 
     </FrameLayout>

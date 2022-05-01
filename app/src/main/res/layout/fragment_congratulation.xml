@@ -1,126 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".Congratulation">
 
-    <RelativeLayout
-        android:orientation="vertical"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/da_gradient"
+        android:scaleType="centerCrop" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/da_gradient"
-            android:scaleType="centerCrop" />
-        <LinearLayout
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/da_spacing_large">
-            <TextView
-                style="@style/DAHeading"
-                android:textSize="40sp"
-                android:layout_marginTop="@dimen/da_spacing_xlarge"
-                android:textColor="@color/da_white"
-                android:text="@string/da_congratulate" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/da_white"
-                android:layout_marginTop="@dimen/da_spacing_standard"
-                android:textSize="@dimen/da_font_size_medium"
-                android:layout_marginStart="@dimen/da_spacing_xlarge"
-                android:layout_marginEnd="@dimen/da_spacing_xlarge"
-                android:text="@string/da_note_congatulations" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true">
-
-            <View
-                android:id="@+id/cp"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_centerInParent="true" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@id/cp"
-                android:rotation="-8"
-                app:cardCornerRadius="@dimen/da_spacing_standard">
-
-                <ImageView
-                    android:id="@+id/ivProfile1"
-                    android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_160sdp"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/da_bg_circle"
-                    android:backgroundTint="@color/da_light_gray"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/image2" />
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/_minus10sdp"
-                android:layout_marginBottom="@dimen/da_spacing_control_half"
-                android:layout_toEndOf="@id/cp"
-                android:rotation="10"
-                app:cardCornerRadius="@dimen/da_spacing_standard">
-
-                <ImageView
-                    android:id="@+id/ivProfile2"
-                    android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_160sdp"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_horizontal"
-                    android:backgroundTint="@color/da_light_gray"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/image3" />
-
-            </androidx.cardview.widget.CardView>
-
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/btnSendMessage"
-            style="@style/DAMaterialButtonStyle.Disabled"
-            android:layout_above="@id/tvSearch"
-            android:layout_marginStart="@dimen/da_spacing_large"
-            android:layout_marginEnd="@dimen/da_spacing_large"
-            android:layout_marginBottom="@dimen/da_spacing_large"
-            android:gravity="center"
-            android:text="@string/da_send_msg" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/da_spacing_large"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvSearch"
             style="@style/DAHeading"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginStart="@dimen/da_spacing_large"
-            android:layout_marginEnd="@dimen/da_spacing_large"
-            android:layout_marginBottom="@dimen/da_spacing_large"
-            android:text="Tiếp tục tìm kiếm"
-            android:textAllCaps="true"
+            android:layout_marginTop="@dimen/da_spacing_xlarge"
+            android:text="@string/da_congratulate"
             android:textColor="@color/da_white"
-            android:textSize="@dimen/da_font_size_normal" />
+            android:textSize="40sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/da_spacing_xlarge"
+            android:layout_marginTop="@dimen/da_spacing_standard"
+            android:layout_marginEnd="@dimen/da_spacing_xlarge"
+            android:gravity="center"
+            android:text="@string/da_note_congatulations"
+            android:textColor="@color/da_white"
+            android:textSize="@dimen/da_font_size_medium" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true">
+
+        <View
+            android:id="@+id/cp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true" />
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="@dimen/da_spacing_standard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/cp"
+            android:rotation="-8">
+
+            <ImageView
+                android:id="@+id/ivProfile1"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_160sdp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/da_bg_circle"
+                android:backgroundTint="@color/da_light_gray"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/image2" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="@dimen/da_spacing_standard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_minus10sdp"
+            android:layout_marginBottom="@dimen/da_spacing_control_half"
+            android:layout_toEndOf="@id/cp"
+            android:rotation="10">
+
+            <ImageView
+                android:id="@+id/ivProfile2"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_160sdp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/da_light_gray"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/image3" />
+
+        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/btnSendMessage"
+        style="@style/DAMaterialButtonStyle.Disabled"
+        android:layout_above="@id/tvSearch"
+        android:layout_marginStart="@dimen/da_spacing_large"
+        android:layout_marginEnd="@dimen/da_spacing_large"
+        android:layout_marginBottom="@dimen/da_spacing_large"
+        android:gravity="center"
+        android:text="@string/da_send_msg" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/tvSearch"
+        style="@style/DAHeading"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/da_spacing_large"
+        android:layout_marginEnd="@dimen/da_spacing_large"
+        android:layout_marginBottom="@dimen/da_spacing_large"
+        android:text="Tiếp tục tìm kiếm"
+        android:textAllCaps="true"
+        android:textColor="@color/da_white"
+        android:textSize="@dimen/da_font_size_normal" />
+
+</RelativeLayout>
