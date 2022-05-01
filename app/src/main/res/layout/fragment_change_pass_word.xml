@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".changePassWordFragment">
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/da_white"
+        android:fillViewport="true"
+        tools:context=".activity.DAWalkThroughActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                style="@style/DABackIcon" />
+
+            <TextView
+                style="@style/DAHeading"
+                android:layout_marginTop="@dimen/da_spacing_standard"
+                android:text="@string/da_password" />
+
+
+            <RelativeLayout
+                android:id="@+id/llMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/da_spacing_large"
+                android:layout_marginTop="@dimen/_60sdp"
+                android:layout_marginEnd="@dimen/da_spacing_large"
+                android:background="@drawable/da_edittext">
+
+
+
+                <EditText
+                    android:id="@+id/edMobilePassword"
+                    style="@style/DaEditText"
+                    android:drawableStart="@drawable/da_ic_padlock"
+                    android:hint="@string/da_hint_password"
+                    android:inputType="textPassword"
+                    android:maxLength="10" />
+
+
+                <ImageView
+                    android:id="@+id/ivTogglePswd"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/da_spacing_middle"
+                    android:padding="@dimen/da_spacing_control_half"
+                    android:src="@drawable/da_ic_eye_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/llReMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/da_spacing_large"
+                android:layout_marginTop="@dimen/da_spacing_middle"
+                android:layout_marginEnd="@dimen/da_spacing_large"
+                android:background="@drawable/da_edittext">
+
+                <EditText
+                    android:id="@+id/edReMobilePassword"
+                    style="@style/DaEditText"
+                    android:drawableStart="@drawable/da_ic_padlock"
+                    android:hint="@string/da_hint_re_password"
+                    android:inputType="textPassword"
+                    android:maxLength="10" />
+
+                <ImageView
+                    android:id="@+id/ivReTogglePswd"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/da_spacing_middle"
+                    android:padding="@dimen/da_spacing_control_half"
+                    android:src="@drawable/da_ic_eye_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btnNext"
+                    style="@style/DAMaterialButtonStyle.Enabled"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="@dimen/da_spacing_large"
+                    android:layout_marginTop="@dimen/_50sdp"
+                    android:layout_marginEnd="@dimen/da_spacing_large"
+                    android:layout_marginBottom="@dimen/da_spacing_xlarge"
+                    android:text="Save"
+                    android:textAllCaps="true" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

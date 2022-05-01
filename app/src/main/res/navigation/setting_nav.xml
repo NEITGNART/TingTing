@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_settingFragment_to_viewProfileFragment"
             app:destination="@id/viewProfileFragment" />
+        <action
+            android:id="@+id/action_settingFragment_to_changePassWordFragment"
+            app:destination="@id/changePassWordFragment" />
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
@@ -36,4 +39,9 @@
             android:id="@+id/action_viewProfileFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/changePassWordFragment"
+        android:name="com.example.tingting.changePassWordFragment"
+        android:label="fragment_change_pass_word"
+        tools:layout="@layout/fragment_change_pass_word" />
 </navigation>
