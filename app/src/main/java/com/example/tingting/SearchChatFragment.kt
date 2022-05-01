@@ -47,7 +47,7 @@ class SearchChatFragment : Fragment() {
         // reference to the database
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Matched/${Firebase.auth.currentUser!!.uid}")
-        getMatched(myRef, database, binding, false)
+        getMatched(myRef, database, binding, false, s = "")
 
         binding.edtSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -61,10 +61,10 @@ class SearchChatFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
                 if (s.toString().isNotEmpty()) {
-                    getMatched(myRef, database, binding, true)
+                    getMatched(myRef, database, binding, true, s)
 
                 } else {
-                    getMatched(myRef, database, binding, false)
+                    getMatched(myRef, database, binding, false, s)
                 }
             }
 
@@ -77,7 +77,8 @@ class SearchChatFragment : Fragment() {
         myRef: DatabaseReference,
         database: FirebaseDatabase,
         binding: FragmentSearchChatBinding,
-        flag: Boolean = false
+        flag: Boolean = false,
+        s: CharSequence?
     ) {
         myRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -97,9 +98,12 @@ class SearchChatFragment : Fragment() {
                                         ChatAdapter(binding.root.context, chats, args.matched)
                                 }
                             } else {
+
                                 if (user != null && user.id != Firebase.auth.currentUser!!.uid && user.name!!.contains(
-                                        binding.edtSearch.text.toString()
+                                        s.toString(),
+                                        true
                                     )
+
                                 ) {
                                     chats.add(user)
                                     binding.rvPeople.adapter =
