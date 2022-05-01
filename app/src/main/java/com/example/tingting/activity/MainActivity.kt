@@ -48,8 +48,11 @@ class MainActivity : AppCompatActivity() {
 
         // Bottom navigation
         val navController = findNavController(R.id.nav_host_fragment_login)
-//
+
         binding.bottomNavigationView.setupWithNavController(navController)
+
+
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
             if (destination.id == R.id.homepage

@@ -1,47 +1,25 @@
 package com.example.tingting
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.example.tingting.UserInfoFragmentArgs.Companion.fromBundle
 import com.example.tingting.databinding.CongratulationFragmentBinding
-import com.example.tingting.databinding.FragmentFirstBinding
+import com.example.tingting.utils.Entity.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Congratulation.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Congratulation : Fragment() {
     private lateinit var binding: CongratulationFragmentBinding
 
-    val args: CongratulationArgs by navArgs()
-
-
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val args: CongratulationArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,46 +29,30 @@ class Congratulation : Fragment() {
 
         val targetId = args.targetId
         val userId = FirebaseAuth.getInstance().uid!!
-        val refTarget = FirebaseDatabase.getInstance().getReference("/Users/$targetId/avatar").get()
-
-        val refCurrent = FirebaseDatabase.getInstance().getReference("/Users/$userId/avatar").get()
-
-        Log.i("hahahahaa", targetId +"...."+ userId)
-
-
-        FirebaseDatabase.getInstance().getReference("/Users/$targetId/avatar").get().addOnSuccessListener {
-            Glide.with(binding.root.context).load(it.value).into(binding.ivProfile2)
-        }
-        FirebaseDatabase.getInstance().getReference("/Users/$userId/avatar").get().addOnSuccessListener {
-            Glide.with(binding.root.context).load(it.value).into(binding.ivProfile1)
-        }
-
-
-
-        binding.tvSearch.setOnClickListener{
+        FirebaseDatabase.getInstance().getReference("/Users/$targetId/avatar").get()
+            .addOnSuccessListener {
+                Glide.with(binding.root.context).load(it.value).into(binding.ivProfile2)
+            }
+        FirebaseDatabase.getInstance().getReference("/Users/$userId/avatar").get()
+            .addOnSuccessListener {
+                Glide.with(binding.root.context).load(it.value).into(binding.ivProfile1)
+            }
+        binding.tvSearch.setOnClickListener {
             Navigation.findNavController(it).navigateUp()
         }
 
-        return binding.root
-    }
+        binding.btnSendMessage.setOnClickListener {
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Congratulation.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Congratulation().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+            FirebaseDatabase.getInstance().getReference("/Users/${targetId}").get()
+                .addOnSuccessListener {
+                    val intent = Intent(binding.root.context, ChatActivity::class.java)
+                    val user = it.getValue(User::class.java)
+                    intent.putExtra("toUser", user)
+                    ContextCompat.startActivity(binding.root.context, intent, null)
                 }
-            }
+
+        }
+
+        return binding.root
     }
 }

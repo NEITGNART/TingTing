@@ -249,13 +249,11 @@ class FirstFragment : Fragment() {
                 ref.child("Match").child(targetId).child(userId)
             .get().addOnSuccessListener {
                 if(it.value != null){
-                    Log.d("ABCD", "haha$targetId ${it.value}")
                     FirebaseDatabase.getInstance().getReference("/Matched/$userId/$targetId").setValue(targetId)
                     FirebaseDatabase.getInstance().getReference("/Matched/$targetId/$userId").setValue(userId)
-                    val action = FirstFragmentDirections.actionHomepageToCongratulation(targetId)
+
+                    val action = FirstFragmentDirections.actionHomepageToCongratulation(targetId = targetId)
                     Navigation.findNavController(binding.root).navigate(action)
-
-
                 }
             }
 
