@@ -39,30 +39,34 @@ class FilterFragment : Fragment() {
             Navigation.findNavController(it).navigateUp()
         }
 
-        var minDistance = 0F
-        var maxDistance = 0F
 
         binding.rangebarDistance.tickTopLabels = distanceArray
 
         FirebaseDatabase.getInstance().getReference("Setting/$userID").child("distance").child("max").get().addOnSuccessListener { itMax ->
             FirebaseDatabase.getInstance().getReference("Setting/$userID").child("distance")
                 .child("min").get().addOnSuccessListener { itMin ->
-                binding.rangebarDistance.setRangePinsByValue(
-                    itMin.value.toString().toFloat(),
-                    itMax.value.toString().toFloat()
-                )}
+                    if (itMin.value == null || itMax.value == null){
+                        binding.rangebarDistance.setRangePinsByValue(
+                            0F, 9F)
+                    } else
+                        binding.rangebarDistance.setRangePinsByValue(
+                            itMin.value.toString().toFloat(),
+                            itMax.value.toString().toFloat())
+                }
         }
 
-        var minAge = 0F
-        var maxAge = 0F
         binding.rangebarAge.tickTopLabels = ageArray2
         FirebaseDatabase.getInstance().getReference("Setting/$userID").child("age").child("max").get().addOnSuccessListener { itMax ->
             FirebaseDatabase.getInstance().getReference("Setting/$userID").child("age").child("min")
                 .get().addOnSuccessListener { itMin ->
-                binding.rangebarAge.setRangePinsByValue(
-                    itMin.value.toString().toFloat(),
-                    itMax.value.toString().toFloat()
-                )
+                    if (itMin.value == null || itMax.value == null){
+                        binding.rangebarAge.setRangePinsByValue(
+                            0F, 7F)
+                    } else
+                        binding.rangebarAge.setRangePinsByValue(
+                            itMin.value.toString().toFloat(),
+                            itMax.value.toString().toFloat()
+                        )
             }
         }
 
@@ -90,9 +94,9 @@ class FilterFragment : Fragment() {
             reference.child("age").child("min")
                 .setValue(binding.rangebarAge.leftIndex)
             reference.child("distance").child("max")
-                .setValue(binding.rangebarDistance.leftIndex)
-            reference.child("distance").child("min")
                 .setValue(binding.rangebarDistance.rightIndex)
+            reference.child("distance").child("min")
+                .setValue(binding.rangebarDistance.leftIndex)
             FirebaseDatabase.getInstance().getReference("Users/$userID").child("display")
                 .setValue(binding.spDisplay.selectedItem.toString())
             Navigation.findNavController(binding.root).navigateUp()
