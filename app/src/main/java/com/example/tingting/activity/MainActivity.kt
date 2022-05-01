@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity() {
 
 
         lifecycleScope.launch {
-            mRef.addListenerForSingleValueEvent(object :
+            mRef.addValueEventListener(object :
                 ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                     TODO("Not yet implemented")

@@ -80,7 +80,6 @@ class ChatActivity : AppCompatActivity() {
                 resources = resource, photoParam2 = photoParam2,
                 imgUrl = toUser?.avatar!!,
             )
-
         }
 
         binding.tvUsername.text= toUser?.name
@@ -98,7 +97,6 @@ class ChatActivity : AppCompatActivity() {
         }
 
         binding.item.ivAdd.onClick {
-
             if (!binding.item.rlAdd.isVisible) {
                 setImageResource(R.drawable.da_ic_plus_gradient)
                 binding.item.rlAdd.show()

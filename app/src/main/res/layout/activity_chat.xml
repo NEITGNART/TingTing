@@ -42,7 +42,8 @@
                 android:layout_alignTop="@id/tvUserName"
                 android:layout_toEndOf="@id/tvUserName"
                 android:layout_gravity="end|bottom"
-                android:background="@drawable/da_bg_circle_dot" />
+                android:background="@drawable/da_bg_circle_dot"
+                tools:ignore="NotSibling" />
 
         </RelativeLayout>
         <androidx.recyclerview.widget.RecyclerView
