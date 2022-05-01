@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FilterFragment">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -78,8 +77,8 @@
                 android:drawableStart="@drawable/da_ic_location_on_black_24dp"
                 android:text="@string/da_gender" />
 
-            <TextView
-                android:id="@+id/tvGender"
+            <Spinner
+                android:id="@+id/spDisplay"
                 style="@style/ProfileText"
                 android:drawableEnd="@drawable/da_ic_left_arrow"
                 android:text="Female" />
@@ -91,10 +90,11 @@
                 android:textSize="@dimen/da_font_size_normal"
                 android:drawableStart="@drawable/da_ic_cake"
                 android:text="@string/da_age" />
+
             <com.example.tingting.rangeBar.DARangeBar
                 android:id="@+id/rangebarAge"
-                app:mrb_tickEnd="7"
-                style="@style/DARangeBar" />
+                style="@style/DARangeBar"
+                app:mrb_tickEnd="7" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -107,8 +107,7 @@
                     android:layout_marginStart="@dimen/da_spacing_large"
                     android:layout_marginTop="@dimen/_50sdp"
                     android:layout_marginEnd="@dimen/da_spacing_large"
-                    android:layout_marginBottom="@dimen/da_spacing_xlarge"
-                    android:enabled="false"
+                    android:layout_marginBottom="41dp"
                     android:text="@string/da_apply"
                     android:textAllCaps="true" />
 

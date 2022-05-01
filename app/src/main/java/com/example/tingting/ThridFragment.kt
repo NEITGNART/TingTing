@@ -94,7 +94,7 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
 
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             if (location != null) {
-                Toast.makeText(binding.root.context, "${location.latitude}", Toast.LENGTH_SHORT)
+                Toast.makeText(binding.root.context, "${location.latitude} ${location.longitude}", Toast.LENGTH_SHORT)
                     .show()
                 userLatLng = LatLng(location.latitude, location.longitude)
                 moveTOLocation(googleMap)
