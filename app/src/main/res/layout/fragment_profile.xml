@@ -60,8 +60,8 @@
                         android:layout_height="@dimen/_160sdp">
 
                         <ImageView
-                            style="@style/ProfileImage"
-                            android:src="@drawable/da_profile_2" />
+                            android:id="@+id/ivImage1"
+                            style="@style/ProfileImage"/>
 
                         <ImageView
                             android:id="@+id/ivEdit1"
@@ -69,7 +69,7 @@
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
                             android:padding="@dimen/_6sdp"
-                            android:src="@drawable/da_ic_mode_edit_black_24dp" />
+                             />
 
                     </androidx.cardview.widget.CardView>
 
@@ -84,13 +84,13 @@
                             style="@style/ProfileCard">
 
                             <ImageView
-                                style="@style/ProfileImage"
-                                android:src="@drawable/da_profile_2" />
+                                android:id="@+id/ivImage2"
+                                style="@style/ProfileImage" />
 
                             <ImageView
                                 android:id="@+id/ivEdit2"
                                 style="@style/ProfileEdit"
-                                android:src="@drawable/da_ic_mode_edit_black_24dp" />
+                                 />
 
                         </androidx.cardview.widget.CardView>
 
@@ -98,7 +98,9 @@
                             android:id="@+id/cardProfile3"
                             style="@style/ProfileCard">
 
-                            <ImageView style="@style/ProfileImage" />
+                            <ImageView
+                                android:id="@+id/ivImage3"
+                                style="@style/ProfileImage" />
 
                             <ImageView
                                 android:id="@+id/ivEdit3"
@@ -119,7 +121,9 @@
                         android:id="@+id/cardProfile4"
                         style="@style/ProfileCard">
 
-                        <ImageView style="@style/ProfileImage" />
+                        <ImageView
+                            android:id="@+id/ivImage4"
+                            style="@style/ProfileImage" />
 
                         <ImageView
                             android:id="@+id/ivEdit4"
@@ -130,7 +134,9 @@
                         android:id="@+id/cardProfile5"
                         style="@style/ProfileCard">
 
-                        <ImageView style="@style/ProfileImage" />
+                        <ImageView
+                            android:id="@+id/ivImage5"
+                            style="@style/ProfileImage" />
 
                         <ImageView
                             android:id="@+id/ivEdit5"
@@ -142,7 +148,9 @@
                         android:id="@+id/cardProfile6"
                         style="@style/ProfileCard">
 
-                        <ImageView style="@style/ProfileImage" />
+                        <ImageView
+                            android:id="@+id/ivImage6"
+                            style="@style/ProfileImage" />
 
                         <ImageView
                             android:id="@+id/ivEdit6"

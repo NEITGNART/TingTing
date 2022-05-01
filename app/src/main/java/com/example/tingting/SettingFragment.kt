@@ -37,6 +37,12 @@ class SettingFragment : Fragment() {
             NavHostFragment.findNavController(this).navigate(action)
         }
 
+        binding.tvSecurity.setOnClickListener {
+            val action = SettingFragmentDirections.actionSettingFragmentToChangePassWordFragment()
+            NavHostFragment.findNavController(this).navigate(action)
+        }
+
+
         binding.ivBack.setOnClickListener {
             val intent = Intent(activity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
