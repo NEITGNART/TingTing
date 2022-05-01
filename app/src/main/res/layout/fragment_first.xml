@@ -1,138 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chat"
+    android:id="@+id/homepage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FirstFragment">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/homepage"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/_30sdp"
+        android:text="Chà Chà. Hết người để bạn lướt mất rồi !"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/tvEmbarrassed"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/tvEmbarrassed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/embarrassed"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
+
+
+    <ImageView
+
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="@dimen/_47sdp"
+        android:src="@drawable/ic_main_icon"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="@dimen/_30sdp"
-            android:text="Chà Chà. Hết người để bạn lướt mất rồi !"
-            android:textAlignment="center"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/tvEmbarrassed"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <ImageView
-            android:id="@+id/tvEmbarrassed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/embarrassed"
-            app:layout_constraintBottom_toBottomOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView" />
-
-
-        <ImageView
-
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="70dp"
-            android:layout_marginRight="@dimen/_47sdp"
-            android:src="@drawable/ic_main_icon"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-            app:layout_constraintTop_toTopOf="@+id/textView" />
-
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
 
+            <com.yuyakaido.android.cardstackview.CardStackView
+                android:id="@+id/cardstackview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_above="@+id/llBottom"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="-1dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="-116dp"
+                android:clipToPadding="false" />
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/llBottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipChildren="false">
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="bottom|center_horizontal"
+                android:gravity="center|bottom"
+                android:paddingStart="@dimen/da_spacing_standard_new"
+                android:paddingTop="@dimen/da_spacing_standard_new"
+                android:paddingEnd="@dimen/da_spacing_standard_new"
+                android:paddingBottom="@dimen/da_spacing_large">
 
-                <com.yuyakaido.android.cardstackview.CardStackView
-                    android:id="@+id/cardstackview"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_above="@+id/llBottom"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="-1dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="1dp"
-                    android:layout_marginBottom="-116dp"
-                    android:clipToPadding="false" />
+                <ImageView
+                    android:id="@+id/ivClose"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:background="@drawable/da_bg_circle"
+                    android:padding="@dimen/_12sdp"
+                    android:src="@drawable/da_ic_cancel_mark"
+                    app:tint="@color/white" />
 
-                <LinearLayout
-                    android:id="@+id/llBottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:gravity="center|bottom"
-                    android:paddingStart="@dimen/da_spacing_standard_new"
-                    android:paddingTop="@dimen/da_spacing_standard_new"
-                    android:paddingEnd="@dimen/da_spacing_standard_new"
-                    android:paddingBottom="@dimen/da_spacing_large">
+                <ImageView
+                    android:id="@+id/ivUndof"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginStart="@dimen/da_spacing_xxlarge"
+                    android:layout_marginEnd="@dimen/da_spacing_xxlarge"
+                    android:background="@drawable/da_bg_circle"
+                    android:backgroundTint="@color/da_light_gray"
+                    android:padding="@dimen/_12sdp"
+                    android:src="@drawable/da_ic_undo_arrow"
+                    app:tint="@color/da_yellow" />
 
-                    <ImageView
-                        android:id="@+id/ivClose"
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="@dimen/_50sdp"
-                        android:background="@drawable/da_bg_circle"
-                        android:padding="@dimen/_12sdp"
-                        android:src="@drawable/da_ic_cancel_mark"
-                        app:tint="@color/white" />
-
-                    <ImageView
-                        android:id="@+id/ivUndof"
-                        android:layout_width="@dimen/_45sdp"
-                        android:layout_height="@dimen/_45sdp"
-                        android:layout_marginStart="@dimen/da_spacing_xxlarge"
-                        android:layout_marginEnd="@dimen/da_spacing_xxlarge"
-                        android:background="@drawable/da_bg_circle"
-                        android:backgroundTint="@color/da_light_gray"
-                        android:padding="@dimen/_12sdp"
-                        android:src="@drawable/da_ic_undo_arrow"
-                        app:tint="@color/da_yellow" />
-
-                    <ImageView
-                        android:id="@+id/ivHeart"
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="@dimen/_50sdp"
-                        android:background="@drawable/da_bg_circle_grren"
-                        android:padding="@dimen/_12sdp"
-                        android:src="@drawable/da_ic_heart"
-                        app:tint="@color/da_white" />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/ivHeart"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:background="@drawable/da_bg_circle_grren"
+                    android:padding="@dimen/_12sdp"
+                    android:src="@drawable/da_ic_heart"
+                    app:tint="@color/da_white" />
+            </LinearLayout>
 
 
-            </RelativeLayout>
+        </RelativeLayout>
 
-        </LinearLayout>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
 

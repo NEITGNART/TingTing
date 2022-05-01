@@ -1,5 +1,6 @@
 package com.example.tingting
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,14 +12,17 @@ import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.example.tingting.databinding.ActivityMainBinding
+import com.example.tingting.activity.CongratulationActivity
 import com.example.tingting.databinding.FragmentFirstBinding
-import com.example.tingting.utils.hide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.yuyakaido.android.cardstackview.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class FirstFragment : Fragment() {
@@ -54,26 +58,26 @@ class FirstFragment : Fragment() {
                 )
                 if (direction == Direction.Right) {
                     Toast.makeText(context, "Direction Right", Toast.LENGTH_SHORT).show()
-                    val currentIndex = manager.topPosition-1
-                    addVisited( adapter.getSpots()[currentIndex].id_user )
+                    val currentIndex = manager.topPosition - 1
+                    addVisited(adapter.getSpots()[currentIndex].id_user)
                     addMatch(adapter.getSpots()[currentIndex].id_user)
 
                 }
                 if (direction == Direction.Top) {
                     Toast.makeText(context, "Direction Top", Toast.LENGTH_SHORT).show()
-                    val currentIndex = manager.topPosition-1
-                    addVisited( adapter.getSpots()[currentIndex].id_user )
+                    val currentIndex = manager.topPosition - 1
+                    addVisited(adapter.getSpots()[currentIndex].id_user)
                 }
                 if (direction == Direction.Left) {
                     Toast.makeText(context, "Direction Left", Toast.LENGTH_SHORT).show()
-                    val currentIndex = manager.topPosition-1
-                    addVisited( adapter.getSpots()[currentIndex].id_user )
+                    val currentIndex = manager.topPosition - 1
+                    addVisited(adapter.getSpots()[currentIndex].id_user)
 
                 }
                 if (direction == Direction.Bottom) {
                     Toast.makeText(context, "Direction Bottom", Toast.LENGTH_SHORT).show()
-                    val currentIndex = manager.topPosition-1
-                    addVisited( adapter.getSpots()[currentIndex].id_user )
+                    val currentIndex = manager.topPosition - 1
+                    addVisited(adapter.getSpots()[currentIndex].id_user)
                 }
 
             }
@@ -109,7 +113,8 @@ class FirstFragment : Fragment() {
 
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
-        adapter = CardStackAdapter(binding, createSpots(FirebaseAuth.getInstance().currentUser!!.uid))
+        adapter =
+            CardStackAdapter(binding, createSpots(FirebaseAuth.getInstance().currentUser!!.uid))
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator = DefaultItemAnimator()
@@ -138,7 +143,7 @@ class FirstFragment : Fragment() {
                 manager.setSwipeAnimationSetting(setting)
                 cardStackView.swipe()
                 val currentIndex = manager.topPosition
-                addVisited( adapter.getSpots()[currentIndex].id_user )
+                addVisited(adapter.getSpots()[currentIndex].id_user)
                 addMatch(adapter.getSpots()[currentIndex].id_user)
             }
         }
@@ -152,7 +157,7 @@ class FirstFragment : Fragment() {
                 manager.setSwipeAnimationSetting(setting)
                 cardStackView.swipe()
                 val currentIndex = manager.topPosition
-                addVisited( adapter.getSpots()[currentIndex].id_user )
+                addVisited(adapter.getSpots()[currentIndex].id_user)
             }
         }
 
@@ -160,7 +165,7 @@ class FirstFragment : Fragment() {
     }
 
 
-    private fun createSpots(id_user:String): List<Spot> {
+    private fun createSpots(id_user: String): List<Spot> {
         val spots = ArrayList<Spot>()
         val check = ArrayList<String>()
         val check_matched = ArrayList<String>()
@@ -182,17 +187,18 @@ class FirstFragment : Fragment() {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (ds in dataSnapshot.children) {
                             val gender = ds.child("gender").getValue(String::class.java)
-                            val display: String? =dataSnapshot.child(id_user).child("display").getValue(String::class.java)
+                            val display: String? = dataSnapshot.child(id_user).child("display")
+                                .getValue(String::class.java)
                             var check_id = true
-                            for (i in 0 until check.size){
-                                if(ds.key == check[i]) {
-                                    check_id= false
+                            for (i in 0 until check.size) {
+                                if (ds.key == check[i]) {
+                                    check_id = false
                                     break
                                 }
                             }
 
-                            if(check_id){
-                                if ( ds.key != id_user && ( display == "All" || gender == display)) {
+                            if (check_id) {
+                                if (ds.key != id_user && (display == "All" || gender == display)) {
                                     val name = ds.child("name").getValue(String::class.java)
                                     val photo = ds.child("avatar").getValue(String::class.java)
                                     spots.add(
@@ -215,6 +221,7 @@ class FirstFragment : Fragment() {
                     }
                 })
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
                 Log.d("TAG", databaseError.message) //Don't ignore errors!
             }
@@ -232,33 +239,58 @@ class FirstFragment : Fragment() {
         return spots
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-    }
-
-    fun addVisited(targetId :String ){
-       val userId = FirebaseAuth.getInstance().uid!!
+    fun addVisited(targetId: String) {
+        val userId = FirebaseAuth.getInstance().uid!!
         FirebaseDatabase.getInstance().getReference("/Visited/$userId/$targetId").setValue(targetId)
     }
-    fun addMatch(targetId :String ){
-        val userId = FirebaseAuth.getInstance().uid!!
-        FirebaseDatabase.getInstance().getReference("/Match/$userId/$targetId").setValue(targetId)
 
-        val ref = FirebaseDatabase.getInstance().reference
-                ref.child("Match").child(targetId).child(userId)
-            .get().addOnSuccessListener {
-                if(it.value != null){
-                    FirebaseDatabase.getInstance().getReference("/Matched/$userId/$targetId").setValue(targetId)
-                    FirebaseDatabase.getInstance().getReference("/Matched/$targetId/$userId").setValue(userId)
+    fun addMatch(targetId: String) {
 
-                    val action = FirstFragmentDirections.actionHomepageToCongratulation(targetId = targetId)
-                    Navigation.findNavController(binding.root).navigate(action)
-                }
+
+        lifecycleScope.launch {
+
+            withContext(Dispatchers.IO) {
+                val userId = FirebaseAuth.getInstance().uid!!
+
+                FirebaseDatabase.getInstance().getReference("/Match/$userId/$targetId")
+                    .setValue(targetId)
+
+                var firstTime = true
+
+                FirebaseDatabase.getInstance().getReference("/Match/$targetId/$userId")
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+
+                        if (p0.exists()) {
+                            if (firstTime) {
+                                firstTime = false
+                                Log.i("TAG", p0.value.toString())
+
+                                FirebaseDatabase.getInstance()
+                                    .getReference("/Matched/$userId/$targetId")
+                                    .setValue(targetId)
+                                FirebaseDatabase.getInstance()
+                                    .getReference("/Matched/$targetId/$userId")
+                                    .setValue(userId)
+
+                                val intent = Intent(context, CongratulationActivity::class.java)
+                                intent.putExtra("targetId", targetId)
+                                context?.startActivity(intent)
+
+                            }
+                        }
+                    }
+                })
             }
 
-    }
+        }
 
+
+    }
 
 
 }
