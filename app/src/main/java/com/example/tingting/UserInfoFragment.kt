@@ -158,6 +158,10 @@ class UserInfoFragment : Fragment() {
                         val addresses =
                             geocoder.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
                         address = addresses[0].getAddressLine(0)
+                        // get city name, state name, country name
+
+                        // addresses[0].getAddressLine(0) // add
+
                         binding.item.tvLocation.setText(address.toString())
                         val userId = FirebaseAuth.getInstance().uid!!
                         FirebaseDatabase.getInstance().getReference("/Users/$userId/address").get().addOnSuccessListener {

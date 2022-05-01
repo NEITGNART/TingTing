@@ -21,10 +21,7 @@ import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
@@ -197,11 +194,28 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             })
+
+            FirebaseDatabase.getInstance().getReference("/SeenNotify/$user")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val value = p0.value
+                        value?.let {
+                            if (it == true) {
+                                binding.viewStatus.show()
+                            } else {
+                                binding.viewStatus.hide()
+                            }
+                        }
+                    }
+                })
         }
 
 
     }
-
 
 
 }

@@ -251,7 +251,8 @@ class FirstFragment : Fragment() {
                     .setValue(targetId)
 
 
-                FirebaseDatabase.getInstance().getReference("/Users/${FirebaseAuth.getInstance().uid}/name")
+                FirebaseDatabase.getInstance()
+                    .getReference("/Users/${FirebaseAuth.getInstance().uid}/name")
                     .get().addOnSuccessListener {
                         val notify = Notification(
                             "${it.getValue(String::class.java)} has liked you",
@@ -259,8 +260,10 @@ class FirstFragment : Fragment() {
                             time = System.currentTimeMillis().toString(),
                             null,
                             FirebaseAuth.getInstance().uid!!,
-                            )
-                        FirebaseDatabase.getInstance().getReference("/Notify/$targetId").push().setValue(notify)
+                        )
+                        FirebaseDatabase.getInstance().getReference("/Notify/$targetId").push()
+                            .setValue(notify)
+                        FirebaseDatabase.getInstance().getReference("/SeenNotify/$targetId").setValue(true)
                     }
 
 
@@ -274,7 +277,8 @@ class FirstFragment : Fragment() {
 
                             if (p0.exists()) {
 
-                                val action = FirstFragmentDirections.actionHomepageToCongratulation(targetId = targetId)
+                                val action =
+                                    FirstFragmentDirections.actionHomepageToCongratulation(targetId = targetId)
                                 Navigation.findNavController(view!!).navigate(action)
 
                                 Log.i("TAG", p0.value.toString())
@@ -294,8 +298,9 @@ class FirstFragment : Fragment() {
                                     FirebaseAuth.getInstance().uid!!,
                                 )
 
-                                FirebaseDatabase.getInstance().getReference("/Notify/$targetId").push().setValue(notify)
-
+                                FirebaseDatabase.getInstance().getReference("/Notify/$targetId")
+                                    .push().setValue(notify)
+                                FirebaseDatabase.getInstance().getReference("/SeenNotify/$targetId").setValue(true)
                             }
                         }
                     })
