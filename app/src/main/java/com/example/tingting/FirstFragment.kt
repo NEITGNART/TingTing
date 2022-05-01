@@ -1,6 +1,5 @@
 package com.example.tingting
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.example.tingting.activity.CongratulationActivity
 import com.example.tingting.databinding.FragmentFirstBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -28,8 +26,7 @@ import kotlinx.coroutines.withContext
 class FirstFragment : Fragment() {
 
     private lateinit var binding: FragmentFirstBinding
-    lateinit var adapter: CardStackAdapter
-    lateinit var database: DatabaseReference
+    private lateinit var adapter: CardStackAdapter
 
     companion object {
         fun newInstance() = tindercardstack()
@@ -142,9 +139,7 @@ class FirstFragment : Fragment() {
                     .build()
                 manager.setSwipeAnimationSetting(setting)
                 cardStackView.swipe()
-                val currentIndex = manager.topPosition
-                addVisited(adapter.getSpots()[currentIndex].id_user)
-                addMatch(adapter.getSpots()[currentIndex].id_user)
+
             }
         }
         binding.ivClose.setOnClickListener {
@@ -156,8 +151,6 @@ class FirstFragment : Fragment() {
                     .build()
                 manager.setSwipeAnimationSetting(setting)
                 cardStackView.swipe()
-                val currentIndex = manager.topPosition
-                addVisited(adapter.getSpots()[currentIndex].id_user)
             }
         }
 
@@ -168,7 +161,6 @@ class FirstFragment : Fragment() {
     private fun createSpots(id_user: String): List<Spot> {
         val spots = ArrayList<Spot>()
         val check = ArrayList<String>()
-        val check_matched = ArrayList<String>()
         val rootRef = FirebaseDatabase.getInstance().reference
         val messageRef = rootRef.child("Users")
 
@@ -256,20 +248,15 @@ class FirstFragment : Fragment() {
                 FirebaseDatabase.getInstance().getReference("/Match/$userId/$targetId")
                     .setValue(targetId)
 
-                var firstTime = true
-
                 FirebaseDatabase.getInstance().getReference("/Match/$targetId/$userId")
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onCancelled(p0: DatabaseError) {
-                    }
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onCancelled(p0: DatabaseError) {
+                        }
 
-                    override fun onDataChange(p0: DataSnapshot) {
+                        override fun onDataChange(p0: DataSnapshot) {
 
-                        if (p0.exists()) {
-                            if (firstTime) {
-                                firstTime = false
+                            if (p0.exists()) {
                                 Log.i("TAG", p0.value.toString())
-
                                 FirebaseDatabase.getInstance()
                                     .getReference("/Matched/$userId/$targetId")
                                     .setValue(targetId)
@@ -277,18 +264,14 @@ class FirstFragment : Fragment() {
                                     .getReference("/Matched/$targetId/$userId")
                                     .setValue(userId)
 
-                                val intent = Intent(context, CongratulationActivity::class.java)
-                                intent.putExtra("targetId", targetId)
-                                context?.startActivity(intent)
-
+                                val action = FirstFragmentDirections.actionHomepageToCongratulation(targetId = targetId)
+                                Navigation.findNavController(view!!).navigate(action)
                             }
                         }
-                    }
-                })
+                    })
             }
 
         }
-
 
     }
 

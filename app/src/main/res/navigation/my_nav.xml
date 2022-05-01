@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_firstFragment_to_userInfoFragment"
             app:destination="@id/userInfoFragment" />
+        <action
+            android:id="@+id/action_homepage_to_congratulation"
+            app:destination="@id/congratulation" />
     </fragment>
     <fragment
         android:id="@+id/wholike"
