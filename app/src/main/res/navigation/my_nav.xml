@@ -6,6 +6,19 @@
     app:startDestination="@id/homepage">
 
     <fragment
+        android:id="@+id/searcMatchedList"
+        android:name="com.example.tingting.SearchChatFragment"
+        android:label="fragment_search_chat"
+        tools:layout="@layout/fragment_search_chat" >
+        <argument
+            android:name="matched"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_searcMatchedList_to_userInfoFragment"
+            app:destination="@id/userInfoFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/homepage"
         android:name="com.example.tingting.FirstFragment"
         android:label="Home"
@@ -25,6 +38,9 @@
         <action
             android:id="@+id/action_wholike_to_userInfoFragment"
             app:destination="@id/userInfoFragment" />
+        <action
+            android:id="@+id/action_wholike_to_searchChatFragment32"
+            app:destination="@id/searcMatchedList" />
     </fragment>
     <fragment
         android:id="@+id/browser"

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/chat"
     tools:context=".FourFragment">
 
     <LinearLayout
@@ -28,7 +29,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/da_spacing_standard_new"
+                android:layout_marginEnd="41dp"
                 android:padding="@dimen/da_spacing_control"
                 android:src="@drawable/da_ic_search_new"
                 app:tint="@color/da_textColorSecondary" />

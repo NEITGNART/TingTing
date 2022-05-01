@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.tingting.databinding.FragmentSearchChatBinding
 import com.example.tingting.utils.Entity.User
@@ -19,7 +20,7 @@ import com.google.firebase.ktx.Firebase
 
 class SearchChatFragment : Fragment() {
 
-
+    private val args: SearchChatFragmentArgs by navArgs()
     private lateinit var binding: FragmentSearchChatBinding
 
 
@@ -93,7 +94,7 @@ class SearchChatFragment : Fragment() {
                                 if (user != null && user.id != Firebase.auth.currentUser!!.uid) {
                                     chats.add(user)
                                     binding.rvPeople.adapter =
-                                        ChatAdapter(binding.root.context, chats)
+                                        ChatAdapter(binding.root.context, chats, args.matched)
                                 }
                             } else {
                                 if (user != null && user.id != Firebase.auth.currentUser!!.uid && user.name!!.contains(
@@ -102,7 +103,7 @@ class SearchChatFragment : Fragment() {
                                 ) {
                                     chats.add(user)
                                     binding.rvPeople.adapter =
-                                        ChatAdapter(binding.root.context, chats)
+                                        ChatAdapter(binding.root.context, chats, args.matched)
                                 }
                             }
 
