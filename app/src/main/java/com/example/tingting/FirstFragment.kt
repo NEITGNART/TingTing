@@ -1,5 +1,6 @@
 package com.example.tingting
 
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +16,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.tingting.databinding.FragmentFirstBinding
+import com.example.tingting.utils.Entity.LatLng
 import com.example.tingting.utils.Entity.Notification
+import com.example.tingting.utils.Global.getDistance
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
@@ -163,10 +166,16 @@ class FirstFragment : Fragment() {
     private fun createSpots(id_user: String): List<Spot> {
         val spots = ArrayList<Spot>()
         val check = ArrayList<String>()
+        val kc_user = ArrayList<String>()
         val rootRef = FirebaseDatabase.getInstance().reference
         val messageRef = rootRef.child("Users")
 
         val messageRef1 = rootRef.child("Visited").child(id_user)
+        var latlng_user:LatLng? = LatLng()
+        FirebaseDatabase.getInstance().getReference("/Users/$id_user/address").get().addOnSuccessListener {
+             latlng_user = it.getValue(LatLng::class.java)!!
+
+        }
 
         messageRef1.addListenerForSingleValueEvent(object : ValueEventListener {
 
@@ -177,12 +186,18 @@ class FirstFragment : Fragment() {
                     check.add(id.toString())
                 }
 
+
                 messageRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (ds in dataSnapshot.children) {
                             val gender = ds.child("gender").getValue(String::class.java)
                             val display: String? = dataSnapshot.child(id_user).child("display")
                                 .getValue(String::class.java)
+                            val latlng =  ds.child("address").getValue(LatLng::class.java)
+
+
+
+
                             var check_id = true
                             for (i in 0 until check.size) {
                                 if (ds.key == check[i]) {
@@ -191,14 +206,29 @@ class FirstFragment : Fragment() {
                                 }
                             }
 
+
                             if (check_id) {
                                 if (ds.key != id_user && (display == "All" || gender == display)) {
                                     val name = ds.child("name").getValue(String::class.java)
                                     val photo = ds.child("avatar").getValue(String::class.java)
+                                    val geocoder = Geocoder(binding.root.context)
+                                    val addresses =
+                                        geocoder.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
+                                    val address =addresses.get(0).getAddressLine(0)
+                                    val list_address: List<String> = address!!.split(", ")
+                                    var address_user:String=list_address[2]
+
+                                    for (i in 3 until list_address.size)
+                                    {
+                                        address_user = address_user +", "+ list_address[i]
+                                    }
+                                    val ad = address_user
+                                    val kc = getDistance(latlng!!.latitude, latlng!!.longitude,latlng_user!!.latitude, latlng_user!!.longitude).toString() + " Km"
+
                                     spots.add(
                                         Spot(
-                                            name = name.toString(),
-                                            city = "Kyoto",
+                                            name = name.toString() +" - "+ kc,
+                                            city = ad.toString(),
                                             url = photo.toString(),
                                             id_user = ds.key!!
                                         )
