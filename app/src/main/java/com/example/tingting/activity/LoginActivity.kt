@@ -306,7 +306,6 @@ class LoginActivity : AppCompatActivity(), LocationListener {
                     ).show()
                 }
 
-                // ...
             }
 
     }
@@ -316,7 +315,6 @@ class LoginActivity : AppCompatActivity(), LocationListener {
         private const val TAG = "GoogleActivity"
         private const val RC_SIGN_IN = 9001
     }
-<<<<<<< HEAD
 
     private fun getLocation() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -366,6 +364,3 @@ class LoginActivity : AppCompatActivity(), LocationListener {
 //    else
 //        Log.i("hihi", "failed")
 //}
-=======
-}
->>>>>>> 1e758ce589b909ec859c47998c43a2c14950f4c1
