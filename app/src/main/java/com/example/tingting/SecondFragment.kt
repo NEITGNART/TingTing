@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -37,6 +38,12 @@ class SecondFragment : Fragment() {
         loadMatchedFromFirebase()
 
         binding.rvList.adapter = UserAdapter(binding.root.context, searches)
+
+
+        binding.ivSearch.setOnClickListener {
+            val action = SecondFragmentDirections.actionWholikeToSearchChatFragment32(matched = true)
+            Navigation.findNavController(binding.root).navigate(action)
+        }
 
 
         val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :

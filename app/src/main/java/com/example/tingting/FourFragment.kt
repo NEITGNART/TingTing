@@ -1,14 +1,13 @@
 package com.example.tingting
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.example.tingting.databinding.FragmentFourBinding
-import com.example.tingting.utils.Entity.Chat
 import com.example.tingting.utils.Entity.User
 import com.example.tingting.utils.setVerticalLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -56,7 +55,11 @@ class FourFragment : Fragment() {
                                 chats.add(user)
 
 
-                                binding.rvChat.adapter = ChatAdapter(binding.root.context, chats)
+                                binding.rvChat.adapter = ChatAdapter(
+                                    binding.root.context,
+                                    chats,
+                                    matched = false
+                                )
                             }
                     }
                 }
