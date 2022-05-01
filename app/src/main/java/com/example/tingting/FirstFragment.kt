@@ -176,90 +176,102 @@ class FirstFragment : Fragment() {
              latlng_user = it.getValue(LatLng::class.java)!!
 
         }
+        FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/min").get().addOnSuccessListener {
+            val age_min = it.getValue(Int::class.java)
+            FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/max").get().addOnSuccessListener {
+                val age_max = it.getValue(Int::class.java)
 
-        messageRef1.addListenerForSingleValueEvent(object : ValueEventListener {
-
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                for (ds in dataSnapshot.children) {
-                    val id = ds.getValue(String::class.java)
-                    check.add(id.toString())
-                }
-
-
-                messageRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                messageRef1.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         for (ds in dataSnapshot.children) {
-                            val gender = ds.child("gender").getValue(String::class.java)
-                            val display: String? = dataSnapshot.child(id_user).child("display")
-                                .getValue(String::class.java)
-                            val latlng =  ds.child("address").getValue(LatLng::class.java)
-
-
-
-
-                            var check_id = true
-                            for (i in 0 until check.size) {
-                                if (ds.key == check[i]) {
-                                    check_id = false
-                                    break
-                                }
-                            }
-
-
-                            if (check_id) {
-                                if (ds.key != id_user && (display == "All" || gender == display)) {
-                                    val name = ds.child("name").getValue(String::class.java)
-                                    val photo = ds.child("avatar").getValue(String::class.java)
-                                    val geocoder = Geocoder(binding.root.context)
-                                    val addresses =
-                                        geocoder.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
-                                    val address =addresses.get(0).getAddressLine(0)
-                                    val list_address: List<String> = address!!.split(", ")
-                                    var address_user:String=list_address[2]
-
-                                    for (i in 3 until list_address.size)
-                                    {
-                                        address_user = address_user +", "+ list_address[i]
-                                    }
-                                    val ad = address_user
-                                    val kc = getDistance(latlng!!.latitude, latlng!!.longitude,latlng_user!!.latitude, latlng_user!!.longitude).toString() + " Km"
-
-                                    spots.add(
-                                        Spot(
-                                            name = name.toString() +" - "+ kc,
-                                            city = ad.toString(),
-                                            url = photo.toString(),
-                                            id_user = ds.key!!
-                                        )
-                                    )
-                                }
-                            }
+                            val id = ds.getValue(String::class.java)
+                            check.add(id.toString())
                         }
-                        cardStackView.adapter = CardStackAdapter(binding, spots)
-                    }
+                        messageRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                for (ds in dataSnapshot.children) {
+                                    val gender = ds.child("gender").getValue(String::class.java)
+                                    val display: String? = dataSnapshot.child(id_user).child("display")
+                                        .getValue(String::class.java)
+                                    val latlng =  ds.child("address").getValue(LatLng::class.java)
+                                    val age_user = ds.child("birthDate").getValue(String::class.java)
+                                    val list_age: List<String> = age_user!!.split("/")
+                                    val age = 2022 - list_age[2].toInt()
+                                    var check_id = true
+                                    for (i in 0 until check.size) {
+                                        if (ds.key == check[i]) {
+                                            check_id = false
+                                            break
+                                        }
+                                    }
+                                    if(age<= age_max!! && age >= age_min!!){
+                                        FirebaseDatabase.getInstance().getReference("/Setting/$id_user/distance/max").get().addOnSuccessListener {
+                                            val distance_max = it.getValue(Int::class.java)
+                                            if (check_id) {
+                                                val kc = getDistance(latlng!!.latitude, latlng!!.longitude,latlng_user!!.latitude, latlng_user!!.longitude).toString()
+                                                if(kc.toInt() < distance_max!!) {
+                                                    if (ds.key != id_user && (display == "All" || gender == display)) {
+                                                        val name = ds.child("name")
+                                                            .getValue(String::class.java)
+                                                        val photo = ds.child("avatar")
+                                                            .getValue(String::class.java)
+                                                        val geocoder =
+                                                            Geocoder(binding.root.context)
+                                                        val addresses =
+                                                            geocoder.getFromLocation(
+                                                                latlng!!.latitude,
+                                                                latlng!!.longitude,
+                                                                1
+                                                            )
+                                                        val address =
+                                                            addresses.get(0).getAddressLine(0)
+                                                        val list_address: List<String> =
+                                                            address!!.split(", ")
+                                                        var address_user: String = list_address[2]
+                                                        for (i in 3 until list_address.size) {
+                                                            address_user =
+                                                                address_user + ", " + list_address[i]
+                                                        }
+                                                        val ad = address_user
 
+                                                        spots.add(
+                                                            Spot(
+                                                                name = name.toString() + " - " + kc,
+                                                                city = ad.toString(),
+                                                                url = photo.toString(),
+                                                                id_user = ds.key!!
+                                                            )
+                                                        )
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                    }
+
+                                }
+                                cardStackView.adapter = CardStackAdapter(binding, spots)
+                            }
+
+
+                            override fun onCancelled(databaseError: DatabaseError) {
+                                Log.d("TAG", databaseError.message)
+                            }
+                        })
+                    }
 
                     override fun onCancelled(databaseError: DatabaseError) {
-                        Log.d("TAG", databaseError.message)
+                        Log.d("TAG", databaseError.message) //Don't ignore errors!
                     }
                 })
+
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.d("TAG", databaseError.message) //Don't ignore errors!
-            }
-        })
-//        spots.add(Spot(name = "Yasaka Shrine", city = "Kyoto", url = "https://source.unsplash.com/Xq1ntWruZQI/600x800"))
-//        spots.add(Spot(name = "Fushimi Inari Shrine", city = "Kyoto", url = "https://source.unsplash.com/NYyCqdBOKwc/600x800"))
-//        spots.add(Spot(name = "Bamboo Forest", city = "Kyoto", url = "https://source.unsplash.com/buF62ewDLcQ/600x800"))
-//        spots.add(Spot(name = "Brooklyn Bridge", city = "New York", url = "https://source.unsplash.com/THozNzxEP3g/600x800"))
-//        spots.add(Spot(name = "Empire State Building", city = "New York", url = "https://source.unsplash.com/USrZRcRS2Lw/600x800"))
-//        spots.add(Spot(name = "The statue of Liberty", city = "New York", url = "https://source.unsplash.com/PeFk7fzxTdk/600x800"))
-//        spots.add(Spot(name = "Louvre Museum", city = "Paris", url = "https://source.unsplash.com/LrMWHKqilUw/600x800"))
-//        spots.add(Spot(name = "Eiffel Tower", city = "Paris", url = "https://source.unsplash.com/HN-5Z6AmxrM/600x800"))
-//        spots.add(Spot(name = "Big Ben", city = "London", url = "https://source.unsplash.com/CdVAUADdqEc/600x800"))
-//        spots.add(Spot(name = "Great Wall of China", city = "China", url = "https://source.unsplash.com/AWh9C-QjhE4/600x800"))
+
+        }
+
+
+
         return spots
     }
 

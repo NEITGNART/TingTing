@@ -1,6 +1,7 @@
 package com.example.tingting
 
 import android.R
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.navigation.Navigation
 import com.example.tingting.databinding.DaBottomSheetActivityBinding
 import com.example.tingting.databinding.FragmentFilterBinding
+import com.example.tingting.utils.Entity.LatLng
 import com.example.tingting.utils.onClick
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
@@ -112,6 +114,23 @@ class FilterFragment : Fragment() {
 
         binding.tvLocation.onClick {
         }
+        FirebaseDatabase.getInstance().getReference("/Users/${FirebaseAuth.getInstance().currentUser!!.uid}/address").get().addOnSuccessListener {
+            val latlng = it.getValue(LatLng::class.java)!!
+            val geocoder = Geocoder(binding.root.context)
+            val addresses =
+                geocoder.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
+            val address =addresses.get(0).getAddressLine(0)
+            val list_address: List<String> = address!!.split(", ")
+            var address_user:String=list_address[2]
+            for (i in 3 until list_address.size)
+            {
+                address_user = address_user +", "+ list_address[i]
+            }
+            binding.tvLocation.setText(address_user)
+
+
+        }
+
 
 
         val adapter = ArrayAdapter(
