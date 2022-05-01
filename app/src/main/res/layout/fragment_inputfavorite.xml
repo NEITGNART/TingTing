@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InputUserPreferences">
+    tools:context=".inputfavorite">
 
     <!-- TODO: Update blank fragment layout -->
     <Button
@@ -63,8 +63,11 @@
 
 
         <TextView
-            style="@style/DAEditTextHint"
-            android:textColor="#555555"
+            style="@style/DAHeading"
+            android:layout_alignTop="@id/ivBack"
+            android:layout_alignBottom="@id/ivBack"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:textSize="20sp"
             android:layout_marginTop="@dimen/da_spacing_standard"
             android:text="@string/da_gtwork" />
@@ -73,8 +76,8 @@
             android:id="@+id/edtWork"
 
             style="@style/DaEditText"
-            android:layout_width="287dp"
-            android:layout_height="72dp"
+            android:layout_width="290dp"
+            android:layout_height="87dp"
             android:layout_marginStart="@dimen/da_spacing_large"
             android:layout_marginTop="@dimen/da_spacing_standard"
             android:layout_marginEnd="@dimen/da_spacing_large"
@@ -82,9 +85,9 @@
 
         <TextView
             android:textSize="20sp"
-
-            style="@style/DAEditTextHint"
-            android:textColor="#555555"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            style="@style/DAHeading"
             android:layout_marginTop="@dimen/da_spacing_standard"
             android:text="@string/da_yourself" />
 

@@ -26,6 +26,21 @@ class ViewProfileFragment : Fragment() {
         // Inflate the layout for this fragment
 
         binding = FragmentViewProfileBinding.inflate(inflater)
+        val userId = FirebaseAuth.getInstance().uid!!
+
+        FirebaseDatabase.getInstance().getReference("/Users/$userId/about").get().addOnSuccessListener {
+            if(it.value == null)
+                binding.tvAbout.setText("")
+            else
+                binding.tvAbout.setText(it.value.toString())
+        }
+        FirebaseDatabase.getInstance().getReference("/Users/$userId/work").get().addOnSuccessListener {
+            if(it.value == null)
+                binding.tvProfession.setText("")
+            else
+                binding.tvProfession.setText(it.value.toString())
+        }
+
 
         binding.ivEdit.setOnClickListener {
             val action = ViewProfileFragmentDirections.actionViewProfileFragmentToProfileFragment()

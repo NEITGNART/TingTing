@@ -246,11 +246,14 @@
 
                 <TextView
                     style="@style/DAEditTextHint"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/da_spacing_standard"
                     android:text="@string/da_hint_mobile" />
 
                 <EditText
                     android:id="@+id/edtMobileNum"
+                    android:visibility="gone"
+
                     style="@style/DaEditText"
                     android:layout_marginStart="@dimen/da_spacing_large"
                     android:layout_marginTop="@dimen/da_spacing_standard"
