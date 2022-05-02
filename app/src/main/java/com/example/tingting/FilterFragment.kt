@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.example.tingting.databinding.DaBottomSheetActivityBinding
 import com.example.tingting.databinding.FragmentFilterBinding
 import com.example.tingting.utils.Entity.LatLng
 import com.example.tingting.utils.onClick
