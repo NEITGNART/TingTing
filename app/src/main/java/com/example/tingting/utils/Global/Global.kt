@@ -1,23 +1,9 @@
 package com.example.tingting.utils.Global
 
-import kotlin.math.acos
-import kotlin.math.roundToInt
-import kotlin.math.sin
+import kotlin.math.*
 
 fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
-    val theta = lon1 - lon2
-    var dist = sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta))
-    dist = acos(dist)
-    dist = rad2deg(dist)
-    dist *= 60 * 1.1515
-    return     (dist * 10.0).roundToInt() / 10.0
-
-}
-
-fun deg2rad(deg: Double): Double {
-    return deg * Math.PI / 180.0
-}
-
-fun rad2deg(rad: Double): Double {
-    return rad * 180.0 / Math.PI
+    val p = 0.017453292519943295
+    val a = 0.5 - cos((lat2 - lat1) * p) / 2 + cos(lat1 * p) * cos(lat2 * p) * (1 - cos((lon2 - lon1) * p)) / 2
+    return 12742 * asin(sqrt(a))
 }
