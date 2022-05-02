@@ -72,6 +72,9 @@
             android:name="idTarget"
             app:argType="string"
             android:defaultValue='""' />
+        <action
+            android:id="@+id/action_userInfoFragment_to_homepage"
+            app:destination="@id/homepage" />
     </fragment>
     <fragment
         android:id="@+id/fragmentMatches"

@@ -96,10 +96,11 @@
                 style="@style/DARangeBar"
                 app:mrb_tickEnd="7" />
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/rlInUserPreferences"
                 android:layout_width="match_parent"
-                android:layout_height="430dp"
+                android:layout_height="320dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/btnContinue"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -113,26 +114,24 @@
                 <CheckBox
                     android:id="@+id/cbDisney"
                     android:layout_width="140dp"
-                    android:layout_height="51dp"
+                    android:layout_height="35dp"
                     android:layout_marginHorizontal="32dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="252dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
                     android:background="@drawable/gray_border"
                     android:button="@null"
                     android:text="Disney"
                     android:textAlignment="center"
                     android:textColor="@color/black_80"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <CheckBox
                     android:id="@+id/cblovecat"
                     android:layout_width="189dp"
-                    android:layout_height="50dp"
+                    android:layout_height="35dp"
                     android:layout_marginHorizontal="32dp"
                     android:layout_marginStart="100dp"
                     android:background="@drawable/gray_border"
@@ -140,110 +139,110 @@
                     android:text="Người yêu Mèo"
                     android:textAlignment="center"
                     android:textColor="@color/black_80"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cbDisney"
-                    app:layout_constraintVertical_bias="0.068" />
+                    app:layout_constraintVertical_bias="0.064" />
 
                 <CheckBox
                     android:id="@+id/rbcungkn"
                     android:layout_width="189dp"
-                    android:layout_height="50dp"
+                    android:layout_height="35dp"
                     android:layout_marginHorizontal="32dp"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="32dp"
                     android:background="@drawable/gray_border"
                     android:button="@null"
                     android:text="Cung Kim Ngưu"
                     android:textAlignment="center"
                     android:textColor="@color/black_80"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cblovecat"
-                    app:layout_constraintVertical_bias="0.11" />
+                    app:layout_constraintVertical_bias="0.086" />
 
                 <CheckBox
                     android:id="@+id/cbgame"
                     android:layout_width="246dp"
-                    android:layout_height="50dp"
+                    android:layout_height="35dp"
                     android:layout_marginHorizontal="32dp"
                     android:background="@drawable/gray_border"
                     android:button="@null"
                     android:text="Thể thao điện tử"
                     android:textAlignment="center"
                     android:textColor="@color/black_80"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.496"
+                    app:layout_constraintHorizontal_bias="0.606"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rbcungkn"
-                    app:layout_constraintVertical_bias="0.128" />
+                    app:layout_constraintVertical_bias="0.108" />
 
                 <CheckBox
                     android:id="@+id/cblife"
-                    android:layout_width="246dp"
-                    android:layout_height="50dp"
+                    android:layout_width="189dp"
+                    android:layout_height="35dp"
                     android:layout_marginHorizontal="32dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="32dp"
                     android:background="@drawable/gray_border"
                     android:button="@null"
                     android:text="Sống hướng ngoại"
                     android:textAlignment="center"
                     android:textColor="@color/black_80"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cbgame"
-                    app:layout_constraintVertical_bias="0.438" />
+                    app:layout_constraintVertical_bias="0.17" />
 
                 <CheckBox
                     android:id="@+id/cbMusic"
                     android:layout_width="88dp"
-                    android:layout_height="46dp"
+                    android:layout_height="35dp"
                     android:layout_marginHorizontal="32dp"
                     android:background="@drawable/gray_border"
                     android:button="@null"
                     android:text="Nhạc"
                     android:textAlignment="center"
                     android:textColor="@color/black_80"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.857"
+                    app:layout_constraintHorizontal_bias="0.441"
                     app:layout_constraintStart_toEndOf="@+id/cblife"
                     app:layout_constraintTop_toBottomOf="@+id/cbgame"
-                    app:layout_constraintVertical_bias="0.419" />
+                    app:layout_constraintVertical_bias="0.165" />
 
                 <CheckBox
                     android:id="@+id/rbNetflix"
-                    android:layout_width="143dp"
-                    android:layout_height="49dp"
+                    android:layout_width="80dp"
+                    android:layout_height="35dp"
                     android:layout_marginHorizontal="32dp"
                     android:background="@drawable/gray_border"
                     android:button="@null"
                     android:text="Netflix"
                     android:textAlignment="center"
                     android:textColor="@color/black_80"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintHorizontal_bias="0.445"
                     app:layout_constraintStart_toEndOf="@+id/rbcungkn"
                     app:layout_constraintTop_toBottomOf="@+id/cblovecat"
-                    app:layout_constraintVertical_bias="0.11" />
+                    app:layout_constraintVertical_bias="0.086" />
 
                 <CheckBox
                     android:id="@+id/cbwatchtv"
-                    android:layout_width="193dp"
-                    android:layout_height="52dp"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginHorizontal="32dp"
@@ -252,17 +251,15 @@
                     android:text="Xem phim"
                     android:textAlignment="center"
                     android:textColor="@color/black_80"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.915"
+                    app:layout_constraintHorizontal_bias="0.546"
                     app:layout_constraintStart_toEndOf="@+id/cbDisney"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.06" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -86,7 +86,8 @@ class UserInfoFragment : Fragment() {
         mainBinding.bottomNavigationView.hide()
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
         binding.ivBack.setOnClickListener {
-            Navigation.findNavController(binding.root).navigateUp()
+            val action = UserInfoFragmentDirections.actionUserInfoFragmentToHomepage()
+            Navigation.findNavController(binding.root).navigate(action)
         }
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
 
