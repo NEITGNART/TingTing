@@ -98,13 +98,14 @@ class InputUserPreferences : Fragment() {
                     FirebaseDatabase.getInstance().getReference("/Setting/$userId/favorite/$name").setValue(name)
                 }
             }
+
             val userId = FirebaseAuth.getInstance().uid!!
-            FirebaseDatabase.getInstance().getReference("/Setting/$userId/distance/max").setValue(20)
+
+            FirebaseDatabase.getInstance().getReference("/Setting/$userId/distance/max").setValue(9)
             FirebaseDatabase.getInstance().getReference("/Setting/$userId/distance/min").setValue(0)
 
-            FirebaseDatabase.getInstance().getReference("/Setting/$userId/age/min").setValue(18)
-            FirebaseDatabase.getInstance().getReference("/Setting/$userId/age/max").setValue(30)
-
+            FirebaseDatabase.getInstance().getReference("Setting/${FirebaseAuth.getInstance().uid}/age/min").setValue(0)
+            FirebaseDatabase.getInstance().getReference("Setting/${FirebaseAuth.getInstance().uid}/age/max").setValue(7)
 
 
 

@@ -180,12 +180,7 @@ class LoginActivity : AppCompatActivity(), LocationListener {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
-
-
                     handleLogin(auth.currentUser)
-
-
-
 
                 } else {
                     // If sign in fails, display a message to the user.
@@ -270,6 +265,11 @@ class LoginActivity : AppCompatActivity(), LocationListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     if (dataSnapshot.child("firstTimeLogin").value.toString() == "true") {
+
+                        val mDatabaseReference = FirebaseDatabase.getInstance().reference
+                        mDatabaseReference.child("Setting/${FirebaseAuth.getInstance().uid}/age/min").setValue(0)
+                        mDatabaseReference.child("Setting/${FirebaseAuth.getInstance().uid}/age/max").setValue(7)
+
                         goToFirstLoginPage()
                     } else {
                         goToHomePage()

@@ -50,10 +50,14 @@ class FilterFragment : Fragment() {
                     if (itMin.value == null || itMax.value == null){
                         binding.rangebarDistance.setRangePinsByValue(
                             0F, 9F)
-                    } else
+                    } else {
+
+                        val min: Float = itMin.getValue(Float::class.java)!!
+                        val max: Float = itMax.getValue(Float::class.java)!!
+
                         binding.rangebarDistance.setRangePinsByValue(
-                            itMin.value.toString().toFloat(),
-                            itMax.value.toString().toFloat())
+                            min, max)
+                    }
                 }
         }
 
@@ -64,11 +68,14 @@ class FilterFragment : Fragment() {
                     if (itMin.value == null || itMax.value == null){
                         binding.rangebarAge.setRangePinsByValue(
                             0F, 7F)
-                    } else
+                    } else {
+                        val min: Float = itMin.getValue(Float::class.java)!!
+                        val max: Float = itMax.getValue(Float::class.java)!!
+
                         binding.rangebarAge.setRangePinsByValue(
-                            itMin.value.toString().toFloat(),
-                            itMax.value.toString().toFloat()
-                        )
+                            min, max)
+
+                    }
             }
         }
 

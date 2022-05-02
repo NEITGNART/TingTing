@@ -18,5 +18,7 @@ class FirstLogin : AppCompatActivity() {
         FirebaseDatabase.getInstance().reference
             .child("Users").child(authID).child("id").setValue(authID)
         setContentView(R.layout.activity_first_login)
+
+
     }
 }

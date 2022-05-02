@@ -53,6 +53,7 @@ class MarkerClusterRenderer(
             Glide.with(context)
                 .asBitmap()
                 .load(clusterItem.mUser?.avatar)
+                .override(50, 50)
                 .into(object : CustomTarget<Bitmap>() {
                     override fun onResourceReady(
                         resource: Bitmap,

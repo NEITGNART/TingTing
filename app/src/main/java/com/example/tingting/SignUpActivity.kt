@@ -106,6 +106,7 @@ class SignUpActivity : AppCompatActivity() {
                         withContext(Dispatchers.IO) {
                             val mDatabaseReference = FirebaseDatabase.getInstance().reference
                             mDatabaseReference.child("Users").child(currentUser.uid).setValue(user)
+
                         }
                     }
                     finish()

@@ -201,6 +201,7 @@ class FirstFragment : Fragment() {
 
                                     visitedRef.addListenerForSingleValueEvent(object : ValueEventListener {
                                         override fun onDataChange(dataSnapshot: DataSnapshot) {
+
                                             for (ds in dataSnapshot.children) {
                                                 val id = ds.getValue(String::class.java)
                                                 visited[id!!] = 1
@@ -323,15 +324,8 @@ class FirstFragment : Fragment() {
 
 
                                 }
-
-
                         }
                 }
-
-
-
-
-
             }
 
 
