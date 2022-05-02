@@ -1,15 +1,12 @@
 package com.example.tingting
 
 import android.content.Context
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
-import java.net.URL
-import java.util.ArrayList
 
 class Adapters(val context: Context): RecyclerView.Adapter<Adapters.MyViewHolder>() {
     lateinit var list: ArrayList<String>

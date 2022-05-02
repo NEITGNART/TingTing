@@ -20,14 +20,15 @@ import com.example.tingting.utils.Entity.LatLng
 import com.example.tingting.utils.Entity.Notification
 import com.example.tingting.utils.Global.getDistance
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
-import com.google.maps.android.SphericalUtil
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class FirstFragment : Fragment() {

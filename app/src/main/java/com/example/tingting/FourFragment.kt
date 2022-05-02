@@ -30,14 +30,8 @@ class FourFragment : Fragment() {
             Navigation.findNavController(binding.root).navigate(action)
         }
 
-        // get list of chats from firebase realtime database
-
-        // reference to the database
         val database = FirebaseDatabase.getInstance()
         val myRef = database.getReference("Matched/$currentUser")
-
-        val fromId = FirebaseAuth.getInstance().uid
-
 
         myRef.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(p0: com.google.firebase.database.DatabaseError) {

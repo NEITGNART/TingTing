@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import api.RetrofitInstance
 import com.example.tingting.utils.Entity.User
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
 

@@ -1,25 +1,19 @@
 package com.example.tingting.utils
 
+
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewConfiguration
-import android.view.ViewGroup
-import android.view.ViewParent
+import android.view.*
 import android.view.animation.AccelerateInterpolator
-
-
-import java.lang.ref.WeakReference
-import java.util.WeakHashMap
-
 import androidx.core.view.NestedScrollingParent
 import androidx.core.view.ViewCompat
 import androidx.customview.widget.ViewDragHelper
 import com.example.tingting.R
+import java.lang.ref.WeakReference
+import java.util.*
 
 
 class DASwipeLayout : ViewGroup {

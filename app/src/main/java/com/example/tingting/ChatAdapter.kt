@@ -14,8 +14,10 @@ import com.example.tingting.databinding.ItemChatBinding
 import com.example.tingting.utils.Entity.Chat
 import com.example.tingting.utils.Entity.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
-import kotlin.math.log
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class ChatAdapter(
     val context: Context,

@@ -1,43 +1,43 @@
 package com.example.tingting.utils
 
-import android.content.Context
-import android.graphics.drawable.GradientDrawable
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import kotlin.math.roundToInt
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.text.method.PasswordTransformationMethod
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.tingting.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import com.example.tingting.R
 import java.text.DecimalFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 fun Context.getAppColor(color: Int): Int {
     return ContextCompat.getColor(this, color)

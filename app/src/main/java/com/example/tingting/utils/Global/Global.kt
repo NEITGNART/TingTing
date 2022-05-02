@@ -1,6 +1,8 @@
 package com.example.tingting.utils.Global
 
-import kotlin.math.*
+import kotlin.math.asin
+import kotlin.math.cos
+import kotlin.math.sqrt
 
 fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
     val p = 0.017453292519943295

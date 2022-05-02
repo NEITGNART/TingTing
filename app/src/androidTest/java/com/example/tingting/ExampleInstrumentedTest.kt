@@ -19,20 +19,6 @@ import org.junit.Assert.*
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
-    @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.tingting", appContext.packageName)
-    }
 
-    fun getLatLngFromAddress(address: String?): LatLng {
-        val geocoder = Geocoder(InstrumentationRegistry.getInstrumentation().targetContext)
-        val list = geocoder.getFromLocationName(address, 3)
-        if (list.size > 0) {
-            return LatLng(list[0].latitude, list[0].longitude)
-        }
-        throw Exception("Can't get latlng from address")
-    }
 
 }

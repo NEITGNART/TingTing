@@ -3,11 +3,11 @@ package com.example.tingting
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.tingting.databinding.FragmentMatchesBinding
@@ -19,10 +19,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
 
 class FragmentMatches : Fragment() {
-    private lateinit var viewModel: FragmentMatchesMessageViewModel
     private lateinit var binding: FragmentMatchesBinding
     private var matches = mutableListOf<User?>()
 
@@ -43,10 +41,6 @@ class FragmentMatches : Fragment() {
         var layoutParams2= CoordinatorLayout.LayoutParams((width/2.5).toInt(), (width/2.5).toInt())
         layoutParams2.gravity= Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
 
-//        viewModel = ViewModelProvider(this)[FragmentMatchesMessageViewModel::class.java]
-//        viewModel.matches.observe(viewLifecycleOwner) {
-//            matches = it
-//        }
 
 
         val database = FirebaseDatabase.getInstance().reference
@@ -89,7 +83,6 @@ class FragmentMatches : Fragment() {
 
 
         binding.ivSearch.setOnClickListener {
-//            val action = FourFragmentDirections.actionChatToFragmentSearch()
             val action = FragmentMatchesDirections.actionFragmentMatchesToSearchChatFragment()
             Navigation.findNavController(binding.root).navigate(action)
         }

@@ -10,12 +10,10 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.tingting.DAMapMarker
 import com.example.tingting.R
 import com.example.tingting.SignUpActivity
 import com.example.tingting.databinding.ActivityLoginBinding
@@ -29,8 +27,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -143,20 +139,23 @@ class LoginActivity : AppCompatActivity(), LocationListener {
 
         // Callback registration
         // Callback registration
-        binding.btnLoginFB.registerCallback(callbackManager, object : FacebookCallback<LoginResult?> {
+        binding.btnLoginFB.registerCallback(
+            callbackManager,
+            object : FacebookCallback<LoginResult?> {
 
-            override fun onCancel() {
-                // App code
-            }
-            override fun onError(exception: FacebookException) {
-                // App code
-            }
+                override fun onCancel() {
+                    // App code
+                }
 
-            override fun onSuccess(result: LoginResult?) {
-                Log.d(TAG, "facebook:onSuccess:$result")
-                result?.let { handleFacebookAccessToken(it.accessToken) }
-            }
-        })
+                override fun onError(exception: FacebookException) {
+                    // App code
+                }
+
+                override fun onSuccess(result: LoginResult?) {
+                    Log.d(TAG, "facebook:onSuccess:$result")
+                    result?.let { handleFacebookAccessToken(it.accessToken) }
+                }
+            })
 
         binding.lgFB.setOnClickListener {
             binding.btnLoginFB.performClick()
@@ -185,8 +184,10 @@ class LoginActivity : AppCompatActivity(), LocationListener {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     binding.pbLoading.visibility = android.view.View.GONE
                 }
             }
@@ -267,8 +268,10 @@ class LoginActivity : AppCompatActivity(), LocationListener {
                     if (dataSnapshot.child("firstTimeLogin").value.toString() == "true") {
 
                         val mDatabaseReference = FirebaseDatabase.getInstance().reference
-                        mDatabaseReference.child("Setting/${FirebaseAuth.getInstance().uid}/age/min").setValue(0)
-                        mDatabaseReference.child("Setting/${FirebaseAuth.getInstance().uid}/age/max").setValue(7)
+                        mDatabaseReference.child("Setting/${FirebaseAuth.getInstance().uid}/age/min")
+                            .setValue(0)
+                        mDatabaseReference.child("Setting/${FirebaseAuth.getInstance().uid}/age/max")
+                            .setValue(7)
 
                         goToFirstLoginPage()
                     } else {
@@ -318,21 +321,34 @@ class LoginActivity : AppCompatActivity(), LocationListener {
 
     private fun getLocation() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionCode)
+        if ((ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED)
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                locationPermissionCode
+            )
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, this)
     }
+
     override fun onLocationChanged(location: Location) {
         Log.i("hihi", "Latitude: " + location.latitude + " , Longitude: " + location.longitude)
     }
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == locationPermissionCode) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
-            }
-            else {
+            } else {
                 Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
             }
         }

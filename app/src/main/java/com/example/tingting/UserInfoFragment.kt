@@ -1,14 +1,11 @@
 package com.example.tingting
 
-import android.R
 import android.app.Activity
 import android.content.Intent
-import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +18,6 @@ import com.example.tingting.databinding.ActivityMainBinding
 import com.example.tingting.databinding.UserInfoFragmentBinding
 import com.example.tingting.utils.Global.getDistance
 import com.example.tingting.utils.hide
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -38,10 +33,6 @@ import java.util.*
 class UserInfoFragment : Fragment() {
     lateinit var binding: UserInfoFragmentBinding
 
-
-    companion object {
-        fun newInstance() = UserInfoFragment()
-    }
 
     private lateinit var viewModel: UserInfoViewModel
     val list: ArrayList<String> = ArrayList()
