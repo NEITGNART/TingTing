@@ -3,16 +3,12 @@ package com.example.tingting
 import android.R
 import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.ImageView
-import androidx.compose.ui.res.stringArrayResource
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.example.tingting.databinding.DaBottomSheetActivityBinding
 import com.example.tingting.databinding.FragmentFilterBinding
 import com.example.tingting.utils.Entity.LatLng
 import com.example.tingting.utils.onClick

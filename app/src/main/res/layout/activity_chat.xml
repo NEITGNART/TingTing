@@ -34,16 +34,17 @@
                 android:gravity="center"
                 android:text="@string/dA_mallanie"
                 android:textSize="@dimen/da_font_size_xlarge" />
+
             <View
                 android:id="@+id/viewStatus"
                 android:layout_width="@dimen/_10sdp"
                 android:layout_height="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/da_spacing_control"
-                android:layout_alignTop="@id/tvUserName"
-                android:layout_toEndOf="@id/tvUserName"
+                android:layout_alignTop="@id/tvUsername"
                 android:layout_gravity="end|bottom"
+                android:layout_marginTop="@dimen/da_spacing_control"
+                android:layout_toEndOf="@id/tvUsername"
                 android:background="@drawable/da_bg_circle_dot"
-                tools:ignore="NotSibling" />
+                 />
 
         </RelativeLayout>
         <androidx.recyclerview.widget.RecyclerView

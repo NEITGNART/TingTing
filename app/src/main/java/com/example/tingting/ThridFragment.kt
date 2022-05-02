@@ -47,7 +47,6 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding: FragmentThridBinding
     lateinit var clusterManager: ClusterManager<DAMapMarker>
-    private var lastSelected: DAMapMarker? = null
     private var userLatLng: LatLng? = null
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -99,6 +98,8 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
                     Toast.LENGTH_SHORT
                 )
                     .show()
+
+                googleMap.clear()
                 userLatLng = LatLng(location.latitude, location.longitude)
                 moveTOLocation(googleMap)
                 userLatLng?.let {
@@ -116,7 +117,7 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
                     userLatLng = LatLng(it.latitude, it.longitude)
 
                     userLatLng?.let {
-
+                        googleMap.clear()
                         setUpCircle(it, googleMap)
                         clusterManager.addItem(
                             DAMapMarker(
@@ -167,6 +168,7 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
                 .strokeWidth(0f)
                 .fillColor(binding.root.context.color(R.color.da_red_light))
         )
+
     }
 
 
