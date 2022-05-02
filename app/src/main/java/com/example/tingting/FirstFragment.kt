@@ -21,6 +21,7 @@ import com.example.tingting.utils.Entity.Notification
 import com.example.tingting.utils.Global.getDistance
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.maps.android.SphericalUtil
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,15 +35,8 @@ class FirstFragment : Fragment() {
     private lateinit var binding: FragmentFirstBinding
     private lateinit var adapter: CardStackAdapter
 
-    companion object {
-        fun newInstance() = tindercardstack()
-    }
-
     private lateinit var manager: CardStackLayoutManager
     private lateinit var cardStackView: CardStackView
-    private val distanceArray =
-        arrayOf("1 km", "2 km", "3 km", "4 km", "5 km", "6 km", "7 km", "8 km", "9 km", "10 km")
-    private val ageArray2 = arrayOf("18", "19", "20", "21", "22", "23", "24", "25")
 
 
     override fun onCreateView(
@@ -172,7 +166,6 @@ class FirstFragment : Fragment() {
     private fun createSpots(id_user: String): List<Spot> {
         val spots = ArrayList<Spot>()
         val visited = mutableMapOf<String, Int>()
-        val kc_user = ArrayList<String>()
         val rootRef = FirebaseDatabase.getInstance().reference
 
 
@@ -227,17 +220,12 @@ class FirstFragment : Fragment() {
                                                         val age = Calendar.getInstance()
                                                             .get(Calendar.YEAR) - yearOfBirth
 
-
-                                                        Log.i(
-                                                            "AGe",
-                                                            age.toString() + "," + ageMax + "," + ageMin
-                                                        )
-
                                                         if (ds.key in visited) continue
 
                                                         if (age in ageMin..ageMax) {
 
                                                             Log.i("hahahaa", id_user)
+
                                                             FirebaseDatabase.getInstance()
                                                                 .getReference("/Setting/$id_user/distance/max")
                                                                 .get().addOnSuccessListener {
@@ -246,7 +234,6 @@ class FirstFragment : Fragment() {
                                                                     Log.i("KC", distanceMax.toString())
 
                                                                     if (ds.key != id_user && (display == "All" || gender == display)) {
-
 
                                                                         val kc = getDistance(
                                                                             latlng!!.latitude,
@@ -292,11 +279,10 @@ class FirstFragment : Fragment() {
                                                                                     id_user = ds.key!!
                                                                                 )
                                                                             )
-
                                                                             cardStackView.adapter!!.notifyItemChanged(
                                                                                 spots.size - 1
                                                                             )
-                                                                        }
+                                                                       }
 
                                                                     }
                                                                 }
