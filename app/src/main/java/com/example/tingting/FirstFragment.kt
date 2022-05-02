@@ -21,11 +21,12 @@ import com.example.tingting.utils.Entity.Notification
 import com.example.tingting.utils.Global.getDistance
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.ktx.Firebase
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FirstFragment : Fragment() {
@@ -170,125 +171,168 @@ class FirstFragment : Fragment() {
 
     private fun createSpots(id_user: String): List<Spot> {
         val spots = ArrayList<Spot>()
-        val check = ArrayList<String>()
+        val visited = mutableMapOf<String, Int>()
         val kc_user = ArrayList<String>()
         val rootRef = FirebaseDatabase.getInstance().reference
-        val messageRef = rootRef.child("Users")
 
-        val messageRef1 = rootRef.child("Visited").child(id_user)
-        var latlng_user:LatLng? = LatLng()
-        FirebaseDatabase.getInstance().getReference("/Users/$id_user/address").get().addOnSuccessListener {
-             latlng_user = it.getValue(LatLng::class.java)!!
 
-        }
-        FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/min").get().addOnSuccessListener {
-            val age_min = ageArray2[it.getValue(Int::class.java)!!]
-            FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/max").get().addOnSuccessListener {
-                val age_max = ageArray2[it.getValue(Int::class.java)!!]
+        val userRef = rootRef.child("Users")
+        val visitedRef = rootRef.child("Visited").child(id_user)
 
-                messageRef1.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        for (ds in dataSnapshot.children) {
-                            val id = ds.getValue(String::class.java)
-                            check.add(id.toString())
-                        }
-                        messageRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                for (ds in dataSnapshot.children) {
-                                    val gender = ds.child("gender").getValue(String::class.java)
-                                    val display: String? = dataSnapshot.child(id_user).child("display")
-                                        .getValue(String::class.java)
-                                    val latlng =  ds.child("address").getValue(LatLng::class.java)
-                                    val age_user = ds.child("birthDate").getValue(String::class.java)
-                                    val list_age: List<String> = age_user!!.split("/")
-                                    val age = 2022 - list_age[2].toInt()
-                                    Log.i("AGe", age.toString()+","+age_max+","+age_min)
-                                    var check_id = true
-                                    for (i in 0 until check.size) {
-                                        if (ds.key == check[i]) {
-                                            check_id = false
-                                            break
-                                        }
-                                    }
-                                    if(age <= age_max.toInt() && age >= age_min.toInt() ){
-                                        Log.i("hahahaa", id_user.toString())
-                                        FirebaseDatabase.getInstance().getReference("/Setting/$id_user/distance/max").get().addOnSuccessListener {
-                                            val distance_max = it.getValue(Int::class.java)
-                                            Log.i("KC", distance_max.toString())
-                                            if (check_id) {
+        // using cloud function to get all visited place
 
-                                                    if (ds.key != id_user && (display == "All" || gender == display)) {
 
-                                                        val name = ds.child("name")
-                                                            .getValue(String::class.java)
-                                                        val photo = ds.child("avatar")
-                                                            .getValue(String::class.java)
-                                                        val geocoder =
-                                                            Geocoder(binding.root.context)
-                                                        val addresses =
-                                                            geocoder.getFromLocation(
-                                                                latlng!!.latitude,
-                                                                latlng!!.longitude,
-                                                                1
-                                                            )
-                                                        val kc = getDistance(
-                                                            latlng!!.latitude,
-                                                            latlng!!.longitude,
-                                                            latlng_user!!.latitude,
-                                                            latlng_user!!.longitude
+        cardStackView.adapter =
+            CardStackAdapter(binding, spots)
+
+
+        FirebaseDatabase.getInstance().getReference("/Users/$id_user/address").get()
+            .addOnSuccessListener {
+                val latlng_user: LatLng? = it.getValue(LatLng::class.java)
+
+                if (latlng_user != null) {
+                    FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/min").get()
+                        .addOnSuccessListener {
+                            val ageMin = it.getValue(Int::class.java)!! + 18
+
+                            FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/max").get()
+                                .addOnSuccessListener {
+                                    val ageMax = it.getValue(Int::class.java)!! + 18
+
+                                    visitedRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                            for (ds in dataSnapshot.children) {
+                                                val id = ds.getValue(String::class.java)
+                                                visited[id!!] = 1
+                                            }
+
+                                            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                    for (ds in dataSnapshot.children) {
+
+                                                        val gender =
+                                                            ds.child("gender").getValue(String::class.java)
+                                                        val display: String? =
+                                                            dataSnapshot.child(id_user).child("display")
+                                                                .getValue(String::class.java)
+
+                                                        val latlng =
+                                                            ds.child("address").getValue(LatLng::class.java)
+
+                                                        val birthDate =
+                                                            ds.child("birthDate").getValue(String::class.java)
+
+                                                        val yearOfBirth = birthDate!!.split("/")[2].toInt()
+                                                        val age = Calendar.getInstance()
+                                                            .get(Calendar.YEAR) - yearOfBirth
+
+
+                                                        Log.i(
+                                                            "AGe",
+                                                            age.toString() + "," + ageMax + "," + ageMin
                                                         )
-                                                        if (kc < (distance_max!! + 1)) {
-                                                            val address =
-                                                                addresses.get(0).getAddressLine(0)
-                                                            val list_address: List<String> =
-                                                                address!!.split(", ")
-                                                            var address_user: String =
-                                                                list_address[2]
-                                                            for (i in 3 until list_address.size) {
-                                                                address_user =
-                                                                    address_user + ", " + list_address[i]
-                                                            }
-                                                            val ad = address_user
 
-                                                            spots.add(
-                                                                Spot(
-                                                                    name = name.toString() + " - " + kc,
-                                                                    city = ad.toString(),
-                                                                    url = photo.toString(),
-                                                                    id_user = ds.key!!
-                                                                )
-                                                            )
-                                                            cardStackView.adapter =
-                                                                CardStackAdapter(binding, spots)
+                                                        if (ds.key in visited) break
 
+                                                        if (age in ageMin..ageMax) {
+
+                                                            Log.i("hahahaa", id_user)
+                                                            FirebaseDatabase.getInstance()
+                                                                .getReference("/Setting/$id_user/distance/max")
+                                                                .get().addOnSuccessListener {
+                                                                    val distanceMax =
+                                                                        it.getValue(Int::class.java)
+                                                                    Log.i("KC", distanceMax.toString())
+
+                                                                    if (ds.key != id_user && (display == "All" || gender == display)) {
+
+
+                                                                        val kc = getDistance(
+                                                                            latlng!!.latitude,
+                                                                            latlng!!.longitude,
+                                                                            latlng_user!!.latitude,
+                                                                            latlng_user!!.longitude
+                                                                        )
+
+                                                                        if (kc < (distanceMax!! + 1)) {
+
+                                                                            val name = ds.child("name")
+                                                                                .getValue(String::class.java)
+                                                                            val photo = ds.child("avatar")
+                                                                                .getValue(String::class.java)
+
+                                                                            val geocoder =
+                                                                                Geocoder(binding.root.context)
+                                                                            val addresses =
+                                                                                geocoder.getFromLocation(
+                                                                                    latlng!!.latitude,
+                                                                                    latlng!!.longitude,
+                                                                                    1
+                                                                                )
+
+                                                                            val address =
+                                                                                addresses[0]
+                                                                                    .getAddressLine(0)
+                                                                            val list_address: List<String> =
+                                                                                address!!.split(", ")
+                                                                            var address_user: String =
+                                                                                list_address[2]
+                                                                            for (i in 3 until list_address.size) {
+                                                                                address_user =
+                                                                                    address_user + ", " + list_address[i]
+                                                                            }
+                                                                            val ad = address_user
+
+                                                                            spots.add(
+                                                                                Spot(
+                                                                                    name = name.toString() + " - " + kc,
+                                                                                    city = ad,
+                                                                                    url = photo.toString(),
+                                                                                    id_user = ds.key!!
+                                                                                )
+                                                                            )
+
+                                                                            cardStackView.adapter!!.notifyItemChanged(
+                                                                                spots.size - 1
+                                                                            )
+                                                                        }
+
+                                                                    }
+                                                                }
                                                         }
                                                     }
 
-                                                    }
-                                            }
+
+                                                }
+
+                                                override fun onCancelled(error: DatabaseError) {
+                                                    TODO("Not yet implemented")
+                                                }
+
+
+                                            })
+
+
                                         }
+
+                                        override fun onCancelled(error: DatabaseError) {
+                                            TODO("Not yet implemented")
+                                        }
+                                    }
+                                    )
 
 
                                 }
 
-                            }
+
+                        }
+                }
 
 
-                            override fun onCancelled(databaseError: DatabaseError) {
-                                Log.d("TAG", databaseError.message)
-                            }
-                        })
-                    }
 
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        Log.d("TAG", databaseError.message) //Don't ignore errors!
-                    }
-                })
+
 
             }
-
-
-        }
 
 
 
@@ -325,7 +369,8 @@ class FirstFragment : Fragment() {
                         )
                         FirebaseDatabase.getInstance().getReference("/Notify/$targetId").push()
                             .setValue(notify)
-                        FirebaseDatabase.getInstance().getReference("/SeenNotify/$targetId").setValue(true)
+                        FirebaseDatabase.getInstance().getReference("/SeenNotify/$targetId")
+                            .setValue(true)
                     }
 
 
@@ -362,7 +407,8 @@ class FirstFragment : Fragment() {
 
                                 FirebaseDatabase.getInstance().getReference("/Notify/$targetId")
                                     .push().setValue(notify)
-                                FirebaseDatabase.getInstance().getReference("/SeenNotify/$targetId").setValue(true)
+                                FirebaseDatabase.getInstance().getReference("/SeenNotify/$targetId")
+                                    .setValue(true)
                             }
                         }
                     })
