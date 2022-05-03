@@ -17,7 +17,10 @@ import com.example.tingting.activity.LoginActivity
 import com.example.tingting.activity.MainActivity
 import com.example.tingting.databinding.FragmentSettingBinding
 import com.example.tingting.utils.Entity.User
+import com.example.tingting.utils.Global.loginEmail
+import com.example.tingting.utils.hide
 import com.example.tingting.utils.onClick
+import com.example.tingting.utils.show
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -46,6 +49,11 @@ class SettingFragment : Fragment() {
             NavHostFragment.findNavController(this).navigate(action)
         }
 
+        if(loginEmail) {
+            binding.tvSecurity.show()
+        } else {
+            binding.tvSecurity.hide()
+        }
 
         binding.ivBack.setOnClickListener {
             val intent = Intent(binding.root.context, MainActivity::class.java)

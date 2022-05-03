@@ -46,7 +46,7 @@
             android:drawablePadding="@dimen/da_spacing_standard"
             android:drawableTint="@color/da_textColorSecondary"
             android:gravity="center"
-            android:text="@string/da_2_km"
+            tools:text="@string/da_2_km"
             android:textColor="@color/da_textColorPrimary"
             android:textSize="@dimen/da_font_size_normal" />
 
@@ -62,7 +62,7 @@
             android:drawableStart="@drawable/da_ic_business_briefcase"
             android:drawablePadding="@dimen/da_spacing_standard"
             android:drawableTint="@color/da_textColorSecondary"
-            android:text="@string/da_art_director"
+            tools:text="@string/da_art_director"
             android:textColor="@color/black"
             android:textSize="@dimen/da_font_size_normal" />
 
@@ -98,7 +98,7 @@
             style="@style/ProfileText"
             android:layout_below="@id/txtbirthday"
             android:layout_marginTop="@dimen/da_spacing_control"
-            android:text="@string/da_english_german_french" />
+            tools:text="@string/da_english_german_french" />
 
         <TextView
             android:id="@+id/txtLocation"
@@ -115,7 +115,7 @@
             style="@style/ProfileText"
             android:layout_below="@id/txtFavorite"
             android:layout_marginTop="@dimen/da_spacing_control"
-            android:text="@string/da_shipley_bradford" />
+            tools:text="@string/da_shipley_bradford" />
 
         <TextView
             android:id="@+id/txtFavorite"
@@ -134,7 +134,7 @@
             style="@style/ProfileText"
             android:layout_below="@id/txtLocation"
             android:layout_marginTop="@dimen/da_spacing_control"
-            android:text="@string/da_shipley_bradford" />
+            tools:text="@string/da_shipley_bradford" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -148,6 +148,7 @@
 
             <TextView
                 android:id="@+id/tvShare"
+                android:visibility="gone"
                 style="@style/ProfileText"
                 android:gravity="center_horizontal"
                 android:text="@string/share_profile"
@@ -158,6 +159,7 @@
             <TextView
                 android:id="@+id/tvReport"
                 style="@style/ProfileText"
+                android:visibility="gone"
                 android:gravity="center_horizontal"
                 android:text="@string/da_report"
                 android:textColor="@color/da_red" />
