@@ -226,6 +226,7 @@ class ProfileFragment : Fragment() {
                     }
                 }
                 dialog.cancel()
+                Navigation.findNavController(binding.root  ).navigateUp()
             }
 
             builder1.setNegativeButton(

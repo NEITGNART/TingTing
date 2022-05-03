@@ -271,7 +271,7 @@ class FirstFragment : Fragment() {
 
                                                                             spots.add(
                                                                                 Spot(
-                                                                                    name = name.toString() + " - " + kc,
+                                                                                    name = name.toString() + " - " + "✈ " + kc + " km",
                                                                                     city = ad,
                                                                                     url = photo.toString(),
                                                                                     id_user = ds.key!!

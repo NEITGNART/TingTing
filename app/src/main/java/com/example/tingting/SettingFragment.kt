@@ -92,7 +92,7 @@ class SettingFragment : Fragment() {
             }
         } else {
             binding.tvLogout.visibility = View.GONE
-            binding.tvDeleteAccount.visibility = View.GONE
+//            binding.tvDeleteAccount.visibility = View.GONE
         }
         return binding.root
     }
