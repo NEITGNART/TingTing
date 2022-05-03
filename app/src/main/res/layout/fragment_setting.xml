@@ -47,7 +47,7 @@
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
                 android:layout_centerVertical="true"
-                tools:src="@drawable/da_prfile_3"
+                tools:src="@drawable/image2"
                 android:layout_marginTop="@dimen/da_spacing_large"
                 android:layout_gravity="center_horizontal" />
 

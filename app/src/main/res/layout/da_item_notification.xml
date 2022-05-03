@@ -33,7 +33,7 @@
         android:layout_marginTop="@dimen/da_spacing_standard"
         android:layout_marginEnd="@dimen/da_spacing_middle"
         android:layout_marginBottom="@dimen/da_spacing_standard"
-        android:src="@drawable/da_profile2" />
+        android:src="@drawable/image2" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
