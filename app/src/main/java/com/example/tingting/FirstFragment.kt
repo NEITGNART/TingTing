@@ -213,18 +213,18 @@ class FirstFragment : Fragment() {
 
                                                         val gender =
                                                             ds.child("gender")
-                                                                .getValue(String::class.java)
+                                                                .getValue(String::class.java)?: continue
                                                         val display: String? =
                                                             dataSnapshot.child(id_user).child("display")
                                                                 .getValue(String::class.java)
 
                                                         val latlng =
                                                             ds.child("address")
-                                                                .getValue(LatLng::class.java)
+                                                                .getValue(LatLng::class.java)?: continue
 
                                                         val birthDate =
                                                             ds.child("birthDate")
-                                                                .getValue(String::class.java)
+                                                                .getValue(String::class.java)?: continue
 
                                                         val yearOfBirth =
                                                             birthDate!!.split("/")[2].toInt()
@@ -280,19 +280,31 @@ class FirstFragment : Fragment() {
                                                                             }
                                                                             val ad = address_user
 
-                                                                            spots.add(
-                                                                                Spot(
-                                                                                    name = name.toString() + " - " + "✈ " + kc + " km",
-                                                                                    city = ad,
-                                                                                    url = photo.toString(),
-                                                                                    id_user = ds.key!!
-                                                                                )
-                                                                            )
-                                                                            cardStackView.adapter =
-                                                                                CardStackAdapter(
-                                                                                    binding,
-                                                                                    spots
-                                                                                )
+                                                                            FirebaseDatabase.getInstance().getReference("/Setting/${ds.key}/favorite").get().addOnSuccessListener { itAnotherUser ->
+                                                                                val hashFavorite = mutableMapOf<String, Int>()
+                                                                                for (data in itAnotherUser.children){
+                                                                                    hashFavorite[data.key.toString()] = 1
+                                                                                }
+                                                                                FirebaseDatabase.getInstance().getReference("/Setting/$id_user/favorite").get().addOnSuccessListener {itUser ->
+                                                                                    for (data in itUser.children)
+                                                                                        if (data.key in hashFavorite || data.key == "You select nothing") {
+                                                                                            spots.add(
+                                                                                                Spot(
+                                                                                                    name = name.toString() + " - " + "✈ " + kc + " km",
+                                                                                                    city = ad,
+                                                                                                    url = photo.toString(),
+                                                                                                    id_user = ds.key!!
+                                                                                                )
+                                                                                            )
+                                                                                            cardStackView.adapter =
+                                                                                                CardStackAdapter(
+                                                                                                    binding,
+                                                                                                    spots
+                                                                                                )
+                                                                                            break
+                                                                                        }
+                                                                                }
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
