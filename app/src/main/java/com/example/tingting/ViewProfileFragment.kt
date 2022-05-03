@@ -27,18 +27,43 @@ class ViewProfileFragment : Fragment() {
         binding = FragmentViewProfileBinding.inflate(inflater)
         val userId = FirebaseAuth.getInstance().uid!!
 
-        FirebaseDatabase.getInstance().getReference("/Users/$userId/about").get().addOnSuccessListener {
-            if(it.value == null)
-                binding.tvAbout.setText("")
-            else
-                binding.tvAbout.setText(it.value.toString())
-        }
-        FirebaseDatabase.getInstance().getReference("/Users/$userId/work").get().addOnSuccessListener {
-            if(it.value == null)
-                binding.tvProfession.setText("")
-            else
-                binding.tvProfession.setText(it.value.toString())
-        }
+        FirebaseDatabase.getInstance().getReference("/Users/$userId/about")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onDataChange(p0: com.google.firebase.database.DataSnapshot) {
+                    if (p0.exists()) {
+                        val about = p0.getValue(String::class.java)
+                        binding.tvAbout.text = about
+                    } else {
+                        binding.tvAbout.text = ""
+                    }
+
+                }
+
+            })
+
+
+        FirebaseDatabase.getInstance().getReference("/Users/$userId/work")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onDataChange(p0: com.google.firebase.database.DataSnapshot) {
+                    if (p0.exists()) {
+                        val work = p0.getValue(String::class.java)
+                        binding.tvProfession.text = work
+                    } else {
+                        binding.tvProfession.text = ""
+                    }
+
+                }
+
+
+            })
 
 
         binding.ivEdit.setOnClickListener {
@@ -47,7 +72,8 @@ class ViewProfileFragment : Fragment() {
         }
         // get id of current user
 
-        FirebaseDatabase.getInstance().getReference("/Users/${FirebaseAuth.getInstance().currentUser!!.uid}")
+        FirebaseDatabase.getInstance()
+            .getReference("/Users/${FirebaseAuth.getInstance().currentUser!!.uid}")
             .addValueEventListener(object :
                 ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {

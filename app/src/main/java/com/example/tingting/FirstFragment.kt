@@ -124,15 +124,15 @@ class FirstFragment : Fragment() {
 
 
         binding.ivUndof.setOnClickListener {
-            if (manager.topPosition < adapter.itemCount) {
+            if (manager.topPosition > 0) {
                 val setting = RewindAnimationSetting.Builder()
                     .setDirection(Direction.Bottom)
                     .setDuration(Duration.Normal.duration)
                     .setInterpolator(DecelerateInterpolator())
                     .build()
                 manager.setRewindAnimationSetting(setting)
+                removeVisited(adapter.getSpots()[manager.topPosition - 1].id_user)
                 cardStackView.rewind()
-
             }
         }
 
@@ -163,6 +163,11 @@ class FirstFragment : Fragment() {
         return binding.root
     }
 
+    fun removeVisited(targetId: String) {
+        val userId = FirebaseAuth.getInstance().uid!!
+        FirebaseDatabase.getInstance().getReference("/Visited/$userId/$targetId").removeValue()
+    }
+
 
     private fun createSpots(id_user: String): List<Spot> {
         val spots = ArrayList<Spot>()
@@ -173,12 +178,8 @@ class FirstFragment : Fragment() {
         val userRef = rootRef.child("Users")
         val visitedRef = rootRef.child("Visited").child(id_user)
 
-        // using cloud function to get all visited place
-
-
         cardStackView.adapter =
             CardStackAdapter(binding, spots)
-
 
         FirebaseDatabase.getInstance().getReference("/Users/$id_user/address").get()
             .addOnSuccessListener {
@@ -189,35 +190,44 @@ class FirstFragment : Fragment() {
                         .addOnSuccessListener {
                             val ageMin = it.getValue(Int::class.java)!! + 18
 
-                            FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/max").get()
+                            FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/max")
+                                .get()
                                 .addOnSuccessListener {
                                     val ageMax = it.getValue(Int::class.java)!! + 18
 
                                     visitedRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                        override fun onCancelled(p0: DatabaseError) {
+                                            TODO("Not yet implemented")
+                                        }
 
-                                            for (ds in dataSnapshot.children) {
+                                        override fun onDataChange(p0: DataSnapshot) {
+                                            for (ds in p0.children) {
                                                 val id = ds.getValue(String::class.java)
                                                 visited[id!!] = 1
                                             }
-
-                                            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                            Log.i("visited", visited.toString())
+                                            userRef.addValueEventListener(object :
+                                                ValueEventListener {
                                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                                     for (ds in dataSnapshot.children) {
 
                                                         val gender =
-                                                            ds.child("gender").getValue(String::class.java)
+                                                            ds.child("gender")
+                                                                .getValue(String::class.java)
                                                         val display: String? =
                                                             dataSnapshot.child(id_user).child("display")
                                                                 .getValue(String::class.java)
 
                                                         val latlng =
-                                                            ds.child("address").getValue(LatLng::class.java)
+                                                            ds.child("address")
+                                                                .getValue(LatLng::class.java)
 
                                                         val birthDate =
-                                                            ds.child("birthDate").getValue(String::class.java)
+                                                            ds.child("birthDate")
+                                                                .getValue(String::class.java)
 
-                                                        val yearOfBirth = birthDate!!.split("/")[2].toInt()
+                                                        val yearOfBirth =
+                                                            birthDate!!.split("/")[2].toInt()
                                                         val age = Calendar.getInstance()
                                                             .get(Calendar.YEAR) - yearOfBirth
 
@@ -244,8 +254,9 @@ class FirstFragment : Fragment() {
 
                                                                             val name = ds.child("name")
                                                                                 .getValue(String::class.java)
-                                                                            val photo = ds.child("avatar")
-                                                                                .getValue(String::class.java)
+                                                                            val photo =
+                                                                                ds.child("avatar")
+                                                                                    .getValue(String::class.java)
 
                                                                             val geocoder =
                                                                                 Geocoder(binding.root.context)
@@ -277,35 +288,26 @@ class FirstFragment : Fragment() {
                                                                                     id_user = ds.key!!
                                                                                 )
                                                                             )
-                                                                            cardStackView.adapter!!.notifyItemChanged(
-                                                                                spots.size - 1
-                                                                            )
+                                                                            cardStackView.adapter =
+                                                                                CardStackAdapter(
+                                                                                    binding,
+                                                                                    spots
+                                                                                )
                                                                         }
-
                                                                     }
                                                                 }
                                                         }
                                                     }
-
-
                                                 }
 
                                                 override fun onCancelled(error: DatabaseError) {
                                                     TODO("Not yet implemented")
                                                 }
-
-
-                                            })
-
-
+                                            }
+                                            )
                                         }
 
-                                        override fun onCancelled(error: DatabaseError) {
-                                            TODO("Not yet implemented")
-                                        }
-                                    }
-                                    )
-
+                                    })
 
                                 }
                         }
