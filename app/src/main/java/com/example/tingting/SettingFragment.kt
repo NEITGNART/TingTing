@@ -51,8 +51,10 @@ class SettingFragment : Fragment() {
 
         if(loginEmail) {
             binding.tvSecurity.show()
+            binding.vDash.show()
         } else {
             binding.tvSecurity.hide()
+            binding.vDash.hide()
         }
 
         binding.ivBack.setOnClickListener {

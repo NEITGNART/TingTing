@@ -114,14 +114,12 @@ class UserInfoFragment : Fragment() {
                                 favo = favo +", "+ds.getValue().toString()
 
                         }
-                        if(favo==null) {
+                        if(favo=="You select nothing") {
                             binding.item.tvfavorite.visibility = View.GONE
                             binding.item.txtFavorite.visibility = View.GONE
                         }
                         else
                             binding.item.tvfavorite.setText(favo)
-
-
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
@@ -132,13 +130,13 @@ class UserInfoFragment : Fragment() {
                     if(it.value == null)
                         binding.item.tvProfession.visibility = View.GONE
                     else
-                        binding.item.tvProfession.setText(it.value.toString())
+                        binding.item.tvProfession.text = it.value.toString()
                 }
                 FirebaseDatabase.getInstance().getReference("/Users/$id_user/about").get().addOnSuccessListener {
-                    if(it.value == null)
+                    if(!it.exists() || it.getValue(String::class.java).isNullOrEmpty())
                         binding.item.tvDetail.visibility = View.GONE
                     else
-                        binding.item.tvDetail.setText(it.value.toString())
+                        binding.item.tvDetail.text = it.value.toString()
                 }
 
                 FirebaseDatabase.getInstance().getReference("/Users/$id_user/address").get().addOnSuccessListener { it ->

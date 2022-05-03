@@ -62,9 +62,9 @@
             android:drawableStart="@drawable/da_ic_business_briefcase"
             android:drawablePadding="@dimen/da_spacing_standard"
             android:drawableTint="@color/da_textColorSecondary"
-            tools:text="@string/da_art_director"
             android:textColor="@color/black"
-            android:textSize="@dimen/da_font_size_normal" />
+            android:textSize="@dimen/da_font_size_normal"
+            tools:text="@string/da_art_director" />
 
         <TextView
             android:id="@+id/tvDetail"

@@ -71,7 +71,9 @@
                 android:drawableEnd="@drawable/da_ic_left_arrow"
                 android:text="Bộ lọc" />
 
-            <View style="@style/Divider" />
+            <View
+                android:id="@+id/vDash"
+                style="@style/Divider" />
 
             <TextView
                 android:id="@+id/tvSecurity"
