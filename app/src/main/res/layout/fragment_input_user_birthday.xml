@@ -41,6 +41,7 @@
         android:layout_marginTop="140dp"
         android:hint="@string/da_etInUserBirthday"
         android:inputType="none"
+        android:enabled="false"
         android:paddingHorizontal="15dp"
         android:paddingVertical="30dp"
         android:textSize="22sp"

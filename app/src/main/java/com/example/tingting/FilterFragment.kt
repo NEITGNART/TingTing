@@ -26,7 +26,7 @@ class FilterFragment : Fragment() {
     private lateinit var binding: FragmentFilterBinding
     private var dialog: BottomSheetDialog? = null
     private val distanceArray =
-        arrayOf("1 km", "2 km", "3 km", "4 km", "5 km", "6 km", "7 km", "8 km", "9 km", "10 km")
+        arrayOf("5 km", "10 km", "15 km", "20 km", "25 km", "30 km", "35 km", "40 km", "45 km", "50 km")
     private val ageArray2 = arrayOf("18", "19", "20", "21", "22", "23", "24", "25")
     private val spDisplay = arrayOf("Male", "Female", "All")
     private val userID = FirebaseAuth.getInstance().uid
@@ -38,6 +38,9 @@ class FilterFragment : Fragment() {
 
         // Inflate the layout for this fragment
         binding = FragmentFilterBinding.inflate(inflater)
+        binding.btnBack.onClick {
+            Navigation.findNavController(binding.root).navigateUp()
+        }
         binding.ivBack.setOnClickListener {
             Navigation.findNavController(it).navigateUp()
         }
@@ -140,11 +143,6 @@ class FilterFragment : Fragment() {
                 Log.d("TAG", databaseError.message)
             }
         })
-
-
-
-
-
 
         binding.rangebarDistance.tickTopLabels = distanceArray
 

@@ -119,6 +119,7 @@ class AddImage : Fragment() {
                 if (data!!.clipData != null) {
                     val count: Int = data.clipData!!.itemCount
                     for (i in 0 until count) {
+                        if (i == 6) break
                         val imageUri = data.clipData!!.getItemAt(i).uri
                         images!!.add(imageUri)
                     }

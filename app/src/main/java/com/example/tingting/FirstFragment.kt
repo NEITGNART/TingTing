@@ -224,14 +224,11 @@ class FirstFragment : Fragment() {
                                                         if (ds.key in visited) continue
 
                                                         if (age in ageMin..ageMax) {
-
-                                                            Log.i("hahahaa", id_user)
-
                                                             FirebaseDatabase.getInstance()
                                                                 .getReference("/Setting/$id_user/distance/max")
                                                                 .get().addOnSuccessListener {
                                                                     val distanceMax =
-                                                                        it.getValue(Int::class.java)
+                                                                        (it.getValue(Int::class.java)?.toInt()?.plus(1))?.times(5)
                                                                     Log.i("KC", distanceMax.toString())
 
                                                                     if (ds.key != id_user && (display == "All" || gender == display)) {
