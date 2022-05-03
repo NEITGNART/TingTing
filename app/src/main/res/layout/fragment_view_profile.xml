@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            tools:src="@drawable/da_profile_2" />
+            tools:src="@drawable/image2" />
         <ImageView
             android:id="@+id/ivBack"
             android:padding="@dimen/da_spacing_control"

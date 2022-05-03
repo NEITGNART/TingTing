@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/_30sdp"
-        android:text="Chà Chà. Hết người để bạn lướt mất rồi !"
+        android:text="Chà Chà. Hết người để bạn lướt mất rồi. Chờ xíu nhé !"
         android:textAlignment="center"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +43,6 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="70dp"
-        android:layout_marginRight="@dimen/_47sdp"
         android:src="@drawable/ic_main_icon"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="@+id/textView" />
@@ -70,9 +69,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="-1dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="0dp"
                 android:layout_marginEnd="1dp"
-                android:layout_marginBottom="-116dp"
+                android:layout_marginBottom="-114dp"
                 android:clipToPadding="false" />
 
             <LinearLayout
