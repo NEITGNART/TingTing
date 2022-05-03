@@ -67,7 +67,10 @@ class AddImage : Fragment() {
                 }
 
                 val intent = Intent(context, MainActivity::class.java)
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // can't go back
                 startActivity(intent)
+
             }
         }
 
