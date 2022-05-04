@@ -64,7 +64,8 @@ class ProfileFragment : Fragment() {
             binding.ivEdit3,
             binding.ivEdit4,
             binding.ivEdit5,
-            binding.ivEdit6)
+            binding.ivEdit6
+        )
 
         listImage = arrayListOf(
             binding.ivImage1,
@@ -77,7 +78,8 @@ class ProfileFragment : Fragment() {
 
         listKey = arrayListOf("", "", "", "", "", "")
 
-        FirebaseDatabase.getInstance().getReference("/Images/${FirebaseAuth.getInstance().currentUser!!.uid}")
+        FirebaseDatabase.getInstance()
+            .getReference("/Images/${FirebaseAuth.getInstance().currentUser!!.uid}")
             .addValueEventListener(object :
                 ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
@@ -85,7 +87,7 @@ class ProfileFragment : Fragment() {
                 }
 
                 override fun onDataChange(p0: com.google.firebase.database.DataSnapshot) {
-                    for ((i, child) in p0.children.withIndex()){
+                    for ((i, child) in p0.children.withIndex()) {
                         val url = child.getValue(String::class.java)
                         Glide.with(binding.root.context)
                             .load(url)
@@ -106,48 +108,56 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        FirebaseDatabase.getInstance().getReference("/Users/$userId/about").get().addOnSuccessListener {
-            if(it.value == null)
-                binding.edtAboutMe.setText("")
-            else
-                binding.edtAboutMe.setText(it.value.toString())
-        }
-        FirebaseDatabase.getInstance().getReference("/Users/$userId/work").get().addOnSuccessListener {
-            if(it.value == null)
-                binding.edtWork.setText("")
-            else
-                binding.edtWork.setText(it.value.toString())
-        }
-        FirebaseDatabase.getInstance().getReference("/Users/$userId/birthDate").get().addOnSuccessListener {
+        FirebaseDatabase.getInstance().getReference("/Users/$userId/about").get()
+            .addOnSuccessListener {
+                if (it.value == null)
+                    binding.edtAboutMe.setText("")
+                else
+                    binding.edtAboutMe.setText(it.value.toString())
+            }
+        FirebaseDatabase.getInstance().getReference("/Users/$userId/work").get()
+            .addOnSuccessListener {
+                if (it.value == null)
+                    binding.edtWork.setText("")
+                else
+                    binding.edtWork.setText(it.value.toString())
+            }
+        FirebaseDatabase.getInstance().getReference("/Users/$userId/birthDate").get()
+            .addOnSuccessListener {
                 binding.edtBirthday.setText(it.value.toString())
-        }
-        FirebaseDatabase.getInstance().getReference("/Users/$userId/name").get().addOnSuccessListener {
-            binding.edtUsername.setText(it.value.toString())
-        }
+            }
+        FirebaseDatabase.getInstance().getReference("/Users/$userId/name").get()
+            .addOnSuccessListener {
+                binding.edtUsername.setText(it.value.toString())
+            }
 
-        FirebaseDatabase.getInstance().getReference("/Users/$userId/gender").get().addOnSuccessListener {
-            gender = it.value.toString()
-            if(gender == "Male"){
-                binding.ivMale.background = resources.getDrawable(R.drawable.da_circle_redprimary)
-                binding.ivMale.applyColorFilter( resources.getColor(R.color.da_white))
+        FirebaseDatabase.getInstance().getReference("/Users/$userId/gender").get()
+            .addOnSuccessListener {
+                gender = it.value.toString()
+                if (gender == "Male") {
+                    binding.ivMale.background =
+                        resources.getDrawable(R.drawable.da_circle_redprimary)
+                    binding.ivMale.applyColorFilter(resources.getColor(R.color.da_white))
+                }
+                if (gender == "Female") {
+                    binding.ivFemale.background =
+                        resources.getDrawable(R.drawable.da_circle_redprimary)
+                    binding.ivFemale.applyColorFilter(resources.getColor(R.color.da_white))
+                }
+                if (gender == "Other") {
+                    binding.ivOther.background =
+                        resources.getDrawable(R.drawable.da_circle_redprimary)
+                    binding.ivOther.applyColorFilter(resources.getColor(R.color.da_white))
+                }
             }
-            if(gender == "Female"){
-                binding.ivFemale.background = resources.getDrawable(R.drawable.da_circle_redprimary)
-                binding.ivFemale.applyColorFilter( resources.getColor(R.color.da_white))
-            }
-            if(gender == "Other"){
-                binding.ivOther.background = resources.getDrawable(R.drawable.da_circle_redprimary)
-                binding.ivOther.applyColorFilter( resources.getColor(R.color.da_white))
-            }
-        }
         binding.ivFemale.onClick {
             gender = "Female"
             binding.ivMale.background = resources.getDrawable(R.drawable.da_bg_gray)
-            binding.ivMale.applyColorFilter( resources.getColor(R.color.da_textColorSecondary))
+            binding.ivMale.applyColorFilter(resources.getColor(R.color.da_textColorSecondary))
             binding.ivOther.background = resources.getDrawable(R.drawable.da_bg_gray)
-            binding.ivOther.applyColorFilter( resources.getColor(R.color.da_textColorSecondary))
+            binding.ivOther.applyColorFilter(resources.getColor(R.color.da_textColorSecondary))
             applyColorFilter(resources.getColor(R.color.da_white))
-            background =    resources.getDrawable(R.drawable.da_circle_redprimary)
+            background = resources.getDrawable(R.drawable.da_circle_redprimary)
 
         }
         binding.ivMale.onClick {
@@ -157,34 +167,38 @@ class ProfileFragment : Fragment() {
             binding.ivOther.background = resources.getDrawable(R.drawable.da_bg_gray)
             binding.ivOther.applyColorFilter(resources.getColor(R.color.da_textColorSecondary))
             applyColorFilter(resources.getColor(R.color.da_white))
-            background =   resources.getDrawable(R.drawable.da_circle_redprimary)
+            background = resources.getDrawable(R.drawable.da_circle_redprimary)
         }
         binding.ivOther.onClick {
             gender = "Other"
             binding.ivMale.background = resources.getDrawable(R.drawable.da_bg_gray)
-            binding.ivMale.applyColorFilter( resources.getColor(R.color.da_textColorSecondary))
+            binding.ivMale.applyColorFilter(resources.getColor(R.color.da_textColorSecondary))
             binding.ivFemale.background = resources.getDrawable(R.drawable.da_bg_gray)
             binding.ivFemale.applyColorFilter(resources.getColor(R.color.da_textColorSecondary))
             applyColorFilter(resources.getColor(R.color.da_white))
-            background =   resources.getDrawable(R.drawable.da_circle_redprimary)
+            background = resources.getDrawable(R.drawable.da_circle_redprimary)
         }
 
         var address: String? = null;
         var city: String? = null;
 
-        FirebaseDatabase.getInstance().getReference("/Users/$userId/address").get().addOnSuccessListener {
-            val latlng = it.getValue(LatLng::class.java)
-            val geocoder = Geocoder(binding.root.context)
-            val addresses = geocoder.getFromLocation(latlng!!.latitude,latlng!!.longitude, 1)
-            address = addresses[0].getAddressLine(0)
-            city = addresses[0].locality
-            binding.edtLocation.setText(address.toString())
-        }
+        FirebaseDatabase.getInstance().getReference("/Users/$userId/address").get()
+            .addOnSuccessListener {
+                if (it.exists()) {
+                    val latlng = it.getValue(LatLng::class.java)
+                    val geocoder = Geocoder(binding.root.context)
+                    val addresses =
+                        geocoder.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
+                    address = addresses[0].getAddressLine(0)
+                    city = addresses[0].locality
+                    binding.edtLocation.setText(address.toString())
+                }
+            }
 
 
         //////////////////////////////////////////////////////////////////////////////////////
 
-        binding.btnSave.setOnClickListener{
+        binding.btnSave.setOnClickListener {
             Log.i("hihi", images.toString())
             Log.i("hihi", listKey.toString())
             val builder1: AlertDialog.Builder = AlertDialog.Builder(binding.root.context)
@@ -194,16 +208,19 @@ class ProfileFragment : Fragment() {
             builder1.setPositiveButton(
                 "Đồng ý",
             ) { dialog, id ->
-                FirebaseDatabase.getInstance().getReference("/Users/$userId/about").setValue( binding.edtAboutMe.text.toString())
-                FirebaseDatabase.getInstance().getReference("/Users/$userId/gender").setValue( gender.toString())
+                FirebaseDatabase.getInstance().getReference("/Users/$userId/about")
+                    .setValue(binding.edtAboutMe.text.toString())
+                FirebaseDatabase.getInstance().getReference("/Users/$userId/gender")
+                    .setValue(gender.toString())
 
                 images.forEachIndexed { index, it ->
                     if (it != Uri.EMPTY) {
-                        val imageRef = FirebaseStorage.getInstance().getReference("/Images").child(UUID.randomUUID().toString())
+                        val imageRef = FirebaseStorage.getInstance().getReference("/Images")
+                            .child(UUID.randomUUID().toString())
                         imageRef.putFile(it)
                             .addOnSuccessListener {
                                 imageRef.downloadUrl.addOnSuccessListener {
-                                    if (index == 0){
+                                    if (index == 0) {
                                         FirebaseDatabase.getInstance()
                                             .getReference("Users/${FirebaseAuth.getInstance().uid}/avatar")
                                             .setValue(it.toString())
@@ -226,39 +243,42 @@ class ProfileFragment : Fragment() {
                     }
                 }
                 dialog.cancel()
-                Navigation.findNavController(binding.root  ).navigateUp()
+                Navigation.findNavController(binding.root).navigateUp()
             }
 
             builder1.setNegativeButton(
                 "Hủy"
 
             ) { dialog, id ->
-                dialog.cancel() }
+                dialog.cancel()
+            }
 
             val alert11: AlertDialog = builder1.create()
             alert11.show()
         }
 
         binding.ivBack.setOnClickListener {
-            Navigation.findNavController(it).navigateUp()
+            val action = ProfileFragmentDirections.actionProfileFragmentToViewProfileFragment()
+            Navigation.findNavController(binding.root).navigate(action)
         }
 
         return binding.root
     }
 
 
-    private fun pickImageIntent(buttonEditImage: ImageView, code: Int){
+    private fun pickImageIntent(buttonEditImage: ImageView, code: Int) {
         val intent = Intent()
         intent.type = "image/*"
         intent.putExtra(Intent.ACTION_PICK, true)
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "Select Image(s)"), code) }
+        startActivityForResult(Intent.createChooser(intent, "Select Image(s)"), code)
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.i("hihi", requestCode.toString() + " " + resultCode.toString())
         if (resultCode == Activity.RESULT_OK) {
-            if (data != null){
+            if (data != null) {
                 val imageUri = data.data
                 images[requestCode] = imageUri!!
                 listImage[requestCode].setImageURI(images[requestCode])

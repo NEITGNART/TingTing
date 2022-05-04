@@ -21,6 +21,8 @@ import com.example.tingting.utils.Global.loginEmail
 import com.example.tingting.utils.hide
 import com.example.tingting.utils.onClick
 import com.example.tingting.utils.show
+import com.facebook.AccessToken
+import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -100,11 +102,15 @@ class SettingFragment : Fragment() {
             binding.tvLogout.setOnClickListener {
                 FirebaseAuth.getInstance().signOut()
                 val intent = Intent(context, LoginActivity::class.java)
+                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
+               // sign out facebook
+                 if (AccessToken.getCurrentAccessToken() != null) {
+                     LoginManager.getInstance().logOut()
+                 }
             }
         } else {
             binding.tvLogout.visibility = View.GONE
-//            binding.tvDeleteAccount.visibility = View.GONE
         }
         return binding.root
     }
