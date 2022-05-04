@@ -53,7 +53,6 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater)
 
 
-        //////////////////////////////////////////////////////////////////////////
         val userId = FirebaseAuth.getInstance().uid!!
         var gender: String? = null;
 

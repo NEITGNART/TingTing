@@ -80,7 +80,6 @@ class LoginActivity : AppCompatActivity(), LocationListener {
 
 
         binding.btnSignIn.setOnClickListener {
-            getLocation()
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
 
@@ -117,7 +116,6 @@ class LoginActivity : AppCompatActivity(), LocationListener {
                                 }
                             loginEmail = true
                         } else {
-
                             Toast.makeText(
                                 this,
                                 "Authentication failed.",
@@ -125,7 +123,6 @@ class LoginActivity : AppCompatActivity(), LocationListener {
                             ).show()
                             binding.pbLoading.visibility = android.view.View.GONE
                         }
-
                     }
             }
 

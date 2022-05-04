@@ -4,7 +4,7 @@ import kotlin.math.asin
 import kotlin.math.cos
 import kotlin.math.sqrt
 
-var loginEmail = false
+var loginEmail = true
 
 fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
     val p = 0.017453292519943295

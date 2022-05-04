@@ -51,9 +51,6 @@ class FirstFragment : Fragment() {
     private lateinit var manager: CardStackLayoutManager
     private lateinit var cardStackView: CardStackView
 
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -75,50 +72,6 @@ class FirstFragment : Fragment() {
                 1
             )
         }
-
-        
-        try {
-            val fusedLocationClient =
-                LocationServices.getFusedLocationProviderClient(this.requireActivity())
-
-            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    Toast.makeText(
-                        binding.root.context,
-                        "${location.latitude} ${location.longitude}",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                    FirebaseDatabase.getInstance().getReference("Users")
-                        .child(FirebaseAuth.getInstance().currentUser!!.uid)
-                        .child("address")
-                        .setValue(LatLng(location.latitude, location.longitude))
-
-                } else {
-                    try {
-                        val locationManager =
-                            this.requireActivity()
-                                .getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                        locationManager.requestLocationUpdates(
-                            LocationManager.GPS_PROVIDER,
-                            0,
-                            0f
-                        ) {
-
-                            FirebaseDatabase.getInstance().getReference("users")
-                                .child(FirebaseAuth.getInstance().currentUser!!.uid)
-                                .child("location")
-                                .setValue(LatLng(it.latitude, it.longitude))
-                        }
-                    } catch (e: SecurityException) {
-                    }
-                }
-            }
-
-        } catch (e: SecurityException) {
-        }
-
-
 
         manager = CardStackLayoutManager(context, object : CardStackListener {
             override fun onCardDragging(direction: Direction, ratio: Float) {
@@ -169,14 +122,6 @@ class FirstFragment : Fragment() {
                 Log.d("CardStackView", "onCardAppeared: " + position + ", nama: " + tv.text)
             }
         })
-
-
-
-
-
-
-
-
 
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(3)
@@ -283,7 +228,7 @@ class FirstFragment : Fragment() {
                                                 ValueEventListener {
                                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                                     for (ds in dataSnapshot.children) {
-
+                                                        Log.i("hihi", ds.toString())
                                                         if (ds.key == FirebaseAuth.getInstance().uid) {
                                                             continue
                                                         }
@@ -387,6 +332,7 @@ class FirstFragment : Fragment() {
                                                                 }
                                                         }
                                                     }
+                                                    spots.clear()
                                                 }
 
                                                 override fun onCancelled(error: DatabaseError) {

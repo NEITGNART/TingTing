@@ -20,10 +20,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.tingting.activity.MainActivity
 import com.example.tingting.databinding.FragmentAddImageBinding
+import com.example.tingting.utils.Entity.LatLng
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
+
 
 class AddImage : Fragment() {
     private lateinit var binding: FragmentAddImageBinding
@@ -45,6 +48,9 @@ class AddImage : Fragment() {
 
         ///////////////////////////////////////////////////////////////////////
         binding.btnComplete.setOnClickListener{
+
+
+
             if (images.isNullOrEmpty()) {
                 Toast.makeText(context, "Please select at least 1 photos", Toast.LENGTH_SHORT)
                     .show()
@@ -55,15 +61,13 @@ class AddImage : Fragment() {
                 val mDatabaseReference = FirebaseDatabase.getInstance().reference
                 mDatabaseReference.child("Users").child(userID).child("firstTimeLogin").setValue(false)
 
-                var isSetAvatar = false
-                for (image in images){
+                images.forEachIndexed { index, uri ->
                     val imageRef = imageStorage.child(UUID.randomUUID().toString())
-                    imageRef.putFile(image!!)
+                    imageRef.putFile(uri!!)
                         .addOnSuccessListener {
                             imageRef.downloadUrl.addOnSuccessListener {
-                                if (!isSetAvatar){
+                                if (index == 0){
                                     mDatabaseReference.child("Users").child(userID).child("avatar").setValue(it.toString())
-                                    isSetAvatar = true
                                 }
                                 mDatabaseReference.child("Images").child(userID).push().setValue(it.toString())
                             }
@@ -149,4 +153,5 @@ class AddImage : Fragment() {
             }
         }
     }
+
 }

@@ -40,9 +40,13 @@ class changePassWordFragment : Fragment() {
                 binding.edReMobilePassword.error = "Not the same as the password"
                 binding.edReMobilePassword.requestFocus()
             } else {
-                FirebaseAuth.getInstance().currentUser?.updatePassword(password)?.addOnSuccessListener {
+                FirebaseAuth.getInstance().currentUser?.updatePassword(password)
+                    ?.addOnSuccessListener {
                     Toast.makeText(context, "Change password successful", Toast.LENGTH_SHORT).show()
-                }
+                    }
+                    ?.addOnFailureListener{
+                        Toast.makeText(context, "Change password failure", Toast.LENGTH_SHORT).show()
+                    }
             }
 
             Navigation.findNavController(binding.root).navigateUp()
