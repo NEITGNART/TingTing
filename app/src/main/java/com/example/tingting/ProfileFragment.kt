@@ -86,6 +86,7 @@ class ProfileFragment : Fragment() {
 
                 override fun onDataChange(p0: com.google.firebase.database.DataSnapshot) {
                     for ((i, child) in p0.children.withIndex()){
+                        if (i == 6) break
                         val url = child.getValue(String::class.java)
                         Glide.with(binding.root.context)
                             .load(url)
