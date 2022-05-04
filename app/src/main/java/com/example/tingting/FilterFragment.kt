@@ -70,9 +70,10 @@ class FilterFragment : Fragment() {
                     val list_favo: List<String> = favo!!.split(",")
                     listOfCheckBox.forEach { checkbox ->
                         if (getSinglefavo(checkbox.text.toString(),list_favo)) {
-                            checkbox.setOnClickListener {
-                                agreebutton.setEnabled(true);
-                            }
+                            checkbox.setChecked (true);
+                            checkbox.setBackgroundResource(com.example.tingting.R.drawable.gradient_border)
+                            checkbox.setTextColor(resources.getColor(com.example.tingting.R.color.da_red1))
+
                         }
 
                     }
