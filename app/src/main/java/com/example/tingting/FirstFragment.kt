@@ -1,6 +1,13 @@
 package com.example.tingting
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Geocoder
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +18,8 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -19,6 +28,8 @@ import com.example.tingting.databinding.FragmentFirstBinding
 import com.example.tingting.utils.Entity.LatLng
 import com.example.tingting.utils.Entity.Notification
 import com.example.tingting.utils.Global.getDistance
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -26,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -40,6 +52,8 @@ class FirstFragment : Fragment() {
     private lateinit var cardStackView: CardStackView
 
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +61,63 @@ class FirstFragment : Fragment() {
 
         binding = FragmentFirstBinding.inflate(layoutInflater)
         cardStackView = binding.cardstackview
+
+
+
+        if (ActivityCompat.checkSelfPermission(
+                binding.root.context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this.requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
+        }
+
+        
+        try {
+            val fusedLocationClient =
+                LocationServices.getFusedLocationProviderClient(this.requireActivity())
+
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    Toast.makeText(
+                        binding.root.context,
+                        "${location.latitude} ${location.longitude}",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    FirebaseDatabase.getInstance().getReference("Users")
+                        .child(FirebaseAuth.getInstance().currentUser!!.uid)
+                        .child("address")
+                        .setValue(LatLng(location.latitude, location.longitude))
+
+                } else {
+
+                    try {
+                        val locationManager =
+                            this.requireActivity()
+                                .getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                        locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            0,
+                            0f
+                        ) {
+
+                            FirebaseDatabase.getInstance().getReference("users")
+                                .child(FirebaseAuth.getInstance().currentUser!!.uid)
+                                .child("location")
+                                .setValue(LatLng(it.latitude, it.longitude))
+                        }
+                    } catch (e: SecurityException) {
+                    }
+                }
+            }
+
+        } catch (e: SecurityException) {
+        }
 
 
 
@@ -60,25 +131,21 @@ class FirstFragment : Fragment() {
                     "onCardSwiped: p=" + manager.topPosition + " d=" + direction.name
                 )
                 if (direction == Direction.Right) {
-                    Toast.makeText(context, "Direction Right", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition - 1
                     addVisited(adapter.getSpots()[currentIndex].id_user)
                     addMatch(adapter.getSpots()[currentIndex].id_user)
 
                 }
                 if (direction == Direction.Top) {
-                    Toast.makeText(context, "Direction Top", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition - 1
                     addVisited(adapter.getSpots()[currentIndex].id_user)
                 }
                 if (direction == Direction.Left) {
-                    Toast.makeText(context, "Direction Left", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition - 1
                     addVisited(adapter.getSpots()[currentIndex].id_user)
 
                 }
                 if (direction == Direction.Bottom) {
-                    Toast.makeText(context, "Direction Bottom", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition - 1
                     addVisited(adapter.getSpots()[currentIndex].id_user)
                 }
@@ -104,6 +171,14 @@ class FirstFragment : Fragment() {
             }
         })
 
+
+
+
+
+
+
+
+
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(3)
         manager.setTranslationInterval(8.0f)
@@ -117,22 +192,22 @@ class FirstFragment : Fragment() {
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
         adapter =
-            CardStackAdapter(binding, createSpots(FirebaseAuth.getInstance().currentUser!!.uid))
+            CardStackAdapter(binding, createSpots(FirebaseAuth.getInstance().uid!!))
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator = DefaultItemAnimator()
 
 
         binding.ivUndof.setOnClickListener {
-            if (manager.topPosition < adapter.itemCount) {
+            if (manager.topPosition > 0) {
                 val setting = RewindAnimationSetting.Builder()
                     .setDirection(Direction.Bottom)
                     .setDuration(Duration.Normal.duration)
                     .setInterpolator(DecelerateInterpolator())
                     .build()
                 manager.setRewindAnimationSetting(setting)
+                removeVisited(adapter.getSpots()[manager.topPosition - 1].id_user)
                 cardStackView.rewind()
-
             }
         }
 
@@ -163,6 +238,11 @@ class FirstFragment : Fragment() {
         return binding.root
     }
 
+    fun removeVisited(targetId: String) {
+        val userId = FirebaseAuth.getInstance().uid!!
+        FirebaseDatabase.getInstance().getReference("/Visited/$userId/$targetId").removeValue()
+    }
+
 
     private fun createSpots(id_user: String): List<Spot> {
         val spots = ArrayList<Spot>()
@@ -173,12 +253,8 @@ class FirstFragment : Fragment() {
         val userRef = rootRef.child("Users")
         val visitedRef = rootRef.child("Visited").child(id_user)
 
-        // using cloud function to get all visited place
-
-
         cardStackView.adapter =
             CardStackAdapter(binding, spots)
-
 
         FirebaseDatabase.getInstance().getReference("/Users/$id_user/address").get()
             .addOnSuccessListener {
@@ -189,52 +265,61 @@ class FirstFragment : Fragment() {
                         .addOnSuccessListener {
                             val ageMin = it.getValue(Int::class.java)!! + 18
 
-                            FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/max").get()
+                            FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/max")
+                                .get()
                                 .addOnSuccessListener {
                                     val ageMax = it.getValue(Int::class.java)!! + 18
 
                                     visitedRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                        override fun onCancelled(p0: DatabaseError) {
+                                            TODO("Not yet implemented")
+                                        }
 
-                                            for (ds in dataSnapshot.children) {
+                                        override fun onDataChange(p0: DataSnapshot) {
+                                            for (ds in p0.children) {
                                                 val id = ds.getValue(String::class.java)
                                                 visited[id!!] = 1
                                             }
-
-                                            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                            userRef.addValueEventListener(object :
+                                                ValueEventListener {
                                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                                     for (ds in dataSnapshot.children) {
 
+                                                        if (ds.key == FirebaseAuth.getInstance().uid) {
+                                                            continue
+                                                        }
+
                                                         val gender =
-                                                            ds.child("gender").getValue(String::class.java)
+                                                            ds.child("gender")
+                                                                .getValue(String::class.java)?: continue
                                                         val display: String? =
                                                             dataSnapshot.child(id_user).child("display")
                                                                 .getValue(String::class.java)
 
                                                         val latlng =
-                                                            ds.child("address").getValue(LatLng::class.java)
+                                                            ds.child("address")
+                                                                .getValue(LatLng::class.java)?: continue
 
                                                         val birthDate =
-                                                            ds.child("birthDate").getValue(String::class.java)
+                                                            ds.child("birthDate")
+                                                                .getValue(String::class.java)?: continue
 
-                                                        val yearOfBirth = birthDate!!.split("/")[2].toInt()
+                                                        val yearOfBirth =
+                                                            birthDate!!.split("/")[2].toInt()
                                                         val age = Calendar.getInstance()
                                                             .get(Calendar.YEAR) - yearOfBirth
 
                                                         if (ds.key in visited) continue
 
                                                         if (age in ageMin..ageMax) {
-
-                                                            Log.i("hahahaa", id_user)
-
                                                             FirebaseDatabase.getInstance()
                                                                 .getReference("/Setting/$id_user/distance/max")
                                                                 .get().addOnSuccessListener {
                                                                     val distanceMax =
-                                                                        it.getValue(Int::class.java)
+                                                                        (it.getValue(Int::class.java)?.toInt()?.plus(1))?.times(5)
                                                                     Log.i("KC", distanceMax.toString())
 
-                                                                    if (ds.key != id_user && (display == "All" || gender == display)) {
+                                                                    if (display == "All" || gender == display) {
 
                                                                         val kc = getDistance(
                                                                             latlng!!.latitude,
@@ -247,15 +332,16 @@ class FirstFragment : Fragment() {
 
                                                                             val name = ds.child("name")
                                                                                 .getValue(String::class.java)
-                                                                            val photo = ds.child("avatar")
-                                                                                .getValue(String::class.java)
+                                                                            val photo =
+                                                                                ds.child("avatar")
+                                                                                    .getValue(String::class.java)
 
                                                                             val geocoder =
                                                                                 Geocoder(binding.root.context)
                                                                             val addresses =
                                                                                 geocoder.getFromLocation(
-                                                                                    latlng!!.latitude,
-                                                                                    latlng!!.longitude,
+                                                                                    latlng.latitude,
+                                                                                    latlng.longitude,
                                                                                     1
                                                                                 )
 
@@ -272,46 +358,79 @@ class FirstFragment : Fragment() {
                                                                             }
                                                                             val ad = address_user
 
-                                                                            spots.add(
-                                                                                Spot(
-                                                                                    name = name.toString() + " - " + kc,
-                                                                                    city = ad,
-                                                                                    url = photo.toString(),
-                                                                                    id_user = ds.key!!
-                                                                                )
-                                                                            )
-                                                                            cardStackView.adapter!!.notifyItemChanged(
-                                                                                spots.size - 1
-                                                                            )
+                                                                            FirebaseDatabase.getInstance().getReference("/Setting/${ds.key}/favorite").get().addOnSuccessListener { itAnotherUser ->
+                                                                                val hashFavorite = mutableMapOf<String, Int>()
+                                                                                for (data in itAnotherUser.children){
+                                                                                    hashFavorite[data.key.toString()] = 1
+                                                                                }
+                                                                                FirebaseDatabase.getInstance().getReference("/Setting/$id_user/favorite").get().addOnSuccessListener {itUser ->
+                                                                                    for (data in itUser.children)
+                                                                                        if (data.key in hashFavorite || data.key == "You select nothing") {
+                                                                                            spots.add(
+                                                                                                Spot(
+                                                                                                    name = name.toString() + " - " + "✈ " + kc + " km",
+                                                                                                    city = ad,
+                                                                                                    url = photo.toString(),
+                                                                                                    id_user = ds.key!!
+                                                                                                )
+                                                                                            )
+                                                                                            cardStackView.adapter =
+                                                                                                CardStackAdapter(
+                                                                                                    binding,
+                                                                                                    spots
+                                                                                                )
+                                                                                            break
+                                                                                        }
+                                                                                }
+                                                                            }
                                                                         }
-
                                                                     }
                                                                 }
                                                         }
                                                     }
-
-
                                                 }
 
                                                 override fun onCancelled(error: DatabaseError) {
                                                     TODO("Not yet implemented")
                                                 }
-
-
-                                            })
-
-
+                                            }
+                                            )
                                         }
 
-                                        override fun onCancelled(error: DatabaseError) {
-                                            TODO("Not yet implemented")
-                                        }
-                                    }
-                                    )
-
+                                    })
 
                                 }
                         }
+                } else {
+
+
+                    activity?.let {
+                        // request permission
+                        ActivityCompat.requestPermissions(
+                            it,
+                            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                            10
+                        )
+                        lifecycleScope.launch {
+                            // wait for permission result
+                            // request until granted
+                            while (ActivityCompat.checkSelfPermission(
+                                    it,
+                                    Manifest.permission.ACCESS_FINE_LOCATION
+                                ) != PackageManager.PERMISSION_GRANTED
+                            ) {
+                                // ask again
+                                ActivityCompat.requestPermissions(
+                                    it,
+                                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                                    10
+                                )
+                                delay(1000)
+                            }
+                        }
+
+                    }
+
                 }
             }
 
@@ -398,6 +517,7 @@ class FirstFragment : Fragment() {
         }
 
     }
+
 
 
 }

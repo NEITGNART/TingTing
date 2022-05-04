@@ -16,7 +16,7 @@
             android:id="@+id/ivUser"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:src="@drawable/da_profile2"
+            android:src="@drawable/image2"
             android:layout_marginStart="@dimen/da_spacing_control" />
 
         <View

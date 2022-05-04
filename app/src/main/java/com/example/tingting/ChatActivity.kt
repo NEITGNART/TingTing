@@ -92,7 +92,7 @@ class ChatActivity : AppCompatActivity() {
             else if (messageType == MEDIA){
                 performSendMedia()
             }
-
+            messageType = MESSAGE
             resetAddLayout()
         }
 
@@ -117,30 +117,6 @@ class ChatActivity : AppCompatActivity() {
             messageType = MEDIA
             images = mutableListOf()
             pickImageIntent()
-        }
-
-
-        binding.item.ivVoice.onClick {
-            binding.item.rvPhoto.hide()
-            binding.item.rvGif.hide()
-
-//            binding.item.llVoice.show()
-            applyColorFilter(color(R.color.da_red))
-            binding.item.ivGallary.applyColorFilter(color(R.color.da_textColorSecondary))
-            binding.item.ivGif.applyColorFilter(color(R.color.da_textColorSecondary))
-            hideSoftKeyboard()
-            messageType = VOICE_MESSAGE
-        }
-        binding.item.ivGif.onClick {
-            applyColorFilter(color(R.color.da_red))
-            binding.item.ivGallary.applyColorFilter(color(R.color.da_textColorSecondary))
-            binding.item.ivVoice.applyColorFilter(color(R.color.da_textColorSecondary))
-            binding.item.rvPhoto.hide()
-            binding.item.llVoice.hide()
-//            binding.item.rvGif.show()
-            hideSoftKeyboard()
-            messageType = MEDIA
-
         }
 
     }
@@ -343,6 +319,9 @@ class ChatActivity : AppCompatActivity() {
                     val imageUri = data!!.data
                     images!!.add(imageUri)
                 }
+            }
+            else {
+
             }
         }
     }

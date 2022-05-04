@@ -24,11 +24,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/da_spacing_large"
-            tools:text="@string/da_melanie_23"
             android:textAppearance="@style/DAFontBold"
             android:textColor="@color/da_red"
             android:textSize="@dimen/da_font_size_xxlarge"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="@string/da_melanie_23" />
 
         <TextView
             android:id="@+id/tvDisatance"
@@ -39,12 +39,14 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/da_spacing_large"
+            android:layout_marginTop="38dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="-34dp"
             android:drawableStart="@drawable/da_ic_paper_plane"
             android:drawablePadding="@dimen/da_spacing_standard"
             android:drawableTint="@color/da_textColorSecondary"
             android:gravity="center"
-            android:text="@string/da_2_km"
+            tools:text="@string/da_2_km"
             android:textColor="@color/da_textColorPrimary"
             android:textSize="@dimen/da_font_size_normal" />
 
@@ -56,13 +58,13 @@
             android:layout_below="@id/tvName"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/da_spacing_large"
-            android:layout_marginTop="@dimen/da_spacing_control"
+            android:layout_marginTop="19dp"
             android:drawableStart="@drawable/da_ic_business_briefcase"
             android:drawablePadding="@dimen/da_spacing_standard"
             android:drawableTint="@color/da_textColorSecondary"
-            android:text="@string/da_art_director"
             android:textColor="@color/black"
-            android:textSize="@dimen/da_font_size_normal" />
+            android:textSize="@dimen/da_font_size_normal"
+            tools:text="@string/da_art_director" />
 
         <TextView
             android:id="@+id/tvDetail"
@@ -96,7 +98,7 @@
             style="@style/ProfileText"
             android:layout_below="@id/txtbirthday"
             android:layout_marginTop="@dimen/da_spacing_control"
-            android:text="@string/da_english_german_french" />
+            tools:text="@string/da_english_german_french" />
 
         <TextView
             android:id="@+id/txtLocation"
@@ -113,7 +115,7 @@
             style="@style/ProfileText"
             android:layout_below="@id/txtFavorite"
             android:layout_marginTop="@dimen/da_spacing_control"
-            android:text="@string/da_shipley_bradford" />
+            tools:text="@string/da_shipley_bradford" />
 
         <TextView
             android:id="@+id/txtFavorite"
@@ -132,7 +134,7 @@
             style="@style/ProfileText"
             android:layout_below="@id/txtLocation"
             android:layout_marginTop="@dimen/da_spacing_control"
-            android:text="@string/da_shipley_bradford" />
+            tools:text="@string/da_shipley_bradford" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -146,6 +148,7 @@
 
             <TextView
                 android:id="@+id/tvShare"
+                android:visibility="gone"
                 style="@style/ProfileText"
                 android:gravity="center_horizontal"
                 android:text="@string/share_profile"
@@ -156,6 +159,7 @@
             <TextView
                 android:id="@+id/tvReport"
                 style="@style/ProfileText"
+                android:visibility="gone"
                 android:gravity="center_horizontal"
                 android:text="@string/da_report"
                 android:textColor="@color/da_red" />

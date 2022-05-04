@@ -26,7 +26,18 @@ class FilterFragment : Fragment() {
     private lateinit var binding: FragmentFilterBinding
     private var dialog: BottomSheetDialog? = null
     private val distanceArray =
-        arrayOf("1 km", "2 km", "3 km", "4 km", "5 km", "6 km", "7 km", "8 km", "9 km", "10 km")
+        arrayOf(
+            "5 km",
+            "10 km",
+            "15 km",
+            "20 km",
+            "25 km",
+            "30 km",
+            "35 km",
+            "40 km",
+            "45 km",
+            "50 km"
+        )
     private val ageArray2 = arrayOf("18", "19", "20", "21", "22", "23", "24", "25")
     private val spDisplay = arrayOf("Male", "Female", "All")
     private val userID = FirebaseAuth.getInstance().uid
@@ -38,6 +49,9 @@ class FilterFragment : Fragment() {
 
         // Inflate the layout for this fragment
         binding = FragmentFilterBinding.inflate(inflater)
+        binding.btnBack.onClick {
+            Navigation.findNavController(binding.root).navigateUp()
+        }
         binding.ivBack.setOnClickListener {
             Navigation.findNavController(it).navigateUp()
         }
@@ -66,11 +80,11 @@ class FilterFragment : Fragment() {
                 }
                 Log.i("hahahahaha", favo.toString())
 
-                if (favo != null){
+                if (favo != null) {
                     val list_favo: List<String> = favo!!.split(",")
                     listOfCheckBox.forEach { checkbox ->
-                        if (getSinglefavo(checkbox.text.toString(),list_favo)) {
-                            checkbox.setChecked (true);
+                        if (getSinglefavo(checkbox.text.toString(), list_favo)) {
+                            checkbox.setChecked(true);
                             checkbox.setBackgroundResource(com.example.tingting.R.drawable.gradient_border)
                             checkbox.setTextColor(resources.getColor(com.example.tingting.R.color.da_red1))
 
@@ -79,12 +93,11 @@ class FilterFragment : Fragment() {
                     }
                 }
                 listOfCheckBox.forEach { checkbox ->
-                    checkbox.setOnClickListener{
-                        if(checkbox.isChecked){
+                    checkbox.setOnClickListener {
+                        if (checkbox.isChecked) {
                             checkbox.setBackgroundResource(com.example.tingting.R.drawable.gradient_border)
                             checkbox.setTextColor(resources.getColor(com.example.tingting.R.color.da_red1))
-                        }
-                        else {
+                        } else {
                             checkbox.setBackgroundResource(com.example.tingting.R.drawable.gray_border)
                             checkbox.setTextColor(resources.getColor(com.example.tingting.R.color.black_80))
                         }
@@ -93,27 +106,27 @@ class FilterFragment : Fragment() {
                 binding.btnApply.setOnClickListener {
                     var message1: String? = null
                     val userId = FirebaseAuth.getInstance().uid!!
-                    FirebaseDatabase.getInstance().getReference("/Setting/$userId/favorite").removeValue()
+                    FirebaseDatabase.getInstance().getReference("/Setting/$userId/favorite")
+                        .removeValue()
                     listOfCheckBox.forEach { checkbox ->
-                        if(checkbox.isChecked){
+                        if (checkbox.isChecked) {
                             if (message1 == null)
                                 message1 = checkbox.getText().toString()
                             else
                                 message1 += "," + checkbox.getText().toString()
                         }
                     }
-                    message1 = if (message1 == null) "You select nothing" else
-                    {
+                    message1 = if (message1 == null) "You select nothing" else {
                         "$message1"
                     }
-                    Log.i("messss" , "$message1")
-                    if(message1 != null){
+                    Log.i("messss", "$message1")
+                    if (message1 != null) {
 
                         val list_favo1: List<String> = message1!!.split(",")
-                        for (i in list_favo1.indices)
-                        {
+                        for (i in list_favo1.indices) {
                             val name = list_favo1[i];
-                            FirebaseDatabase.getInstance().getReference("/Setting/$userId/favorite/$name").setValue(name)
+                            FirebaseDatabase.getInstance()
+                                .getReference("/Setting/$userId/favorite/$name").setValue(name)
 
 
                         }
@@ -141,74 +154,72 @@ class FilterFragment : Fragment() {
             }
         })
 
-
-
-
-
-
         binding.rangebarDistance.tickTopLabels = distanceArray
 
         FirebaseDatabase.getInstance().getReference("Setting/$userID").child("distance")
             .child("max").get().addOnSuccessListener { itMax ->
-            FirebaseDatabase.getInstance().getReference("Setting/$userID").child("distance")
-                .child("min").get().addOnSuccessListener { itMin ->
-                    if (itMin.value == null || itMax.value == null) {
-                        binding.rangebarDistance.setRangePinsByValue(
-                            0F, 9F
-                        )
-                    } else {
+                FirebaseDatabase.getInstance().getReference("Setting/$userID").child("distance")
+                    .child("min").get().addOnSuccessListener { itMin ->
+                        if (itMin.value == null || itMax.value == null) {
+                            binding.rangebarDistance.setRangePinsByValue(
+                                0F, 9F
+                            )
+                        } else {
 
-                        val min: Float = itMin.getValue(Float::class.java)!!
-                        val max: Float = itMax.getValue(Float::class.java)!!
+                            val min: Float = itMin.getValue(Float::class.java)!!
+                            val max: Float = itMax.getValue(Float::class.java)!!
 
-                        binding.rangebarDistance.setRangePinsByValue(
-                            min, max
-                        )
+                            binding.rangebarDistance.setRangePinsByValue(
+                                min, max
+                            )
+                        }
                     }
-                }
-        }
+            }
 
         binding.rangebarAge.tickTopLabels = ageArray2
         FirebaseDatabase.getInstance().getReference("Setting/$userID").child("age").child("max")
             .get().addOnSuccessListener { itMax ->
-            FirebaseDatabase.getInstance().getReference("Setting/$userID").child("age").child("min")
-                .get().addOnSuccessListener { itMin ->
-                    if (itMin.value == null || itMax.value == null) {
-                        binding.rangebarAge.setRangePinsByValue(
-                            0F, 7F
-                        )
-                    } else {
-                        val min: Float = itMin.getValue(Float::class.java)!!
-                        val max: Float = itMax.getValue(Float::class.java)!!
+                FirebaseDatabase.getInstance().getReference("Setting/$userID").child("age")
+                    .child("min")
+                    .get().addOnSuccessListener { itMin ->
+                        if (itMin.value == null || itMax.value == null) {
+                            binding.rangebarAge.setRangePinsByValue(
+                                0F, 7F
+                            )
+                        } else {
+                            val min: Float = itMin.getValue(Float::class.java)!!
+                            val max: Float = itMax.getValue(Float::class.java)!!
 
-                        binding.rangebarAge.setRangePinsByValue(
-                            min, max
-                        )
+                            binding.rangebarAge.setRangePinsByValue(
+                                min, max
+                            )
 
+                        }
                     }
-                }
-        }
+            }
 
         binding.tvLocation.onClick {
         }
+
+
         FirebaseDatabase.getInstance()
             .getReference("/Users/${FirebaseAuth.getInstance().currentUser!!.uid}/address").get()
             .addOnSuccessListener {
-                val latlng = it.getValue(LatLng::class.java)!!
-                val geocoder = Geocoder(binding.root.context)
-                val addresses =
-                    geocoder.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
-                val address = addresses.get(0).getAddressLine(0)
-                val list_address: List<String> = address!!.split(", ")
-                var address_user: String = list_address[2]
-                for (i in 3 until list_address.size) {
-                    address_user = address_user + ", " + list_address[i]
+
+                if (it.exists()) {
+                    val latlng = it.getValue(LatLng::class.java)!!
+                    val geocoder = Geocoder(binding.root.context)
+                    val addresses =
+                        geocoder.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
+                    val address = addresses.get(0).getAddressLine(0)
+                    val list_address: List<String> = address!!.split(", ")
+                    var address_user: String = list_address[2]
+                    for (i in 3 until list_address.size) {
+                        address_user = address_user + ", " + list_address[i]
+                    }
+                    binding.tvLocation.setText(address_user)
                 }
-                binding.tvLocation.setText(address_user)
-
-
             }
-
 
         val adapter = ArrayAdapter(
             binding.root.context,
@@ -223,12 +234,6 @@ class FilterFragment : Fragment() {
                     "All" -> binding.spDisplay.setSelection(2)
                 }
             }
-
-
-
-
-
-
 
         return binding.root
     }

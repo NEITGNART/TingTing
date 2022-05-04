@@ -77,8 +77,7 @@ class UserInfoFragment : Fragment() {
         mainBinding.bottomNavigationView.hide()
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
         binding.ivBack.setOnClickListener {
-            val action = UserInfoFragmentDirections.actionUserInfoFragmentToHomepage()
-            Navigation.findNavController(binding.root).navigate(action)
+            Navigation.findNavController(it).navigateUp()
         }
         viewModel = ViewModelProvider(this)[UserInfoViewModel::class.java]
 
@@ -115,14 +114,12 @@ class UserInfoFragment : Fragment() {
                                 favo = favo +", "+ds.getValue().toString()
 
                         }
-                        if(favo==null) {
+                        if(favo=="You select nothing") {
                             binding.item.tvfavorite.visibility = View.GONE
                             binding.item.txtFavorite.visibility = View.GONE
                         }
                         else
                             binding.item.tvfavorite.setText(favo)
-
-
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
@@ -133,15 +130,14 @@ class UserInfoFragment : Fragment() {
                     if(it.value == null)
                         binding.item.tvProfession.visibility = View.GONE
                     else
-                        binding.item.tvProfession.setText(it.value.toString())
+                        binding.item.tvProfession.text = it.value.toString()
                 }
                 FirebaseDatabase.getInstance().getReference("/Users/$id_user/about").get().addOnSuccessListener {
-                    if(it.value == null)
+                    if(!it.exists() || it.getValue(String::class.java).isNullOrEmpty())
                         binding.item.tvDetail.visibility = View.GONE
                     else
-                        binding.item.tvDetail.setText(it.value.toString())
+                        binding.item.tvDetail.text = it.value.toString()
                 }
-                var address: String? = null;
 
                 FirebaseDatabase.getInstance().getReference("/Users/$id_user/address").get().addOnSuccessListener { it ->
                     val latlng = it.getValue(com.example.tingting.utils.Entity.LatLng::class.java)
@@ -149,12 +145,19 @@ class UserInfoFragment : Fragment() {
                         val geocoder = Geocoder(binding.root.context)
                         val addresses =
                             geocoder.getFromLocation(latlng!!.latitude, latlng!!.longitude, 1)
-                        address = addresses[0].getAddressLine(0)
-                        // get city name, state name, country name
+                        val address =
+                            addresses[0]
+                                .getAddressLine(0)
+                        val list_address: List<String> =
+                            address!!.split(", ")
+                        var address_user: String =
+                            list_address[2]
+                        for (i in 3 until list_address.size) {
+                            address_user =
+                                address_user + ", " + list_address[i]
+                        }
 
-                        // addresses[0].getAddressLine(0) // add
-
-                        binding.item.tvLocation.setText(address.toString())
+                        binding.item.tvLocation.text = address_user
                         val userId = FirebaseAuth.getInstance().uid!!
                         FirebaseDatabase.getInstance().getReference("/Users/$userId/address").get().addOnSuccessListener {
                             val latlng_user = it.getValue(com.example.tingting.utils.Entity.LatLng::class.java)

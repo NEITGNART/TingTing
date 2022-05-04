@@ -68,8 +68,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/da_spacing_standard_new"
-                    android:paddingStart="@dimen/da_spacing_large"
-                    android:paddingEnd="@dimen/da_spacing_large"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
                     android:paddingBottom="@dimen/da_spacing_large"
                     android:overScrollMode="never"/>
             </LinearLayout>

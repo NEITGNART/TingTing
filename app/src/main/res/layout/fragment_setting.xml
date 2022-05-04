@@ -47,7 +47,7 @@
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_100sdp"
                 android:layout_centerVertical="true"
-                tools:src="@drawable/da_prfile_3"
+                tools:src="@drawable/image2"
                 android:layout_marginTop="@dimen/da_spacing_large"
                 android:layout_gravity="center_horizontal" />
 
@@ -63,6 +63,7 @@
                 android:textSize="@dimen/da_font_size_large"
                 android:textStyle="bold" />
 
+            <View style="@style/Divider" />
             <TextView
                 android:id="@+id/tvFilter"
                 style="@style/ProfileText"
@@ -70,7 +71,9 @@
                 android:drawableEnd="@drawable/da_ic_left_arrow"
                 android:text="Bộ lọc" />
 
-            <View style="@style/Divider" />
+            <View
+                android:id="@+id/vDash"
+                style="@style/Divider" />
 
             <TextView
                 android:id="@+id/tvSecurity"
@@ -80,81 +83,83 @@
                 android:text="Đổi mật khẩu" />
 
             <View style="@style/Divider" />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
 
-                <TextView
-                    android:id="@+id/tvNotification"
-                    style="@style/ProfileText"
-                    android:paddingStart="@dimen/_24sdp"
-                    android:text="Thông báo" />
+<!--                <TextView-->
+<!--                    android:id="@+id/tvNotification"-->
+<!--                    style="@style/ProfileText"-->
+<!--                    android:paddingStart="@dimen/_24sdp"-->
+<!--                    android:text="Thông báo" />-->
 
-                <Switch
-                    android:id="@+id/switchNotification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:layout_marginTop="@dimen/da_spacing_middle"
-                    android:layout_marginEnd="@dimen/da_spacing_large"
-                    android:layout_gravity="center_vertical"
-                    android:track="@drawable/da_custom_switch"
-                    android:thumbTint="@color/da_white"
-                    android:layout_alignParentEnd="true"
-                    android:checked="true"
-                    />
+<!--                <Switch-->
+<!--                    android:id="@+id/switchNotification"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@null"-->
+<!--                    android:layout_marginTop="@dimen/da_spacing_middle"-->
+<!--                    android:layout_marginEnd="@dimen/da_spacing_large"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:track="@drawable/da_custom_switch"-->
+<!--                    android:thumbTint="@color/da_white"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:checked="true"-->
+<!--                    />-->
 
-            </RelativeLayout>
+<!--            </RelativeLayout>-->
 
-            <View style="@style/Divider" />
+<!--            <View style="@style/Divider" />-->
 
-            <View style="@style/Divider" />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+<!--            <View style="@style/Divider" />-->
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
 
-                <TextView
-                    android:id="@+id/tvConnectInsta"
-                    style="@style/ProfileText"
-                    android:drawableStart="@drawable/da_ic_connect"
-                    android:text="Kết nối với instagram" />
+<!--                <TextView-->
+<!--                    android:id="@+id/tvConnectInsta"-->
+<!--                    style="@style/ProfileText"-->
+<!--                    android:drawableStart="@drawable/da_ic_connect"-->
+<!--                    android:text="Kết nối với instagram" />-->
 
-                <Switch
-                    android:id="@+id/connectInstaNotification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:layout_marginTop="@dimen/da_spacing_middle"
-                    android:layout_marginEnd="@dimen/da_spacing_large"
-                    android:layout_gravity="center_vertical"
-                    android:track="@drawable/da_custom_switch"
-                    android:thumbTint="@color/da_white"
-                    android:layout_alignParentEnd="true"
-                    />
-            </RelativeLayout>
+<!--                <Switch-->
+<!--                    android:id="@+id/connectInstaNotification"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@null"-->
+<!--                    android:layout_marginTop="@dimen/da_spacing_middle"-->
+<!--                    android:layout_marginEnd="@dimen/da_spacing_large"-->
+<!--                    android:layout_gravity="center_vertical"-->
+<!--                    android:track="@drawable/da_custom_switch"-->
+<!--                    android:thumbTint="@color/da_white"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    />-->
+<!--            </RelativeLayout>-->
 
 
-            <View style="@style/Divider" />
-
-            <View style="@style/Divider" />
+<!--            <View style="@style/Divider" />-->
             <LinearLayout
                 android:gravity="bottom"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/da_spacing_large">
+
+                <View style="@style/Divider" />
                 <TextView
                     android:id="@+id/tvLogout"
                     style="@style/ProfileText"
                     android:gravity="center_horizontal"
-                    android:text="Đăng xuất" />
+                    android:text="Đăng xuất"
+                    android:textColor="@color/da_red"/>
                 <View style="@style/Divider" />
-                <TextView
-                    android:id="@+id/tvDeleteAccount"
-                    style="@style/ProfileText"
-                    android:textColor="@color/da_red"
-                    android:gravity="center_horizontal"
-                    android:text="Xóa tài khoản" />
+<!--                <TextView-->
+<!--                    android:id="@+id/tvDeleteAccount"-->
+<!--                    style="@style/ProfileText"-->
+<!--                    android:textColor="@color/da_red"-->
+<!--                    android:gravity="center_horizontal"-->
+<!--                    android:text="Xóa tài khoản" -->
+<!--                    android:visibility="invisible"/>-->
 
             </LinearLayout>
         </LinearLayout>

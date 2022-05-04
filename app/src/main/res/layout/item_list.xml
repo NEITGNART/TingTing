@@ -18,7 +18,7 @@
             android:transitionName="profile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/da_profile2"
+            android:src="@drawable/image2"
             android:scaleType="centerCrop" />
 
 

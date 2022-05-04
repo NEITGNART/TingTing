@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FilterFragment">
 
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/da_clear"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         android:background="@color/da_white"
-        tools:context=".activity.DAWalkThroughActivity">
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".activity.DAWalkThroughActivity"
+        tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,23 +41,23 @@
 
                 <TextView
                     style="@style/DAHeading"
-                    android:layout_centerHorizontal="true"
                     android:layout_alignTop="@id/ivBack"
                     android:layout_alignBottom="@id/ivBack"
+                    android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:textSize="@dimen/da_font_size_xlarge"
-                    android:text="@string/da_filter" />
+                    android:text="@string/da_filter"
+                    android:textSize="@dimen/da_font_size_xlarge" />
 
             </RelativeLayout>
 
             <TextView
-                android:layout_marginTop="@dimen/da_spacing_large"
                 style="@style/DAEditTextHint"
-                android:drawableTint="@color/da_textColorSecondary"
-                android:drawablePadding="@dimen/da_spacing_standard"
-                android:textSize="@dimen/da_font_size_normal"
+                android:layout_marginTop="@dimen/da_spacing_large"
                 android:drawableStart="@drawable/da_ic_location_on_black_24dp"
-                android:text="@string/da_location" />
+                android:drawablePadding="@dimen/da_spacing_standard"
+                android:drawableTint="@color/da_textColorSecondary"
+                android:text="@string/da_location"
+                android:textSize="@dimen/da_font_size_normal" />
 
             <TextView
                 android:id="@+id/tvLocation"
@@ -55,46 +67,59 @@
 
 
             <TextView
-                android:layout_marginTop="@dimen/da_spacing_large"
                 style="@style/DAEditTextHint"
-                android:drawableTint="@color/da_textColorSecondary"
-                android:drawablePadding="@dimen/da_spacing_standard"
-                android:textSize="@dimen/da_font_size_normal"
+                android:layout_marginTop="@dimen/da_spacing_large"
                 android:drawableStart="@drawable/da_ic_distance"
-                android:text="@string/da_distance" />
+                android:drawablePadding="@dimen/da_spacing_standard"
+                android:drawableTint="@color/da_textColorSecondary"
+                android:text="@string/da_distance"
+                android:textSize="@dimen/da_font_size_normal" />
 
 
             <com.example.tingting.rangeBar.DARangeBar
                 android:id="@+id/rangebarDistance"
-                app:mrb_tickEnd="9"
-                style="@style/DARangeBar" />
+                style="@style/DARangeBar"
+                app:mrb_tickEnd="9" />
+
             <TextView
-                android:layout_marginTop="@dimen/da_spacing_large"
                 style="@style/DAEditTextHint"
-                android:drawableTint="@color/da_textColorSecondary"
-                android:drawablePadding="@dimen/da_spacing_standard"
-                android:textSize="@dimen/da_font_size_normal"
+                android:layout_marginTop="@dimen/da_spacing_large"
                 android:drawableStart="@drawable/da_ic_location_on_black_24dp"
-                android:text="@string/da_gender" />
+                android:drawablePadding="@dimen/da_spacing_standard"
+                android:drawableTint="@color/da_textColorSecondary"
+                android:text="@string/da_gender"
+                android:textSize="@dimen/da_font_size_normal" />
 
             <Spinner
                 android:id="@+id/spDisplay"
                 style="@style/ProfileText"
                 android:drawableEnd="@drawable/da_ic_left_arrow"
                 android:text="Female" />
+
             <TextView
-                android:layout_marginTop="@dimen/da_spacing_large"
                 style="@style/DAEditTextHint"
-                android:drawableTint="@color/da_textColorSecondary"
-                android:drawablePadding="@dimen/da_spacing_standard"
-                android:textSize="@dimen/da_font_size_normal"
+                android:layout_marginTop="@dimen/da_spacing_large"
                 android:drawableStart="@drawable/da_ic_cake"
-                android:text="@string/da_age" />
+                android:drawablePadding="@dimen/da_spacing_standard"
+                android:drawableTint="@color/da_textColorSecondary"
+                android:text="@string/da_age"
+                android:textSize="@dimen/da_font_size_normal" />
 
             <com.example.tingting.rangeBar.DARangeBar
                 android:id="@+id/rangebarAge"
                 style="@style/DARangeBar"
                 app:mrb_tickEnd="7" />
+
+
+
+            <TextView
+                style="@style/DAEditTextHint"
+                android:layout_marginTop="@dimen/da_spacing_large"
+                android:drawableStart="@drawable/ic_baseline_favorite_border_24"
+                android:drawablePadding="@dimen/da_spacing_standard"
+                android:drawableTint="@color/da_textColorSecondary"
+                android:text="Favorite"
+                android:textSize="@dimen/da_font_size_normal" />
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -280,4 +305,4 @@
         </LinearLayout>
     </ScrollView>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

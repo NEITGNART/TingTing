@@ -67,7 +67,10 @@ class AddImage : Fragment() {
                 }
 
                 val intent = Intent(context, MainActivity::class.java)
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // can't go back
                 startActivity(intent)
+
             }
         }
 
@@ -119,6 +122,7 @@ class AddImage : Fragment() {
                 if (data!!.clipData != null) {
                     val count: Int = data.clipData!!.itemCount
                     for (i in 0 until count) {
+                        if (i == 6) break
                         val imageUri = data.clipData!!.getItemAt(i).uri
                         images!!.add(imageUri)
                     }
