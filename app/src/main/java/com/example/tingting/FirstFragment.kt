@@ -95,7 +95,6 @@ class FirstFragment : Fragment() {
                         .setValue(LatLng(location.latitude, location.longitude))
 
                 } else {
-
                     try {
                         val locationManager =
                             this.requireActivity()
@@ -106,7 +105,7 @@ class FirstFragment : Fragment() {
                             0f
                         ) {
 
-                            FirebaseDatabase.getInstance().getReference("Users")
+                            FirebaseDatabase.getInstance().getReference("users")
                                 .child(FirebaseAuth.getInstance().currentUser!!.uid)
                                 .child("location")
                                 .setValue(LatLng(it.latitude, it.longitude))

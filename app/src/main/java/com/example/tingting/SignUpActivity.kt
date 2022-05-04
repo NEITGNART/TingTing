@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.tingting.activity.FirstLogin
 import com.example.tingting.databinding.ActivitySignUpBinding
 import com.example.tingting.utils.Entity.User
+import com.example.tingting.utils.Global.loginEmail
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
@@ -74,6 +75,7 @@ class SignUpActivity : AppCompatActivity() {
                     binding.etEmail.requestFocus()
                 } else {
                     signUpWithEmail(email, password)
+                    loginEmail = true
                 }
 
             }
