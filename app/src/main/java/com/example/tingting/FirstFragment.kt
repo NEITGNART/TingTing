@@ -106,7 +106,7 @@ class FirstFragment : Fragment() {
                             0f
                         ) {
 
-                            FirebaseDatabase.getInstance().getReference("users")
+                            FirebaseDatabase.getInstance().getReference("Users")
                                 .child(FirebaseAuth.getInstance().currentUser!!.uid)
                                 .child("location")
                                 .setValue(LatLng(it.latitude, it.longitude))

@@ -17,6 +17,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
 import com.example.tingting.databinding.FragmentProfileBinding
 import com.example.tingting.utils.Entity.LatLng
@@ -258,8 +259,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.ivBack.setOnClickListener {
-            val action = ProfileFragmentDirections.actionProfileFragmentToViewProfileFragment()
-            Navigation.findNavController(binding.root).navigate(action)
+            Navigation.findNavController(binding.root).navigateUp()
         }
 
         return binding.root
