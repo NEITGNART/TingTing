@@ -76,49 +76,6 @@ class FirstFragment : Fragment() {
             )
         }
 
-        
-        try {
-            val fusedLocationClient =
-                LocationServices.getFusedLocationProviderClient(this.requireActivity())
-
-            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    Toast.makeText(
-                        binding.root.context,
-                        "${location.latitude} ${location.longitude}",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                    FirebaseDatabase.getInstance().getReference("Users")
-                        .child(FirebaseAuth.getInstance().currentUser!!.uid)
-                        .child("address")
-                        .setValue(LatLng(location.latitude, location.longitude))
-
-                } else {
-
-                    try {
-                        val locationManager =
-                            this.requireActivity()
-                                .getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                        locationManager.requestLocationUpdates(
-                            LocationManager.GPS_PROVIDER,
-                            0,
-                            0f
-                        ) {
-
-                            FirebaseDatabase.getInstance().getReference("Users")
-                                .child(FirebaseAuth.getInstance().currentUser!!.uid)
-                                .child("location")
-                                .setValue(LatLng(it.latitude, it.longitude))
-                        }
-                    } catch (e: SecurityException) {
-                    }
-                }
-            }
-
-        } catch (e: SecurityException) {
-        }
-
 
 
         manager = CardStackLayoutManager(context, object : CardStackListener {
@@ -259,6 +216,9 @@ class FirstFragment : Fragment() {
         FirebaseDatabase.getInstance().getReference("/Users/$id_user/address").get()
             .addOnSuccessListener {
                 val latlng_user: LatLng? = it.getValue(LatLng::class.java)
+                if (latlng_user != null) {
+                    Log.i("hahahahss", latlng_user.latitude.toString())
+                }
 
                 if (latlng_user != null) {
                     FirebaseDatabase.getInstance().getReference("/Setting/$id_user/age/min").get()

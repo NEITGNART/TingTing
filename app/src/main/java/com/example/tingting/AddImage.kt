@@ -1,7 +1,12 @@
 package com.example.tingting
 
+import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -9,14 +14,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.tingting.activity.MainActivity
 import com.example.tingting.databinding.FragmentAddImageBinding
+import com.example.tingting.utils.Entity.LatLng
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
+
 
 class AddImage : Fragment() {
     private lateinit var binding: FragmentAddImageBinding
@@ -38,6 +48,9 @@ class AddImage : Fragment() {
 
         ///////////////////////////////////////////////////////////////////////
         binding.btnComplete.setOnClickListener{
+
+
+
             if (images.isNullOrEmpty()) {
                 Toast.makeText(context, "Please select at least 1 photos", Toast.LENGTH_SHORT)
                     .show()
@@ -142,4 +155,5 @@ class AddImage : Fragment() {
             }
         }
     }
+
 }

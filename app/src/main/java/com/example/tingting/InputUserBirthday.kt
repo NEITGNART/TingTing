@@ -46,7 +46,12 @@ class InputUserBirthday : Fragment() {
                     var month = mMonth
                     month.toInt()
                     month = month + 1;
-                    binding.etInUserBirthday.setText("" + mDay + "/" + "0" + month.toString() + "/" + mYear)
+                    if(month <10) {
+                        binding.etInUserBirthday.setText("" + mDay + "/" + "0" + month.toString() + "/" + mYear)
+                    }
+                    else{
+                        binding.etInUserBirthday.setText("" + mDay + "/"  + month.toString() + "/" + mYear)
+                    }
 
                 },
                 year,

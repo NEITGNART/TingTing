@@ -80,7 +80,6 @@ class LoginActivity : AppCompatActivity(), LocationListener {
 
 
         binding.btnSignIn.setOnClickListener {
-            getLocation()
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
 
