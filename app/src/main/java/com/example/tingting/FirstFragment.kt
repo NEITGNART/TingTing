@@ -1,6 +1,13 @@
 package com.example.tingting
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Geocoder
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +18,8 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -19,6 +28,8 @@ import com.example.tingting.databinding.FragmentFirstBinding
 import com.example.tingting.utils.Entity.LatLng
 import com.example.tingting.utils.Entity.Notification
 import com.example.tingting.utils.Global.getDistance
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -26,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.yuyakaido.android.cardstackview.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -40,6 +52,8 @@ class FirstFragment : Fragment() {
     private lateinit var cardStackView: CardStackView
 
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +61,63 @@ class FirstFragment : Fragment() {
 
         binding = FragmentFirstBinding.inflate(layoutInflater)
         cardStackView = binding.cardstackview
+
+
+
+        if (ActivityCompat.checkSelfPermission(
+                binding.root.context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this.requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
+        }
+
+        
+        try {
+            val fusedLocationClient =
+                LocationServices.getFusedLocationProviderClient(this.requireActivity())
+
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    Toast.makeText(
+                        binding.root.context,
+                        "${location.latitude} ${location.longitude}",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    FirebaseDatabase.getInstance().getReference("Users")
+                        .child(FirebaseAuth.getInstance().currentUser!!.uid)
+                        .child("address")
+                        .setValue(LatLng(location.latitude, location.longitude))
+
+                } else {
+
+                    try {
+                        val locationManager =
+                            this.requireActivity()
+                                .getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                        locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            0,
+                            0f
+                        ) {
+
+                            FirebaseDatabase.getInstance().getReference("users")
+                                .child(FirebaseAuth.getInstance().currentUser!!.uid)
+                                .child("location")
+                                .setValue(LatLng(it.latitude, it.longitude))
+                        }
+                    } catch (e: SecurityException) {
+                    }
+                }
+            }
+
+        } catch (e: SecurityException) {
+        }
 
 
 
@@ -60,25 +131,21 @@ class FirstFragment : Fragment() {
                     "onCardSwiped: p=" + manager.topPosition + " d=" + direction.name
                 )
                 if (direction == Direction.Right) {
-                    Toast.makeText(context, "Direction Right", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition - 1
                     addVisited(adapter.getSpots()[currentIndex].id_user)
                     addMatch(adapter.getSpots()[currentIndex].id_user)
 
                 }
                 if (direction == Direction.Top) {
-                    Toast.makeText(context, "Direction Top", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition - 1
                     addVisited(adapter.getSpots()[currentIndex].id_user)
                 }
                 if (direction == Direction.Left) {
-                    Toast.makeText(context, "Direction Left", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition - 1
                     addVisited(adapter.getSpots()[currentIndex].id_user)
 
                 }
                 if (direction == Direction.Bottom) {
-                    Toast.makeText(context, "Direction Bottom", Toast.LENGTH_SHORT).show()
                     val currentIndex = manager.topPosition - 1
                     addVisited(adapter.getSpots()[currentIndex].id_user)
                 }
@@ -104,6 +171,14 @@ class FirstFragment : Fragment() {
             }
         })
 
+
+
+
+
+
+
+
+
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(3)
         manager.setTranslationInterval(8.0f)
@@ -117,7 +192,7 @@ class FirstFragment : Fragment() {
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
         adapter =
-            CardStackAdapter(binding, createSpots(FirebaseAuth.getInstance().currentUser!!.uid))
+            CardStackAdapter(binding, createSpots(FirebaseAuth.getInstance().uid!!))
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator = DefaultItemAnimator()
@@ -205,11 +280,14 @@ class FirstFragment : Fragment() {
                                                 val id = ds.getValue(String::class.java)
                                                 visited[id!!] = 1
                                             }
-                                            Log.i("visited", visited.toString())
                                             userRef.addValueEventListener(object :
                                                 ValueEventListener {
                                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                                     for (ds in dataSnapshot.children) {
+
+                                                        if (ds.key == FirebaseAuth.getInstance().uid) {
+                                                            continue
+                                                        }
 
                                                         val gender =
                                                             ds.child("gender")
@@ -241,7 +319,7 @@ class FirstFragment : Fragment() {
                                                                         (it.getValue(Int::class.java)?.toInt()?.plus(1))?.times(5)
                                                                     Log.i("KC", distanceMax.toString())
 
-                                                                    if (ds.key != id_user && (display == "All" || gender == display)) {
+                                                                    if (display == "All" || gender == display) {
 
                                                                         val kc = getDistance(
                                                                             latlng!!.latitude,
@@ -262,8 +340,8 @@ class FirstFragment : Fragment() {
                                                                                 Geocoder(binding.root.context)
                                                                             val addresses =
                                                                                 geocoder.getFromLocation(
-                                                                                    latlng!!.latitude,
-                                                                                    latlng!!.longitude,
+                                                                                    latlng.latitude,
+                                                                                    latlng.longitude,
                                                                                     1
                                                                                 )
 
@@ -323,6 +401,36 @@ class FirstFragment : Fragment() {
 
                                 }
                         }
+                } else {
+
+
+                    activity?.let {
+                        // request permission
+                        ActivityCompat.requestPermissions(
+                            it,
+                            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                            10
+                        )
+                        lifecycleScope.launch {
+                            // wait for permission result
+                            // request until granted
+                            while (ActivityCompat.checkSelfPermission(
+                                    it,
+                                    Manifest.permission.ACCESS_FINE_LOCATION
+                                ) != PackageManager.PERMISSION_GRANTED
+                            ) {
+                                // ask again
+                                ActivityCompat.requestPermissions(
+                                    it,
+                                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                                    10
+                                )
+                                delay(1000)
+                            }
+                        }
+
+                    }
+
                 }
             }
 
@@ -409,6 +517,7 @@ class FirstFragment : Fragment() {
         }
 
     }
+
 
 
 }

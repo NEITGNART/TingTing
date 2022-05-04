@@ -1,11 +1,22 @@
 package com.example.tingting.activity
 
 import android.Manifest
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.media.audiofx.BassBoost
 import android.os.Bundle
+import android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.location.LocationListenerCompat
+import androidx.core.location.LocationManagerCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -20,6 +31,7 @@ import com.example.tingting.utils.show
 import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -45,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
 
 
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
 
             if (destination.id == R.id.homepage
@@ -60,6 +73,9 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
+
+
 
         val reference =
             FirebaseDatabase.getInstance()
@@ -82,49 +98,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
-
-
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            // request the permission
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                1
-            )
-            return
-        }
-
-
-
-        FusedLocationProviderClient(this).lastLocation.addOnSuccessListener {
-            if (it != null) {
-                val latLng = LatLng(it.latitude, it.longitude)
-                FirebaseDatabase.getInstance()
-                    .getReference("/Users/${FirebaseAuth.getInstance().currentUser!!.uid}/address")
-                    .setValue(latLng)
-
-//                val geocoder = Geocoder(this)
-//                val addresses = geocoder.getFromLocation(it.latitude, it.longitude, 1)
-//                val address = addresses[0].getAddressLine(0)
-//                val city = addresses[0].locality
-
-            }
-        }
 
 
         binding.ivAvatar.setOnClickListener {

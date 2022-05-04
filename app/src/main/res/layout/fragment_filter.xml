@@ -111,6 +111,17 @@
                 app:mrb_tickEnd="7" />
 
 
+
+            <TextView
+                style="@style/DAEditTextHint"
+                android:layout_marginTop="@dimen/da_spacing_large"
+                android:drawableStart="@drawable/ic_baseline_favorite_border_24"
+                android:drawablePadding="@dimen/da_spacing_standard"
+                android:drawableTint="@color/da_textColorSecondary"
+                android:text="Favorite"
+                android:textSize="@dimen/da_font_size_normal" />
+
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/rlInUserPreferences"
                 android:layout_width="match_parent"

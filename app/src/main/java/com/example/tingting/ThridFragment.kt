@@ -136,7 +136,7 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
             val ref = FirebaseDatabase.getInstance()
                 .getReference("/Setting/${FirebaseAuth.getInstance().currentUser?.uid}/distance")
             ref.child("min").get().addOnSuccessListener { space ->
-                val distance = space.value.toString().toDouble() * 1000
+                val distance = (space.value.toString().toDouble() + 1) * 1000 * 5
                 drawRedCircleLocation(googleMap, it, distance)
                 clusterManager.addItem(
                     DAMapMarker(
@@ -146,7 +146,7 @@ class ThridFragment : Fragment(), OnMapReadyCallback {
                 )
             }
             ref.child("max").get().addOnSuccessListener { space ->
-                val distance = space.value.toString().toDouble() * 1000
+                val distance = (space.value.toString().toDouble() + 1) * 1000 * 5
                 drawRedCircleLocation(googleMap, it, distance)
                 clusterManager.addItem(
                     DAMapMarker(

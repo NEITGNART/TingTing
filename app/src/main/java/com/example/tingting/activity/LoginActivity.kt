@@ -18,6 +18,7 @@ import com.example.tingting.R
 import com.example.tingting.SignUpActivity
 import com.example.tingting.databinding.ActivityLoginBinding
 import com.example.tingting.utils.Entity.User
+import com.example.tingting.utils.Global.loginEmail
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -69,7 +70,6 @@ class LoginActivity : AppCompatActivity(), LocationListener {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-
         // Firebase
         auth = Firebase.auth
 
@@ -115,6 +115,7 @@ class LoginActivity : AppCompatActivity(), LocationListener {
                                         goToFirstLoginPage()
                                     }
                                 }
+                            loginEmail = true
                         } else {
 
                             Toast.makeText(
@@ -154,11 +155,13 @@ class LoginActivity : AppCompatActivity(), LocationListener {
                 override fun onSuccess(result: LoginResult?) {
                     Log.d(TAG, "facebook:onSuccess:$result")
                     result?.let { handleFacebookAccessToken(it.accessToken) }
+                    loginEmail = false
                 }
             })
 
         binding.lgFB.setOnClickListener {
             binding.btnLoginFB.performClick()
+
         }
 
 
@@ -265,6 +268,7 @@ class LoginActivity : AppCompatActivity(), LocationListener {
         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
+
                     if (dataSnapshot.child("firstTimeLogin").value.toString() == "true") {
 
                         val mDatabaseReference = FirebaseDatabase.getInstance().reference
@@ -283,6 +287,8 @@ class LoginActivity : AppCompatActivity(), LocationListener {
                     userRef.setValue(user)
                     goToFirstLoginPage()
                 }
+                loginEmail = false
+
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -290,27 +296,6 @@ class LoginActivity : AppCompatActivity(), LocationListener {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         })
-    }
-
-    fun loginWithEmail(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithEmail:success")
-                    auth.currentUser
-                    goToHomePage()
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-            }
-
     }
 
 
@@ -354,29 +339,3 @@ class LoginActivity : AppCompatActivity(), LocationListener {
         }
     }
 }
-//////////SIGN UP/////////////////////////
-//val email = binding.etEmail.text.toString()
-//val password = binding.etPassword.text.toString()
-//auth2.createUserWithEmailAndPassword(email, password)
-//.addOnCompleteListener{task ->
-//    Log.i("hihi", auth2.currentUser?.uid.toString())
-//    if (task.isSuccessful) {
-//        goToFirstLoginPage()
-//        val user = User(
-//            "",
-//            "",
-//            "",
-//            "",
-//            auth2.currentUser?.uid,
-//            emptyList(),
-//            emptyList(),
-//            "",
-//            "",
-//            ""
-//        )
-//        mDatabaseReference = FirebaseDatabase.getInstance().reference
-//        mDatabaseReference.child("Users").child(auth2.currentUser?.uid.toString()).setValue(user)
-//    }
-//    else
-//        Log.i("hihi", "failed")
-//}

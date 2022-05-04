@@ -27,6 +27,8 @@ class ViewProfileFragment : Fragment() {
         binding = FragmentViewProfileBinding.inflate(inflater)
         val userId = FirebaseAuth.getInstance().uid!!
 
+
+
         FirebaseDatabase.getInstance().getReference("/Users/$userId/about")
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {

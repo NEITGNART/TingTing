@@ -55,12 +55,11 @@ class SecondFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                Toast.makeText(binding.root.context, "on Move", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(binding.root.context, "on Move", Toast.LENGTH_SHORT).show()
                 return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-                Toast.makeText(binding.root.context, "on Swiped ", Toast.LENGTH_SHORT).show()
 
                 //Remove swiped item from list and notify the RecyclerView
                 val position = viewHolder.adapterPosition
